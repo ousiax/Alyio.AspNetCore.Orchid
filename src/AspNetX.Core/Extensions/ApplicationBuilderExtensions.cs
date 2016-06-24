@@ -9,7 +9,7 @@ namespace AspNetX
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseApiExplorer(this IApplicationBuilder appBuilder)
+        public static IApplicationBuilder UseAspNetX(this IApplicationBuilder appBuilder)
         {
             var middlewareRegistrations = appBuilder.ApplicationServices.GetService<IExtensionProvider<IRegisterMiddleware>>();
 

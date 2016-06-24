@@ -6,7 +6,7 @@ namespace AspNetX
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddApiExplorer(this IServiceCollection services)
+        public static IServiceCollection AddAspNetX(this IServiceCollection services)
         {
             services.TryAdd(CoreServices.GetDefaultServices());
             var extensionProvider = services.BuildServiceProvider().GetService<IExtensionProvider<IRegisterServices>>();
