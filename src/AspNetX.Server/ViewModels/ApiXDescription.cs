@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
-namespace AspNetX.Server.ViewModels
+namespace AspNetX.Server.Models
 {
     /// <summary>
     /// Represents an API exposed by this application.

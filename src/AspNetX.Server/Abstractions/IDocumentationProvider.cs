@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AspNetX.Server
+namespace AspNetX.Server.Abstractions
 {
     /// <summary>
     /// Defines the provider responsible for documenting the service.

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+using AspNetX.Server.Abstractions;
 
 namespace AspNetX.Server
 {

@@ -8,11 +8,13 @@
 
   "dependencies": {
     "AspNetX.Core": "",
+    "Microsoft.AspNet.FileProviders.Embedded": "1.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.ApiExplorer": "6.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-rc1-final"
+    "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final"
   },
-
+  "resource": "Resources/Embeded/**/*.*",
   "frameworks": {
     "net451": {
       "dependencies": {

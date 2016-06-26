@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace AspNetX.Internal
 {
-    internal interface ITypeService
+    public interface ITypeService
     {
         IEnumerable<object> Resolve(string coreLibrary, Type targetType);
 

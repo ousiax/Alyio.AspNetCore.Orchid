@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
-namespace AspNetX.Server.ViewModels
+namespace AspNetX.Server.Models
 { /// <summary>
   /// A cached collection of <see cref="ApiDescriptionGroup" />.
   /// </summary>

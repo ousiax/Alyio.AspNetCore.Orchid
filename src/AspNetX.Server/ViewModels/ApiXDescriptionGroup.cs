@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
-namespace AspNetX.Server.ViewModels
+namespace AspNetX.Server.Models
 {
     /// <summary>
     /// Represents a group of related apis.

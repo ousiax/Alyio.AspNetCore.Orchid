@@ -4,7 +4,7 @@ using AspNetX.Internal;
 
 namespace AspNetX.Initialization
 {
-    internal class DefaultExtensionProvider<T> : IExtensionProvider<T>
+    public class DefaultExtensionProvider<T> : IExtensionProvider<T>
         where T : class
     {
         private readonly ITypeService _typeService;
