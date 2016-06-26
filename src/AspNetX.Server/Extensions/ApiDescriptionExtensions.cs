@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Microsoft.AspNet.WebUtilities;
 
-namespace AspNetX.Server.Extensions
+namespace AspNetX.Server
 {
     public static class ApiDescriptionExtensions
     {

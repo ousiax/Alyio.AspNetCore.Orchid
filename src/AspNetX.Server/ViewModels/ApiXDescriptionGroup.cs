@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AspNetX.Server.Extensions;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
@@ -30,7 +29,7 @@ namespace AspNetX.Server.ViewModels
             {
                 return this.ApiDescriptionGroup
                     .Items
-                    .Select(o => new ApiXDescription(o) { Id = o.GetFriendlyId() })
+                    .Select(o => new ApiXDescription(o))
                     .ToList()
                     .AsReadOnly();
             }

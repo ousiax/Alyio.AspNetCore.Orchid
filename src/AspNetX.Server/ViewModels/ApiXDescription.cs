@@ -11,12 +11,7 @@ namespace AspNetX.Server.ViewModels
         [JsonIgnore]
         public ApiDescription ApiDescription { get; }
 
-        public ApiXDescription(ApiDescription apiDescription)
-        {
-            this.ApiDescription = apiDescription;
-        }
-
-        public string Id { get; set; }
+        public string Id { get; }
 
         /// <summary>
         /// The group name for this api.
@@ -32,5 +27,11 @@ namespace AspNetX.Server.ViewModels
         /// The relative url path template (relative to application root) for this api.
         /// </summary>
         public string RelativePath { get { return this.ApiDescription.RelativePath; } set { this.ApiDescription.RelativePath = value; } }
+
+        public ApiXDescription(ApiDescription apiDescription)
+        {
+            this.ApiDescription = apiDescription;
+            this.Id = apiDescription.GetFriendlyId();
+        }
     }
 }
