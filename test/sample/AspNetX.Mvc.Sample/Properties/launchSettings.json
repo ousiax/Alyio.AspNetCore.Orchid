@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "aspnetx/api/helppage",
+      "launchUrl": "aspnetx/apigroups",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
