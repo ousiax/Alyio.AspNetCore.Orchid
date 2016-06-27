@@ -4,7 +4,7 @@ using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
-namespace AspNetX.Server.Models
+namespace AspNetX.Server.Wrappers
 {
     public class ApiDescriptionGroupWrapper: IApiDescriptionGroupWrapper
     {

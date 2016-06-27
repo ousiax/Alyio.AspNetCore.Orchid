@@ -1,5 +1,5 @@
 ﻿using AspNetX.Server.Abstractions;
-using AspNetX.Server.Models;
+using AspNetX.Server.Wrappers;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 
 namespace AspNetX.Server.Impl
@@ -13,7 +13,7 @@ namespace AspNetX.Server.Impl
             this._descriptionProvider = descriptionProvider;
         }
 
-        public ApiDescriptionGroupCollectionWrapper ApiXDescriptionGroups
+        public IApiDescriptionGroupCollectionWrapper ApiXDescriptionGroups
         {
             get { return new ApiDescriptionGroupCollectionWrapper(_descriptionProvider.ApiDescriptionGroups); }
         }
