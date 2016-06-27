@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AspNetX.Server.Abstractions;
+using AspNetX.Server.Models;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ namespace AspNetX.Server.Routing
             var api = (IApiDescriptionWrapper)null;
             _descriptionProvider.TryGetValue(id, out api);
             context.HttpContext.Response.ContentType = "application/json";
-            await context.HttpContext.Response.WriteJsonAsync(api.ApiDescription.ParameterDescriptions.Select(o => new { o.Name, Type = o.Type.Name });
+            await context.HttpContext.Response.WriteJsonAsync(new ApiModel(api.ApiDescription));
             context.IsHandled = true;
         }
 
