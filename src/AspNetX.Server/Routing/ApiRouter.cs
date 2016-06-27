@@ -5,7 +5,6 @@ using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace AspNetX.Server.Routing
 {
@@ -33,7 +32,7 @@ namespace AspNetX.Server.Routing
             var api = (IApiDescriptionWrapper)null;
             _descriptionProvider.TryGetValue(id, out api);
             context.HttpContext.Response.ContentType = "application/json";
-            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(api.ApiDescription.ParameterDescriptions.Select(o => new { o.Name, Type = o.Type.Name }), Formatting.Indented));
+            await context.HttpContext.Response.WriteJsonAsync(api.ApiDescription.ParameterDescriptions.Select(o => new { o.Name, Type = o.Type.Name });
             context.IsHandled = true;
         }
 

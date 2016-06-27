@@ -4,7 +4,6 @@ using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace AspNetX.Server.Routing
 {
@@ -25,7 +24,7 @@ namespace AspNetX.Server.Routing
 
             context.HttpContext.Response.ContentType = "application/json";
             var apiGroups = _descriptionProvider.ApiXDescriptionGroups;
-            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(apiGroups, Formatting.Indented));
+            await context.HttpContext.Response.WriteJsonAsync(apiGroups);
             context.IsHandled = true;
         }
 
