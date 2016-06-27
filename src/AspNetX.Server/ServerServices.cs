@@ -1,5 +1,7 @@
 ﻿using AspNetX.Initialization;
 using AspNetX.Server.Abstractions;
+using AspNetX.Server.Impl;
+using AspNetX.Server.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX.Server
@@ -8,9 +10,11 @@ namespace AspNetX.Server
     {
         public void RegisterServices(IServiceCollection services)
         {
+            services.AddRouting();
             services.AddOptions();
-
-            services.AddSingleton<IApiGroupsProvider, ApiGroupsProvider>();
+            services.AddSingleton<IApiDescriptionGroupCollectionWrapperProvider, ApiDescriptionGroupCollectionWrapperProvider>();
+            services.AddSingleton<IApiDescriptionWrapperProvider, ApiDescriptionWrapperProvider>();
+            services.AddSingleton<IExtensionProvider<ITemplateRouter>, DefaultExtensionProvider<ITemplateRouter>>();
         }
     }
 }

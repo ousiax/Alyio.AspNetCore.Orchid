@@ -1,4 +1,5 @@
 ﻿using AspNetX.Initialization;
+using AspNetX.Server.Extensions;
 using Microsoft.AspNet.Builder;
 using Microsoft.Extensions.OptionsModel;
 
@@ -17,7 +18,8 @@ namespace AspNetX.Server
         {
             appBuilder.Map($"/{_serverOptions.BasePath}", app =>
             {
-                app.UseMiddleware<AspNetXServerMiddleware>(appBuilder);
+                app.UseAspNetXFileServer();
+                app.UseAspNetXRouter();
             });
         }
     }

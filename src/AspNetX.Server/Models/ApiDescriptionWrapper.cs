@@ -1,37 +1,38 @@
-﻿using Microsoft.AspNet.Mvc.ApiExplorer;
+﻿using System;
+using AspNetX.Server.Abstractions;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Models
 {
-    /// <summary>
-    /// Represents an API exposed by this application.
-    /// </summary>
-    public class ApiXDescription
+    public class ApiDescriptionWrapper : IApiDescriptionWrapper
     {
         [JsonIgnore]
         public ApiDescription ApiDescription { get; }
 
         public string Id { get; }
 
-        /// <summary>
-        /// The group name for this api.
-        /// </summary>
         public string GroupName { get { return this.ApiDescription.GroupName; } set { this.ApiDescription.GroupName = value; } }
 
-        /// <summary>
-        /// The supported HTTP method for this api, or null if all HTTP methods are supported.
-        /// </summary>
         public string HttpMethod { get { return this.ApiDescription.HttpMethod; } set { this.ApiDescription.HttpMethod = value; } }
 
-        /// <summary>
-        /// The relative url path template (relative to application root) for this api.
-        /// </summary>
         public string RelativePath { get { return this.ApiDescription.RelativePath; } set { this.ApiDescription.RelativePath = value; } }
 
-        public ApiXDescription(ApiDescription apiDescription)
+        public ApiDescriptionWrapper(ApiDescription apiDescription)
         {
             this.ApiDescription = apiDescription;
             this.Id = apiDescription.GetFriendlyId();
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id?.GetHashCode() ?? 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            string other = obj as string;
+            return string.Equals(this.Id, other, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

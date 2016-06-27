@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Xml.XPath;
 using AspNetX.Server.Abstractions;
 
-namespace AspNetX.Server
+namespace AspNetX.Server.Impl
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

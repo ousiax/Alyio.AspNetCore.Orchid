@@ -14,7 +14,7 @@
     "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-rc1-final",
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final"
   },
-  "resource": "Resources/Embeded/**/*.*",
+  "resource": "Resources/Embedded/**/*.*",
   "frameworks": {
     "net451": {
       "dependencies": {

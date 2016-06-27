@@ -1,35 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Models
 {
-    /// <summary>
-    /// Represents a group of related apis.
-    /// </summary>
-    public class ApiXDescriptionGroup
+    public class ApiDescriptionGroupWrapper: IApiDescriptionGroupWrapper
     {
         [JsonIgnore]
         public ApiDescriptionGroup ApiDescriptionGroup { get; }
 
-        public ApiXDescriptionGroup(ApiDescriptionGroup apiDescriptionGroup)
+        public ApiDescriptionGroupWrapper(ApiDescriptionGroup apiDescriptionGroup)
         {
             this.ApiDescriptionGroup = apiDescriptionGroup;
         }
 
-        /// <summary>
-        /// The group name.
-        /// </summary>
         public string GroupName { get { return this.ApiDescriptionGroup.GroupName; } }
 
-        public IReadOnlyList<ApiXDescription> Items
+        public IReadOnlyList<IApiDescriptionWrapper> Items
         {
             get
             {
                 return this.ApiDescriptionGroup
                     .Items
-                    .Select(o => new ApiXDescription(o))
+                    .Select(o => new ApiDescriptionWrapper(o))
                     .ToList()
                     .AsReadOnly();
             }
