@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using AspNetX.Server.Abstractions.Abstractions;
+using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
 namespace AspNetX.Server.Impl

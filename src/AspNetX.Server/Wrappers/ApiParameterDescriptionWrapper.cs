@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiParameterDescriptionWrapper: IApiParameterDescriptionWrapper
+    public class ApiParameterDescriptionWrapper : IApiParameterDescriptionWrapper
     {
         public string Name => this.ApiParameterDescription.Name;
 
@@ -17,10 +17,11 @@ namespace AspNetX.Server.Wrappers
         [JsonIgnore]
         public ApiParameterDescription ApiParameterDescription { get; }
 
-        public ApiParameterDescriptionWrapper(ApiParameterDescription description)
+        public ApiParameterDescriptionWrapper(ApiParameterDescription description, IModelMetadataIdentityProvider identityProvider)
         {
             this.ApiParameterDescription = description;
-            this.Metadata = new ModelMetadataWrapper(this.ApiParameterDescription.ModelMetadata);
+            if (this.ApiParameterDescription.ModelMetadata != null) //TODO ApiParameterDescription.ModelMetadata is NULL ?
+                this.Metadata = new ModelMetadataWrapper(this.ApiParameterDescription.ModelMetadata, identityProvider);
             if (this.ApiParameterDescription.RouteInfo != null)
                 this.RouteInfo = new ApiParameterRouteInfoWrapper(this.ApiParameterDescription.RouteInfo);
         }

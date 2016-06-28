@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
-namespace AspNetX.Server.Abstractions.Abstractions
+namespace AspNetX.Server.Abstractions
 {
     public interface IModelMetadataIdentityProvider
     {

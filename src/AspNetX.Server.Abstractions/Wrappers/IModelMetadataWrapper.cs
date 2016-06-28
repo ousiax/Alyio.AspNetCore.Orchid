@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
+﻿using System;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
 namespace AspNetX.Server.Abstractions
 {
     public interface IModelMetadataWrapper
     {
-        string ContainerType { get; }
+        Type ContainerType { get; }
 
         bool IsCollectionType { get; }
 
@@ -27,7 +28,7 @@ namespace AspNetX.Server.Abstractions
 
         ModelMetadataKind MetadataKind { get; }
 
-        string ModelType { get; }
+        Type ModelType { get; }
 
         string PropertyName { get; }
 

@@ -14,6 +14,8 @@ namespace AspNetX.Server
             services.AddOptions();
             services.AddSingleton<IApiDescriptionGroupCollectionWrapperProvider, ApiDescriptionGroupCollectionWrapperProvider>();
             services.AddSingleton<IApiDescriptionWrapperProvider, ApiDescriptionWrapperProvider>();
+            services.AddSingleton<IApiModelProvider, ApiModelProvider>();
+            services.AddSingleton<IModelMetadataIdentityProvider, ModelMetadataIdentityProvider>();
             services.AddSingleton<IExtensionProvider<ITemplateRouter>, DefaultExtensionProvider<ITemplateRouter>>();
         }
     }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiDescriptionWrapper : IApiDescriptionWrapper
+    internal class ApiDescriptionWrapper : IApiDescriptionWrapper
     {
         [JsonIgnore]
         public ApiDescription ApiDescription { get; }
