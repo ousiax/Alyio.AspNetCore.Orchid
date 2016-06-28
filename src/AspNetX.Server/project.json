@@ -8,6 +8,7 @@
 
   "dependencies": {
     "AspNetX.Core": "",
+    "AspNetX.Server.Abstractions": "",
     "Microsoft.AspNet.FileProviders.Embedded": "1.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.ApiExplorer": "6.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final",

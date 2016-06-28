@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNet.Mvc.ApiExplorer;
+﻿using AspNetX.Server.Abstractions;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiParameterRouteInfoWrapper
+    public class ApiParameterRouteInfoWrapper: IApiParameterRouteInfoWrapper
     {
         public object DefaultValue => this.ApiParameterRouteInfo?.DefaultValue;
 

@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNet.Mvc.ApiExplorer;
+﻿using AspNetX.Server.Abstractions;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiParameterDescriptionWrapper
+    public class ApiParameterDescriptionWrapper: IApiParameterDescriptionWrapper
     {
         public string Name => this.ApiParameterDescription.Name;
 
-        public string Type => this.ApiParameterDescription.Type.GetTypeName();
-
         public string Source => this.ApiParameterDescription.Source.DisplayName;
 
-        public ApiParameterRouteInfoWrapper RouteInfo { get; }
+        public IModelMetadataWrapper Metadata { get; }
+
+        public IApiParameterRouteInfoWrapper RouteInfo { get; }
 
         [JsonIgnore]
         public ApiParameterDescription ApiParameterDescription { get; }
@@ -19,6 +20,7 @@ namespace AspNetX.Server.Wrappers
         public ApiParameterDescriptionWrapper(ApiParameterDescription description)
         {
             this.ApiParameterDescription = description;
+            this.Metadata = new ModelMetadataWrapper(this.ApiParameterDescription.ModelMetadata);
             if (this.ApiParameterDescription.RouteInfo != null)
                 this.RouteInfo = new ApiParameterRouteInfoWrapper(this.ApiParameterDescription.RouteInfo);
         }
