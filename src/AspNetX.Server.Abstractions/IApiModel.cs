@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.Net.Http.Headers;
 
 namespace AspNetX.Server.Abstractions
 {
     public interface IApiModel
     {
-        IList<IApiParameterDescriptionWrapper> UriParameters { get; set; }
+        IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 
-        IList<IApiParameterDescriptionWrapper> BodyParameters { get; set; }
+        IReadOnlyCollection<IApiParameterDescriptionWrapper> BodyParameters { get; }
 
-        // IDictionary<MediaTypeHeaderValue, object> SampleRequests { get; private set; }
+        IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleRequests { get; }
 
-        // IDictionary<MediaTypeHeaderValue, object> SampleResponses { get; private set; }
+        IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleResponses { get; }
 
         ApiDescription ApiDescription { get; }
     }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AspNetX.Server.Impl
 {
@@ -46,13 +49,13 @@ namespace AspNetX.Server.Impl
 
         internal class ApiModel : IApiModel
         {
-            public IList<IApiParameterDescriptionWrapper> UriParameters { get; set; }
+            public IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 
-            public IList<IApiParameterDescriptionWrapper> BodyParameters { get; set; }
+            public IReadOnlyCollection<IApiParameterDescriptionWrapper> BodyParameters { get; }
 
-            //public IDictionary<MediaTypeHeaderValue, object> SampleRequests { get; private set; }
+            public IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleRequests { get; }
 
-            //public IDictionary<MediaTypeHeaderValue, object> SampleResponses { get; private set; }
+            public IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleResponses { get; }
 
             [JsonIgnore]
             public ApiDescription ApiDescription { get; }
@@ -66,12 +69,24 @@ namespace AspNetX.Server.Impl
                     .ParameterDescriptions
                     .Where(o => o.Source == BindingSource.Path || o.Source == BindingSource.Query)
                     .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
-                    .ToList<IApiParameterDescriptionWrapper>();
+                    .ToList<IApiParameterDescriptionWrapper>()
+                    .AsReadOnly();
                 this.BodyParameters = this.ApiDescription
                     .ParameterDescriptions
                     .Where(o => o.Source == BindingSource.Body)
                     .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
-                    .ToList<IApiParameterDescriptionWrapper>();
+                    .ToList<IApiParameterDescriptionWrapper>()
+                    .AsReadOnly();
+                this.SampleRequests = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
+                    new Dictionary<MediaTypeHeaderValue, object>
+                    {
+                        { new MediaTypeHeaderValue("application/json"), new JObject { {"Foo","Bar" }, {"Hello", "World" } } }
+                    });
+                this.SampleResponses = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
+                    new Dictionary<MediaTypeHeaderValue, object>
+                    {
+                        { new MediaTypeHeaderValue("application/json"), new JObject { {"Foo","Bar" }, {"Hello", "World" } } }
+                    });
             }
         }
 
