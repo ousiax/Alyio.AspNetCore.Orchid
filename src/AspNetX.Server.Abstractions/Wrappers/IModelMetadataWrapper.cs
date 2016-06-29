@@ -13,8 +13,6 @@ namespace AspNetX.Server.Abstractions
 
         IModelMetadataWrapper ElementMetadataWrapper { get; }
 
-        IEnumerable<KeyValuePair<EnumGroupAndName, string>> EnumGroupedDisplayNamesAndValues { get; }
-
         IReadOnlyDictionary<string, string> EnumNamesAndValues { get; }
 
         bool IsCollectionType { get; }

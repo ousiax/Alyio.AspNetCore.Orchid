@@ -19,9 +19,7 @@ namespace AspNetX.Server.Wrappers
 
         public IModelMetadataWrapper ElementMetadataWrapper { get; }
 
-        public IEnumerable<KeyValuePair<EnumGroupAndName, string>> EnumGroupedDisplayNamesAndValues { get; }
-
-        public IReadOnlyDictionary<string, string> EnumNamesAndValues { get; }
+        public IReadOnlyDictionary<string, string> EnumNamesAndValues => Metadata.EnumNamesAndValues;
 
         public bool IsCollectionType => Metadata.IsCollectionType;
 
