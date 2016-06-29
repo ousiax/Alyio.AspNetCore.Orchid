@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiParameterDescriptionWrapper : IApiParameterDescriptionWrapper
+    internal class ApiParameterDescriptionWrapper : IApiParameterDescriptionWrapper
     {
         public string Name => this.ApiParameterDescription.Name;
 

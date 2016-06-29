@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ApiParameterRouteInfoWrapper: IApiParameterRouteInfoWrapper
+    internal class ApiParameterRouteInfoWrapper : IApiParameterRouteInfoWrapper
     {
         public object DefaultValue => this.ApiParameterRouteInfo?.DefaultValue;
 

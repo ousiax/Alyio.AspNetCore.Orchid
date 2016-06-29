@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 
 namespace AspNetX.Server.Wrappers
 {
-    public class ModelMetadataWrapper : IModelMetadataWrapper
+    internal class ModelMetadataWrapper : IModelMetadataWrapper
     {
         public int Id { get; }
 

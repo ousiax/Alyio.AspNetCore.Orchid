@@ -10,7 +10,7 @@ namespace AspNetX.Server.Wrappers
     /// <summary>
     /// A cached collection of <see cref="ApiDescriptionGroupWrapper" />.
     /// </summary>
-    public class ApiDescriptionGroupCollectionWrapper : IApiDescriptionGroupCollectionWrapper
+    internal class ApiDescriptionGroupCollectionWrapper : IApiDescriptionGroupCollectionWrapper
     {
         [JsonIgnore]
         public ApiDescriptionGroupCollection ApiDescriptionGroupCollection { get; }
