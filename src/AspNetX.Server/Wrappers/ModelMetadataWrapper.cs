@@ -59,7 +59,10 @@ namespace AspNetX.Server.Wrappers
             {
                 this.Id = identityProvider.GetId(ModelMetadataIdentity.ForProperty(ModelType, PropertyName, ContainerType));
             }
-            this.Properties = metadata.Properties?.Select(o => new ModelPropertyWrapper(o, identityProvider)).ToList().AsReadOnly();
+            if (this.IsComplexType)
+            {
+                this.Properties = metadata.Properties?.Select(o => new ModelPropertyWrapper(o, identityProvider)).ToList().AsReadOnly();
+            }
         }
     }
 }
