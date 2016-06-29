@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Converters;
 using Microsoft.AspNet.Mvc.ModelBinding;
@@ -41,6 +43,8 @@ namespace AspNetX.Server.Wrappers
 
         public string PropertyName => Metadata.PropertyName;
 
+        public IReadOnlyCollection<ModelPropertyWrapper> Properties { get; }
+
         [JsonIgnore]
         public ModelMetadata Metadata { get; }
 
@@ -55,6 +59,7 @@ namespace AspNetX.Server.Wrappers
             {
                 this.Id = identityProvider.GetId(ModelMetadataIdentity.ForProperty(ModelType, PropertyName, ContainerType));
             }
+            this.Properties = metadata.Properties?.Select(o => new ModelPropertyWrapper(o, identityProvider)).ToList().AsReadOnly();
         }
     }
 }
