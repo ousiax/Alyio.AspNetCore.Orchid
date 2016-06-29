@@ -6,6 +6,6 @@ namespace AspNetX.Server.Abstractions
     {
         int GetId(ModelMetadataIdentity identity);
 
-        ModelMetadataIdentity GetIdentity(int id);
+        bool TryGetIdentity(int id, out ModelMetadataIdentity identity);
     }
 }

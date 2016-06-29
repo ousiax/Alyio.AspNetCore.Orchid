@@ -28,11 +28,9 @@ namespace AspNetX.Server.Impl
             return id;
         }
 
-        public ModelMetadataIdentity GetIdentity(int id)
+        public bool TryGetIdentity(int id, out ModelMetadataIdentity identity)
         {
-            ModelMetadataIdentity identity;
-            this._identityCache.TryGetValue(id, out identity);
-            return identity;
+            return _identityCache.TryGetValue(id, out identity);
         }
 
         private class IdGenerator
