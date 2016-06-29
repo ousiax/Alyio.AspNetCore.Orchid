@@ -8,7 +8,7 @@ namespace AspNetX.Server.Abstractions
 
         string Source { get; }
 
-        IModelMetadataWrapper Metadata { get; }
+        IModelMetadataWrapper MetadataWrapper { get; }
 
         IApiParameterRouteInfoWrapper RouteInfo { get; }
 

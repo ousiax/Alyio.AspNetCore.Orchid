@@ -10,18 +10,20 @@ namespace AspNetX.Server.Wrappers
 
         public string Source => this.ApiParameterDescription.Source.DisplayName;
 
-        public IModelMetadataWrapper Metadata { get; }
+        public IModelMetadataWrapper MetadataWrapper { get; }
 
         public IApiParameterRouteInfoWrapper RouteInfo { get; }
 
         [JsonIgnore]
         public ApiParameterDescription ApiParameterDescription { get; }
 
-        public ApiParameterDescriptionWrapper(ApiParameterDescription description, IModelMetadataIdentityProvider identityProvider)
+        public ApiParameterDescriptionWrapper(
+            ApiParameterDescription description,
+            IModelMetadataWrapperProvider metadataWrapperProvider)
         {
             this.ApiParameterDescription = description;
             if (this.ApiParameterDescription.ModelMetadata != null) //TODO ApiParameterDescription.ModelMetadata is NULL ?
-                this.Metadata = new ModelMetadataWrapper(this.ApiParameterDescription.ModelMetadata, identityProvider);
+                this.MetadataWrapper = metadataWrapperProvider.GetModelMetadataWrapper(this.ApiParameterDescription.ModelMetadata);
             if (this.ApiParameterDescription.RouteInfo != null)
                 this.RouteInfo = new ApiParameterRouteInfoWrapper(this.ApiParameterDescription.RouteInfo);
         }

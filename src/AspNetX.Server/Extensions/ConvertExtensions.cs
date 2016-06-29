@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
 namespace AspNetX.Server
 {
@@ -30,6 +32,20 @@ namespace AspNetX.Server
             if (convertible != null)
                 return ((IConvertible)value).ToString(CultureInfo.InvariantCulture);
             return value.ToString();
+        }
+
+        public static ModelMetadataIdentity ToMetadataIdentity(this ModelMetadata metadata)
+        {
+            ModelMetadataIdentity identity;
+            if (metadata.MetadataKind == ModelMetadataKind.Type)
+            {
+                identity = ModelMetadataIdentity.ForType(metadata.ModelType);
+            }
+            else
+            {
+                identity = ModelMetadataIdentity.ForProperty(metadata.ModelType, metadata.PropertyName, metadata.ContainerType);
+            }
+            return identity;
         }
     }
 }

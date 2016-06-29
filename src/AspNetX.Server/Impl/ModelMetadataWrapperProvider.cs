@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
 using Microsoft.AspNet.Mvc.ModelBinding;
@@ -9,25 +11,21 @@ namespace AspNetX.Server.Impl
     public class ModelMetadataWrapperProvider : IModelMetadataWrapperProvider
     {
         private readonly IModelMetadataIdentityProvider _identityProvider;
-        private readonly IModelMetadataProvider _metadataProvider;
+        private readonly IDictionary<int, IModelMetadataWrapper> _metadataWrapperCache;
 
-        public ModelMetadataWrapperProvider(IModelMetadataIdentityProvider identityProvider, IModelMetadataProvider metadataProvider)
+        public ModelMetadataWrapperProvider(IModelMetadataIdentityProvider identityProvider)
         {
+            if (identityProvider == null)
+            {
+                throw new ArgumentNullException(nameof(identityProvider));
+            }
             _identityProvider = identityProvider;
-            _metadataProvider = metadataProvider;
+            _metadataWrapperCache = new ConcurrentDictionary<int, IModelMetadataWrapper>();
         }
 
         public bool TryGetModelMetadataWrapper(int id, out IModelMetadataWrapper wrapper)
         {
-            ModelMetadataIdentity identity;
-            if (_identityProvider.TryGetIdentity(id, out identity))
-            {
-                var metadata = _metadataProvider.GetMetadataForType(identity.ModelType);
-                wrapper = new ModelMetadataWrapper(metadata, _identityProvider);
-                return true;
-            }
-            wrapper = null;
-            return false;
+            return _metadataWrapperCache.TryGetValue(id, out wrapper);
         }
 
         public IModelMetadataWrapper GetModelMetadataWrapper(ModelMetadata metadata)
@@ -36,18 +34,38 @@ namespace AspNetX.Server.Impl
             {
                 throw new ArgumentNullException(nameof(metadata));
             }
-            ModelMetadataIdentity identity;
-            if (metadata.MetadataKind == ModelMetadataKind.Property)
-            {
-                identity = ModelMetadataIdentity.ForProperty(metadata.ModelType, metadata.PropertyName, metadata.ContainerType);
-            }
-            else
-            {
-                identity = ModelMetadataIdentity.ForType(metadata.ModelType);
-            }
+            ModelMetadataIdentity identity = metadata.ToMetadataIdentity();
             var id = _identityProvider.GetId(identity);
 
-            return new ModelMetadataWrapper(metadata, _identityProvider);
+            IModelMetadataWrapper metadataWrapper;
+            if (!TryGetModelMetadataWrapper(id, out metadataWrapper))
+            {
+                metadataWrapper = new ModelMetadataWrapper(metadata, _identityProvider, this);
+                _metadataWrapperCache.Add(id, metadataWrapper);
+            }
+            return metadataWrapper;
+        }
+
+        public bool TryGetModelPropertyWrapper(int id, out IModelPropertyWrapper wrapper)
+        {
+            IModelMetadataWrapper metadataWrapper;
+            if (TryGetModelMetadataWrapper(id, out metadataWrapper))
+            {
+                wrapper = new ModelPropertyWrapper(metadataWrapper);
+                return true;
+            }
+            wrapper = null;
+            return false;
+        }
+
+        public IModelPropertyWrapper GetModelPropertyWrapper(ModelMetadata metadata)
+        {
+            if (metadata == null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
+            IModelMetadataWrapper metadataWrapper = GetModelMetadataWrapper(metadata);
+            return new ModelPropertyWrapper(metadataWrapper);
         }
     }
 }

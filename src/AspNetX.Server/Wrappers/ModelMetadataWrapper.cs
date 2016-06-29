@@ -17,6 +17,12 @@ namespace AspNetX.Server.Wrappers
         [JsonConverter(typeof(ModelTypeConverter))]
         public Type ContainerType => Metadata.ContainerType;
 
+        public IModelMetadataWrapper ElementMetadataWrapper { get; }
+
+        public IEnumerable<KeyValuePair<EnumGroupAndName, string>> EnumGroupedDisplayNamesAndValues { get; }
+
+        public IReadOnlyDictionary<string, string> EnumNamesAndValues { get; }
+
         public bool IsCollectionType => Metadata.IsCollectionType;
 
         public bool IsComplexType => Metadata.IsComplexType;
@@ -43,25 +49,41 @@ namespace AspNetX.Server.Wrappers
 
         public string PropertyName => Metadata.PropertyName;
 
-        public IReadOnlyCollection<ModelPropertyWrapper> Properties { get; }
+        public IReadOnlyCollection<IModelPropertyWrapper> Properties { get; }
 
         [JsonIgnore]
         public ModelMetadata Metadata { get; }
 
-        public ModelMetadataWrapper(ModelMetadata metadata, IModelMetadataIdentityProvider identityProvider)
+        [JsonIgnore]
+        public ModelMetadata ElementMetadata => Metadata.ElementMetadata;
+
+        public ModelMetadataWrapper(
+            ModelMetadata metadata,
+            IModelMetadataIdentityProvider identityProvider,
+            IModelMetadataWrapperProvider metadataWrapperProvider)
         {
+            if (metadata == null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
+            if (identityProvider == null)
+            {
+                throw new ArgumentNullException(nameof(identityProvider));
+            }
+            if (metadataWrapperProvider == null)
+            {
+                throw new ArgumentNullException(nameof(metadataWrapperProvider));
+            }
+
             this.Metadata = metadata;
-            if (MetadataKind == ModelMetadataKind.Type)
+            this.Id = identityProvider.GetId(metadata.ToMetadataIdentity());
+            if (this.IsComplexType && !(this.IsCollectionType || this.IsEnumerableType))
             {
-                this.Id = identityProvider.GetId(ModelMetadataIdentity.ForType(ModelType));
+                this.Properties = metadata.Properties?.Select(o => metadataWrapperProvider.GetModelPropertyWrapper(o)).ToList().AsReadOnly();
             }
-            else
+            if (this.ElementMetadata != null)
             {
-                this.Id = identityProvider.GetId(ModelMetadataIdentity.ForProperty(ModelType, PropertyName, ContainerType));
-            }
-            if (this.IsComplexType)
-            {
-                this.Properties = metadata.Properties?.Select(o => new ModelPropertyWrapper(o, identityProvider)).ToList().AsReadOnly();
+                this.ElementMetadataWrapper = metadataWrapperProvider.GetModelMetadataWrapper(ElementMetadata);
             }
         }
     }

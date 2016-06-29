@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
@@ -6,7 +7,15 @@ namespace AspNetX.Server.Abstractions
 {
     public interface IModelMetadataWrapper
     {
+        int Id { get; }
+
         Type ContainerType { get; }
+
+        IModelMetadataWrapper ElementMetadataWrapper { get; }
+
+        IEnumerable<KeyValuePair<EnumGroupAndName, string>> EnumGroupedDisplayNamesAndValues { get; }
+
+        IReadOnlyDictionary<string, string> EnumNamesAndValues { get; }
 
         bool IsCollectionType { get; }
 
@@ -33,5 +42,7 @@ namespace AspNetX.Server.Abstractions
         string PropertyName { get; }
 
         ModelMetadata Metadata { get; }
+
+        ModelMetadata ElementMetadata { get; }
     }
 }

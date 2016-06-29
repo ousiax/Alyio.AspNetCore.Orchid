@@ -1,7 +1,6 @@
 ﻿using System;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Converters;
-using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -10,28 +9,35 @@ namespace AspNetX.Server.Wrappers
 {
     public class ModelPropertyWrapper : IModelPropertyWrapper
     {
-        public int Id { get; }
+        public int Id => MetadataWrapper.Id;
 
         [JsonConverter(typeof(ModelTypeConverter))]
-        public Type ContainerType => Metadata.ContainerType;
+        public Type ContainerType => MetadataWrapper.ContainerType;
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public ModelMetadataKind MetadataKind => Metadata.MetadataKind;
+        public ModelMetadataKind MetadataKind => MetadataWrapper.MetadataKind;
 
         [JsonConverter(typeof(ModelTypeConverter))]
-        public Type ModelType => Metadata.ModelType;
+        public Type ModelType => MetadataWrapper.ModelType;
 
-        public string PropertyName => Metadata.PropertyName;
+        public string PropertyName => MetadataWrapper.PropertyName;
 
         [JsonIgnore]
-        public ModelMetadata Metadata { get; }
+        public IModelMetadataWrapper MetadataWrapper { get; }
 
-        public ModelPropertyWrapper(ModelMetadata metadata, IModelMetadataIdentityProvider identityProvider)
+        public ModelPropertyWrapper(IModelMetadataWrapper metadataWrapper)
         {
-            if (metadata == null) throw new ArgumentNullException(nameof(metadata));
-            if (metadata.MetadataKind != ModelMetadataKind.Property) throw new ArgumentOutOfRangeException(nameof(metadata), "metadata's MetadataKind MUST be ModelMetadataKind.Property.");
-            this.Metadata = metadata;
-            this.Id = identityProvider.GetId(ModelMetadataIdentity.ForProperty(ModelType, PropertyName, ContainerType));
+            if (metadataWrapper == null)
+            {
+                throw new ArgumentNullException(nameof(metadataWrapper));
+            }
+
+            this.MetadataWrapper = metadataWrapper;
+
+            if (this.MetadataKind != ModelMetadataKind.Property)
+            {
+                throw new ArgumentOutOfRangeException(nameof(metadataWrapper), "metadataWrapper's MetadataKind MUST be ModelMetadataKind.Property.");
+            }
         }
     }
 }

@@ -13,12 +13,17 @@ namespace AspNetX.Server.Impl
     public class ApiModelProvider : IApiModelProvider
     {
         private readonly IDictionary<ApiDescription, IApiModel> _apiModelCache;
-        private readonly IModelMetadataIdentityProvider _identityProvider;
+        private readonly IModelMetadataWrapperProvider _metadataWrapperProvider;
 
-        public ApiModelProvider(IModelMetadataIdentityProvider identityProvider)
+        public ApiModelProvider(IModelMetadataWrapperProvider metadataWrapperProvider)
         {
+            if (metadataWrapperProvider == null)
+            {
+                throw new ArgumentNullException(nameof(metadataWrapperProvider));
+            }
+
+            _metadataWrapperProvider = metadataWrapperProvider;
             _apiModelCache = new ConcurrentDictionary<ApiDescription, IApiModel>();
-            _identityProvider = identityProvider;
         }
 
         public IApiModel GetApiModel(ApiDescription description)
@@ -31,7 +36,7 @@ namespace AspNetX.Server.Impl
             IApiModel apiModel;
             if (!_apiModelCache.TryGetValue(description, out apiModel))
             {
-                apiModel = new ApiModel(description, _identityProvider);
+                apiModel = new ApiModel(description, _metadataWrapperProvider);
                 _apiModelCache.Add(description, apiModel);
             }
             return apiModel;
@@ -52,18 +57,20 @@ namespace AspNetX.Server.Impl
             [JsonIgnore]
             public ApiDescription ApiDescription { get; }
 
-            public ApiModel(ApiDescription description, IModelMetadataIdentityProvider identityProvider)
+            public ApiModel(
+                ApiDescription description,
+                IModelMetadataWrapperProvider metadataWrapperProvider)
             {
                 this.ApiDescription = description;
                 this.UriParameters = this.ApiDescription
                     .ParameterDescriptions
                     .Where(o => o.Source == BindingSource.Path || o.Source == BindingSource.Query)
-                    .Select(o => new ApiParameterDescriptionWrapper(o, identityProvider))
+                    .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
                     .ToList<IApiParameterDescriptionWrapper>();
                 this.BodyParameters = this.ApiDescription
                     .ParameterDescriptions
                     .Where(o => o.Source == BindingSource.Body)
-                    .Select(o => new ApiParameterDescriptionWrapper(o, identityProvider))
+                    .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
                     .ToList<IApiParameterDescriptionWrapper>();
             }
         }

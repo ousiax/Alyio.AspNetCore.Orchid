@@ -16,6 +16,6 @@ namespace AspNetX.Server.Abstractions
 
         string PropertyName { get; }
 
-        ModelMetadata Metadata { get; }
+        IModelMetadataWrapper MetadataWrapper { get; }
     }
 }
