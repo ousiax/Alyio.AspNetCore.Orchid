@@ -8,7 +8,7 @@ namespace AspNetX.Server.Abstractions
     {
         IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 
-        IReadOnlyCollection<IApiParameterDescriptionWrapper> BodyParameters { get; }
+        IApiParameterDescriptionWrapper BodyParameter { get; }
 
         IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleRequests { get; }
 

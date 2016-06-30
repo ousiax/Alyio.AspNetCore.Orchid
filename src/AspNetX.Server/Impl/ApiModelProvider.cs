@@ -9,7 +9,6 @@ using Microsoft.AspNet.Mvc.ApiExplorer;
 using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace AspNetX.Server.Impl
 {
@@ -17,15 +16,21 @@ namespace AspNetX.Server.Impl
     {
         private readonly IDictionary<ApiDescription, IApiModel> _apiModelCache;
         private readonly IModelMetadataWrapperProvider _metadataWrapperProvider;
+        private readonly IObjectGenerator _objectGenerator;
 
-        public ApiModelProvider(IModelMetadataWrapperProvider metadataWrapperProvider)
+        public ApiModelProvider(IModelMetadataWrapperProvider metadataWrapperProvider, IObjectGenerator objectGenerator)
         {
             if (metadataWrapperProvider == null)
             {
                 throw new ArgumentNullException(nameof(metadataWrapperProvider));
             }
+            if (objectGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(objectGenerator));
+            }
 
             _metadataWrapperProvider = metadataWrapperProvider;
+            _objectGenerator = objectGenerator;
             _apiModelCache = new ConcurrentDictionary<ApiDescription, IApiModel>();
         }
 
@@ -39,7 +44,7 @@ namespace AspNetX.Server.Impl
             IApiModel apiModel;
             if (!_apiModelCache.TryGetValue(description, out apiModel))
             {
-                apiModel = new ApiModel(description, _metadataWrapperProvider);
+                apiModel = new ApiModel(description, _metadataWrapperProvider, _objectGenerator);
                 _apiModelCache.Add(description, apiModel);
             }
             return apiModel;
@@ -51,7 +56,7 @@ namespace AspNetX.Server.Impl
         {
             public IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 
-            public IReadOnlyCollection<IApiParameterDescriptionWrapper> BodyParameters { get; }
+            public IApiParameterDescriptionWrapper BodyParameter { get; }
 
             public IReadOnlyDictionary<MediaTypeHeaderValue, object> SampleRequests { get; }
 
@@ -62,7 +67,8 @@ namespace AspNetX.Server.Impl
 
             public ApiModel(
                 ApiDescription description,
-                IModelMetadataWrapperProvider metadataWrapperProvider)
+                IModelMetadataWrapperProvider metadataWrapperProvider,
+                IObjectGenerator objectGenerator)
             {
                 this.ApiDescription = description;
                 this.UriParameters = this.ApiDescription
@@ -71,22 +77,27 @@ namespace AspNetX.Server.Impl
                     .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
                     .ToList<IApiParameterDescriptionWrapper>()
                     .AsReadOnly();
-                this.BodyParameters = this.ApiDescription
+                this.BodyParameter = this.ApiDescription
                     .ParameterDescriptions
                     .Where(o => o.Source == BindingSource.Body)
                     .Select(o => new ApiParameterDescriptionWrapper(o, metadataWrapperProvider))
-                    .ToList<IApiParameterDescriptionWrapper>()
-                    .AsReadOnly();
-                this.SampleRequests = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
-                    new Dictionary<MediaTypeHeaderValue, object>
-                    {
-                        { new MediaTypeHeaderValue("application/json"), new JObject { {"Foo","Bar" }, {"Hello", "World" } } }
-                    });
-                this.SampleResponses = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
-                    new Dictionary<MediaTypeHeaderValue, object>
-                    {
-                        { new MediaTypeHeaderValue("application/json"), new JObject { {"Foo","Bar" }, {"Hello", "World" } } }
-                    });
+                    .FirstOrDefault();
+                if (this.BodyParameter != null)
+                {
+                    this.SampleRequests = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
+                        new Dictionary<MediaTypeHeaderValue, object>
+                        {
+                        { new MediaTypeHeaderValue("application/json"), objectGenerator.GenerateObject(BodyParameter.MetadataWrapper.ModelType) }
+                        });
+                }
+                if (this.ApiDescription.ResponseType != null)
+                {
+                    this.SampleResponses = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
+                        new Dictionary<MediaTypeHeaderValue, object>
+                        {
+                        { new MediaTypeHeaderValue("application/json"), objectGenerator.GenerateObject(this.ApiDescription.ResponseType) }
+                        });
+                }
             }
         }
 
