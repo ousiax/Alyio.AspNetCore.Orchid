@@ -18,7 +18,7 @@ namespace AspNetX.Server.Extensions
             {
                 RequestPath = "",
                 EnableDefaultFiles = true,
-                FileProvider = new EmbeddedFileProvider(typeof(ServerMiddleware).GetTypeInfo().Assembly, "AspNetX.Server.Resources.Embedded")
+                FileProvider = new EmbeddedFileProvider(typeof(ServerMiddleware).GetTypeInfo().Assembly, "AspNetX.Server.Resources.Embedded.www")
             });
             return app;
         }
