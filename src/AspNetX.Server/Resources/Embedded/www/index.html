@@ -8,7 +8,20 @@
     <script>
         $(document).ready(function () {
             $.getJSON("/aspnetx/apigroups", function (data, status) {
-                $("#content").html(data["Items"][0]["GroupName"]);
+                var text = "";
+                for (var i = 0; i < data.Items.length; i++) {
+                    text += "<h2>" + data.Items[i].GroupName + "</h2>";
+                    text += "<ul>";
+                    for (var j = 0; j < data.Items[i].Items.length; j++) {
+                        text += "<li>"
+                            + data.Items[i].Items[j].HttpMethod + " "
+                            + "<a href='/aspnetx/api/" + data.Items[i].Items[j].Id + "'>"
+                            + data.Items[i].Items[j].RelativePath + "</a></li>";
+                    }
+                    text += "</ul>";
+                    text += "<hr/>";
+                }
+                $("#content").html(text);
             });
         });
     </script>
@@ -21,6 +34,7 @@
     <nav></nav>
     <section>
         <h1>AspNetX</h1>
+        <hr />
         <div id="content"></div>
     </section>
 
