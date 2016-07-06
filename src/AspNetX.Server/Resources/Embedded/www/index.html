@@ -9,37 +9,52 @@
         $(document).ready(function () {
             $.getJSON("/aspnetx/apigroups", function (data, status) {
                 var text = "";
-                for (var i = 0; i < data.Items.length; i++) {
-                    text += "<h2>" + data.Items[i].GroupName + "</h2>";
-                    text += "<ul>";
-                    for (var j = 0; j < data.Items[i].Items.length; j++) {
-                        text += "<li>"
-                            + data.Items[i].Items[j].HttpMethod + " "
-                            + "<a href='/aspnetx/api/" + data.Items[i].Items[j].Id + "'>"
-                            + data.Items[i].Items[j].RelativePath + "</a></li>";
-                    }
-                    text += "</ul>";
-                    text += "<hr/>";
-                }
+                $.each(data.Items, function (_, apiGroup) {
+                    text += "<h2 id=\"" + apiGroup["GroupName"] + "\">" + apiGroup["GroupName"] + "</h2>";
+                    text += "<p>No documentation available.</p>";
+                    text += "<table class=\"aspnetx-table\">";
+                    text += "    <thead>";
+                    text += "        <tr><th>API</th><th>Description</th></tr>";
+                    text += "    </thead>";
+                    text += "    <tbody>";
+                    $.each(apiGroup.Items, function (_, api) {
+                        text += "        <tr>";
+                        text += "            <td class=\"api-name\">";
+                        text += "                <a href=\"/aspnetx/api/" + api.Id + "\">" + api.HttpMethod + " " + api.RelativePath + "</a>";
+                        text += "            </td>";
+                        text += "            <td class=\"api-documentation\">";
+                        text += "                <p>No documentation available.</p>";
+                        text += "            </td>";
+                        text += "        </tr>";
+                    });
+                    text += "    </tbody>";
+                    text += "</table>";
+                });
                 $("#content").html(text);
             });
         });
     </script>
 </head>
 <body>
-    <header>
-        <h1>ASP.NET Web API Help Page - AspNetX</h1>
-    </header>
-
-    <nav></nav>
-    <section>
-        <h1>AspNetX</h1>
-        <hr />
-        <div id="content"></div>
-    </section>
-
-    <footer>
-        Copyright © AspNetX
-    </footer>
+    <main>
+        <header class="aspnetx">
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <h1>APIs - AspNetX</h1>
+                </div>
+            </div>
+        </header>
+        <div id="body" class="aspnetx">
+            <section class="featured">
+                <div class="content-wrapper">
+                    <h2>Introduction</h2>
+                    <p>
+                        Provide a general description of your APIs here.
+                    </p>
+                </div>
+            </section>
+            <section id="content" class="content-wrapper main-content clear-fix"></section>
+        </div>
+    </main>
 </body>
 </html>

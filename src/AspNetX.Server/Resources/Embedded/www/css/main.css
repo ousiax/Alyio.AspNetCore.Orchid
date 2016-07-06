@@ -1,29 +1,139 @@
-﻿header {
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 5px;
+﻿.aspnetx h1,
+.aspnetx .h1,
+.aspnetx h2,
+.aspnetx .h2,
+.aspnetx h3,
+.aspnetx .h3,
+#body.aspnetx,
+.aspnetx-table th,
+.aspnetx-table pre,
+.aspnetx-table p {
+    font-family: "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-nav {
-    line-height: 30px;
-    background-color: #eeeeee;
-    height: 300px;
-    width: 100px;
-    float: left;
-    padding: 5px;
+main {
+    width: 800px;
+    margin: auto;
 }
 
-section {
-    width: 350px;
-    float: left;
-    padding: 10px;
+.aspnetx pre.wrapped {
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
 }
 
-footer {
-    background-color: black;
-    color: white;
-    clear: both;
-    text-align: center;
-    padding: 5px;
+.aspnetx .warning-message-container {
+    margin-top: 20px;
+    padding: 0 10px;
+    color: #525252;
+    background: #EFDCA9;
+    border: 1px solid #CCCCCC;
+}
+
+.aspnetx-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin: 0px 0px 20px 0px;
+    border-top: 1px solid #D4D4D4;
+}
+
+    .aspnetx-table th {
+        text-align: left;
+        font-weight: bold;
+        border-bottom: 1px solid #D4D4D4;
+        padding: 5px 6px 5px 6px;
+    }
+
+    .aspnetx-table td {
+        border-bottom: 1px solid #D4D4D4;
+        padding: 10px 8px 10px 8px;
+        vertical-align: top;
+    }
+
+    .aspnetx-table pre,
+    .aspnetx-table p {
+        margin: 0px;
+        padding: 0px;
+        font-family: inherit;
+        font-size: 100%;
+    }
+
+    .aspnetx-table tbody tr:hover td {
+        background-color: #F3F3F3;
+    }
+
+.aspnetx a:hover {
+    background-color: transparent;
+}
+
+.aspnetx .sample-header {
+    border: 2px solid #D4D4D4;
+    background: #00497E;
+    color: #FFFFFF;
+    padding: 8px 15px;
+    border-bottom: none;
+    display: inline-block;
+    margin: 10px 0px 0px 0px;
+}
+
+.aspnetx .sample-content {
+    display: block;
+    border-width: 0;
+    padding: 15px 20px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D4;
+    margin: 0px 0px 10px 0px;
+}
+
+.aspnetx .api-name {
+    width: 40%;
+}
+
+.aspnetx .api-documentation {
+    width: 60%;
+}
+
+.aspnetx .parameter-name {
+    width: 20%;
+}
+
+.aspnetx .parameter-documentation {
+    width: 40%;
+}
+
+.aspnetx .parameter-type {
+    width: 20%;
+}
+
+.aspnetx .parameter-annotations {
+    width: 20%;
+}
+
+.aspnetx h1,
+.aspnetx .h1 {
+    font-size: 36px;
+    line-height: normal;
+}
+
+.aspnetx h2,
+.aspnetx .h2 {
+    font-size: 24px;
+}
+
+.aspnetx h3,
+.aspnetx .h3 {
+    font-size: 20px;
+}
+
+#body.aspnetx {
+    font-size: 14px;
+    line-height: 143%;
+    color: #333;
+}
+
+.aspnetx a {
+    color: #0000EE;
+    text-decoration: none;
 }
