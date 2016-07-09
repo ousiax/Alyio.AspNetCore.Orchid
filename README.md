@@ -12,10 +12,6 @@ AspNetX can be added to your in app in just a few simple steps:
 
 Now, and when the user browses to *http://&lt;yourApp&gt;/aspnetx*, and you should see Web Api information in the web browser. 
 
-```powershell
-Install-Package AspNetX.Server -Pre
-```
-
 ### Notice!
 
 By default, *AspNetX* just collects these API `Controller`s that are annotated with `RouteAttribute`, and ignores others.
