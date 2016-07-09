@@ -12,7 +12,7 @@ namespace AspNetX.Server.Routing
     {
         private IModelMetadataWrapperProvider _metadataWrapperProvider;
 
-        public string RouteTemplate => "metadata/{id}";
+        public string RouteTemplate => "meta/{id}";
 
         public VirtualPathData GetVirtualPath(VirtualPathContext context)
         {

@@ -5,7 +5,7 @@ function parseQuery() {
     var query = window.location.search.slice(1);
     if (query) {
         var pairs = query.split('&');
-        pairs.forEach(function (pair) {
+        pairs.forEach(function(pair) {
             var nameValue = pair.split('=');
             json[nameValue[0]] = decodeURIComponent(nameValue[1] || '');
         });
@@ -25,9 +25,9 @@ function htmlDecode(value) {
 }
 
 function loadApis() {
-    $.getJSON("/aspnetx/apigroups", function (data, status) {
+    $.getJSON("/aspnetx/apigroups", function(data, status) {
         var text = "";
-        $.each(data.Items, function (_, apiGroup) {
+        $.each(data.Items, function(_, apiGroup) {
             text += "<h2 id=\"" + apiGroup["GroupName"] + "\">" + apiGroup["GroupName"] + "</h2>";
             text += "<p>No documentation available.</p>";
             text += "<table class=\"aspnetx-table\">";
@@ -35,16 +35,14 @@ function loadApis() {
             text += "        <tr><th>API</th><th>Description</th></tr>";
             text += "    </thead>";
             text += "    <tbody>";
-            $.each(apiGroup.Items, function (_, api) {
+            $.each(apiGroup.Items, function(_, api) {
                 text += "        <tr>";
                 text += "            <td class=\"api-name\">";
                 var query = {};
                 query.id = api.Id;
                 query.method = api.HttpMethod;
                 query.relativePath = api.RelativePath;
-                text += "                <a href=\"api.html?" + $.param(query) + "\">"
-                    + api.HttpMethod + " " + api.RelativePath
-                    + "</a>";
+                text += "                <a href=\"api.html?" + $.param(query) + "\">" + api.HttpMethod + " " + api.RelativePath + "</a>";
                 text += "            </td>";
                 text += "            <td class=\"api-documentation\">";
                 text += "                <p>No documentation available.</p>";
@@ -61,7 +59,7 @@ function loadApis() {
 function loadApi() {
     var query = parseQuery();
     var url = "/aspnetx/api/" + query.id;
-    $.getJSON(url, function (data, status) {
+    $.getJSON(url, function(data, status) {
         var text = "";
         text += "<h1>" + query.method + " " + query.relativePath + "</h1>";
         text += "<div>";
@@ -88,6 +86,90 @@ function loadApi() {
     });
 }
 
+function loadMeta() {
+    var query = parseQuery();
+    var url = "/aspnetx/meta/" + query.id;
+    $.getJSON(url, function(data, status) {
+        var text = getMetaHtml(data);
+        $("#aspnetx-model-name").html(htmlEncode(data.ModelType));
+        $("#aspnetx-model-doc").html(htmlEncode((data.documentation || 'None')));
+        $("#aspnetx-content").html(text);
+    });
+}
+
+function getMetaHtml(meta) {
+    var text = "NotSupported.";
+    if (meta.IsEnum) {
+        text = getEnumMetaHtml(meta);
+    } else if (meta.IsEnumerableType) {
+        text = getComplexMetaHtml(meta.ElementMetadataWrapper);
+    } else {
+        text = getComplexMetaHtml(meta);
+    }
+    return text;
+}
+
+function getEnumMetaHtml(meta) {
+    var text = "";
+    if (meta) {
+        text += "<p>Possible enumeration values:</p>";
+        text += "";
+        text += "<table class=\"aspnetx-table\">";
+        text += "    <thead>";
+        text += "        <tr><th>Name</th><th>Value</th><th>Description</th></tr>";
+        text += "    </thead>";
+        text += "    <tbody>";
+        if (meta.EnumNamesAndValues) {
+            for (var name in meta.EnumNamesAndValues) {
+                text += "<tr>";
+                text += "    <td class=\"enum-name\"><b>" + name + "</b></td>";
+                text += "    <td class=\"enum-value\">";
+                text += "        <p>" + meta.EnumNamesAndValues[name] + "</p>";
+                text += "    </td>";
+                text += "    <td class=\"enum-description\">";
+                text += "        <p>" + "None" + "</p>";
+                text += "    </td>";
+                text += "</tr>";
+            };
+        }
+        text += "    </tbody>";
+        text += "</table>";
+    }
+    return text;
+}
+
+function getComplexMetaHtml(meta) {
+    var text = "";
+    if (meta) {
+        text += "<table class=\"aspnetx-table\">";
+        text += "    <thead>";
+        text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
+        text += "    </thead>";
+        text += "    <tbody>";
+        if (meta.Properties) {
+            meta.Properties.forEach(function(property) {
+                text += "<tr>";
+                text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
+                text += "    <td class=\"parameter-documentation\">";
+                text += "        <p>" + (property.Documentation || "None") + "</p>";
+                text += "    </td>";
+                text += "    <td class=\"parameter-type\">";
+                text += "       <a href=\"meta.html?id=" + encodeURIComponent(property.Id) + "\">" + htmlEncode(property.ModelType) + "</a>";
+                text += "    </td>";
+                text += "    <td class=\"parameter-annotations\">";
+                text += "            <p>None.</p>";
+                text += "    </td>";
+                text += "</tr>";
+            });
+        }
+        text += "    </tbody>";
+        text += "</table>";
+    } else {
+        text = "<p>None.</p>";
+    }
+    return text;
+}
+
 function getUriParameterHtml(parameters) {
     var text = "";
     if (parameters) {
@@ -96,7 +178,7 @@ function getUriParameterHtml(parameters) {
         text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
         text += "    </thead>";
         text += "    <tbody>";
-        parameters.forEach(function (parameter) {
+        parameters.forEach(function(parameter) {
             text += "<tr>";
             text += "    <td class=\"parameter-name\">" + parameter.Name + "</td>";
             text += "    <td class=\"parameter-documentation\">";
@@ -127,7 +209,7 @@ function getBodyParameterHtml(bodyParameter) {
         text += "    </thead>";
         text += "    <tbody>";
         if (bodyParameter.MetadataWrapper.Properties) {
-            bodyParameter.MetadataWrapper.Properties.forEach(function (property) {
+            bodyParameter.MetadataWrapper.Properties.forEach(function(property) {
                 text += "<tr>";
                 text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
                 text += "    <td class=\"parameter-documentation\">";
