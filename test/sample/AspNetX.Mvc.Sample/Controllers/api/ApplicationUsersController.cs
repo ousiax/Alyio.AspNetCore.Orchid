@@ -28,7 +28,7 @@ namespace AspNetX.Mvc.Sample.Controllers
 
         // GET: api/ApplicationUsers/5
         [HttpGet("{id}", Name = "GetApplicationUser")]
-        public async Task<IActionResult> GetApplicationUser([FromRoute(Name = "GetApplicationUser")] string id)
+        public async Task<IActionResult> GetApplicationUser(string id)
         {
             if (!ModelState.IsValid)
             {
