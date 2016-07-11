@@ -5,7 +5,7 @@ function parseQuery() {
     var query = window.location.search.slice(1);
     if (query) {
         var pairs = query.split('&');
-        pairs.forEach(function(pair) {
+        pairs.forEach(function (pair) {
             var nameValue = pair.split('=');
             json[nameValue[0]] = decodeURIComponent(nameValue[1] || '');
         });
@@ -25,9 +25,9 @@ function htmlDecode(value) {
 }
 
 function loadApis() {
-    $.getJSON("/aspnetx/apigroups", function(data, status) {
+    $.getJSON("/aspnetx/apigroups", function (data, status) {
         var text = "";
-        $.each(data.Items, function(_, apiGroup) {
+        $.each(data.Items, function (_, apiGroup) {
             text += "<h2 id=\"" + apiGroup["GroupName"] + "\">" + apiGroup["GroupName"] + "</h2>";
             text += "<p>No documentation available.</p>";
             text += "<table class=\"aspnetx-table\">";
@@ -35,7 +35,7 @@ function loadApis() {
             text += "        <tr><th>API</th><th>Description</th></tr>";
             text += "    </thead>";
             text += "    <tbody>";
-            $.each(apiGroup.Items, function(_, api) {
+            $.each(apiGroup.Items, function (_, api) {
                 text += "        <tr>";
                 text += "            <td class=\"api-name\">";
                 var query = {};
@@ -59,7 +59,7 @@ function loadApis() {
 function loadApi() {
     var query = parseQuery();
     var url = "/aspnetx/api/" + query.id;
-    $.getJSON(url, function(data, status) {
+    $.getJSON(url, function (data, status) {
         var text = "";
         text += "<h1>" + query.method + " " + query.relativePath + "</h1>";
         text += "<div>";
@@ -70,8 +70,23 @@ function loadApi() {
         text += "    <h3>Body Parameters</h3>";
         text += "    <p>" + (data.RequestDocumentation || '') + "</p>";
         text += getBodyParameterHtml(data.BodyParameter);
+        text += "   <h3>Request Formats</h3>";
         if (data.SampleRequests) {
-            //text += "<h3>Request Formats</h3> @Html.DisplayFor(m => m.SampleRequests, \"Samples\") }";
+            text += "<div>";
+            for (var mediaType in data.SampleRequests) {
+                text += "<h4 class=\"sample-header\">" + mediaType + "</h4>";
+                text += "<div class=\"sample-content\">";
+                text += "    <span><b>Sample:</b></span>";
+                var sample = data.SampleRequests[mediaType];
+                if (!sample) {
+                    text += "<p>Sample not available.</p>";
+                }
+                else {
+                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "<code/></pre>";
+                }
+                text += "</div>";
+            }
+            text += "</div>";
         }
         text += "    <h2>Response Information</h2>";
         text += "    <h3>Resource Description</h3>";
@@ -89,7 +104,7 @@ function loadApi() {
 function loadMeta() {
     var query = parseQuery();
     var url = "/aspnetx/meta/" + query.id;
-    $.getJSON(url, function(data, status) {
+    $.getJSON(url, function (data, status) {
         var text = getMetaHtml(data);
         $("#aspnetx-model-name").html(htmlEncode(data.ModelType));
         $("#aspnetx-model-doc").html(htmlEncode((data.documentation || 'None')));
@@ -147,7 +162,7 @@ function getComplexMetaHtml(meta) {
         text += "    </thead>";
         text += "    <tbody>";
         if (meta.Properties) {
-            meta.Properties.forEach(function(property) {
+            meta.Properties.forEach(function (property) {
                 text += "<tr>";
                 text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
                 text += "    <td class=\"parameter-documentation\">";
@@ -178,7 +193,7 @@ function getUriParameterHtml(parameters) {
         text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
         text += "    </thead>";
         text += "    <tbody>";
-        parameters.forEach(function(parameter) {
+        parameters.forEach(function (parameter) {
             text += "<tr>";
             text += "    <td class=\"parameter-name\">" + parameter.Name + "</td>";
             text += "    <td class=\"parameter-documentation\">";
@@ -209,7 +224,7 @@ function getBodyParameterHtml(bodyParameter) {
         text += "    </thead>";
         text += "    <tbody>";
         if (bodyParameter.MetadataWrapper.Properties) {
-            bodyParameter.MetadataWrapper.Properties.forEach(function(property) {
+            bodyParameter.MetadataWrapper.Properties.forEach(function (property) {
                 text += "<tr>";
                 text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
                 text += "    <td class=\"parameter-documentation\">";

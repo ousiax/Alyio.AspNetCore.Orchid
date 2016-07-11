@@ -38,6 +38,7 @@ namespace AspNetX.Server.Impl
             var id = _identityProvider.GetId(identity);
 
             IModelMetadataWrapper metadataWrapper;
+            var name = metadata.ModelType.Name;
             if (!TryGetModelMetadataWrapper(id, out metadataWrapper))
             {
                 metadataWrapper = new ModelMetadataWrapper(metadata, _identityProvider, this);
