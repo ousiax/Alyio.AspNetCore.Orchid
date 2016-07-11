@@ -82,17 +82,17 @@ function loadApi() {
                     text += "<p>Sample not available.</p>";
                 }
                 else {
-                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "<code/></pre>";
+                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "</code></pre>";
                 }
                 text += "</div>";
             }
             text += "</div>";
         }
-        text += "    <h2>Response Information</h2>";
-        text += "    <h3>Resource Description</h3>";
-        text += "    <p>" + '' + "</p>"; // data.ResponseDescription.Documentation
+        text += "<h2>Response Information</h2>";
+        text += "<h3>Resource Description</h3>";
+        text += "<p>" + '' + "</p>"; // data.ResponseDescription.Documentation
         //text += "    @if (Model.ResourceDescription != null) { @Html.DisplayFor(m => m.ResourceDescription.ModelType, \"ModelDescriptionLink\", new { modelDescription = Model.ResourceDescription }) if (Model.ResourceProperties != null) { @Html.DisplayFor(m => m.ResourceProperties, \"Parameters\") } } else {";
-        text += "    <p>None.</p>";
+        text += "<p>None.</p>";
         if (data.SampleResponses) {
             text += "<h3>Response Formats</h3>";
             text += "<div>";
@@ -105,7 +105,7 @@ function loadApi() {
                     text += "<p>Sample not available.</p>";
                 }
                 else {
-                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "<code/></pre>";
+                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "</code></pre>";
                 }
                 text += "</div>";
             }
