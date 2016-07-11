@@ -52,7 +52,7 @@ namespace AspNetX.Server.Impl
 
         #region ApiModel
 
-        internal class ApiModel : IApiModel
+        internal sealed class ApiModel : IApiModel
         {
             public IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 

@@ -70,8 +70,8 @@ function loadApi() {
         text += "    <h3>Body Parameters</h3>";
         text += "    <p>" + (data.RequestDocumentation || '') + "</p>";
         text += getBodyParameterHtml(data.BodyParameter);
-        text += "   <h3>Request Formats</h3>";
         if (data.SampleRequests) {
+            text += "<h3>Request Formats</h3>";
             text += "<div>";
             for (var mediaType in data.SampleRequests) {
                 text += "<h4 class=\"sample-header\">" + mediaType + "</h4>";
@@ -94,7 +94,22 @@ function loadApi() {
         //text += "    @if (Model.ResourceDescription != null) { @Html.DisplayFor(m => m.ResourceDescription.ModelType, \"ModelDescriptionLink\", new { modelDescription = Model.ResourceDescription }) if (Model.ResourceProperties != null) { @Html.DisplayFor(m => m.ResourceProperties, \"Parameters\") } } else {";
         text += "    <p>None.</p>";
         if (data.SampleResponses) {
-            //text += "    <h3>Response Formats</h3> @Html.DisplayFor(m => m.SampleResponses, \"Samples\") }";
+            text += "<h3>Response Formats</h3>";
+            text += "<div>";
+            for (var mediaType in data.SampleResponses) {
+                text += "<h4 class=\"sample-header\">" + mediaType + "</h4>";
+                text += "<div class=\"sample-content\">";
+                text += "    <span><b>Sample:</b></span>";
+                var sample = data.SampleResponses[mediaType];
+                if (!sample) {
+                    text += "<p>Sample not available.</p>";
+                }
+                else {
+                    text += "<pre class=\"wrapped\"><code>" + JSON.stringify(sample, null, 4) + "<code/></pre>";
+                }
+                text += "</div>";
+            }
+            text += "</div>";
         }
         text += "</div>";
         $("#aspnetx-content").html(text);
