@@ -31,25 +31,25 @@ function loadApis() {
             text += "<h2 id=\"" + apiGroup["GroupName"] + "\">" + apiGroup["GroupName"] + "</h2>";
             text += "<p>No documentation available.</p>";
             text += "<table class=\"aspnetx-table\">";
-            text += "    <thead>";
-            text += "        <tr><th>API</th><th>Description</th></tr>";
-            text += "    </thead>";
-            text += "    <tbody>";
+            text += "<thead>";
+            text += "<tr><th>API</th><th>Description</th></tr>";
+            text += "</thead>";
+            text += "<tbody>";
             $.each(apiGroup.Items, function (_, api) {
-                text += "        <tr>";
-                text += "            <td class=\"api-name\">";
+                text += "<tr>";
+                text += "<td class=\"api-name\">";
                 var query = {};
                 query.id = api.Id;
                 query.method = api.HttpMethod;
                 query.relativePath = api.RelativePath;
-                text += "                <a href=\"api.html?" + $.param(query) + "\">" + api.HttpMethod + " " + api.RelativePath + "</a>";
-                text += "            </td>";
-                text += "            <td class=\"api-documentation\">";
-                text += "                <p>No documentation available.</p>";
-                text += "            </td>";
-                text += "        </tr>";
+                text += "<a href=\"api.html?" + $.param(query) + "\">" + api.HttpMethod + " " + api.RelativePath + "</a>";
+                text += "</td>";
+                text += "<td class=\"api-documentation\">";
+                text += "<p>No documentation available.</p>";
+                text += "</td>";
+                text += "</tr>";
             });
-            text += "    </tbody>";
+            text += "</tbody>";
             text += "</table>";
         });
         $("#aspnetx-content").html(text);
@@ -63,12 +63,12 @@ function loadApi() {
         var text = "";
         text += "<h1>" + query.method + " " + query.relativePath + "</h1>";
         text += "<div>";
-        text += "    <p>None</p>";
-        text += "    <h2>Request Information</h2>";
-        text += "    <h3>URI Parameters</h3>"
+        text += "<p>None</p>";
+        text += "<h2>Request Information</h2>";
+        text += "<h3>URI Parameters</h3>"
         text += getUriParameterHtml(data.UriParameters);
-        text += "    <h3>Body Parameters</h3>";
-        text += "    <p>" + (data.RequestDocumentation || '') + "</p>";
+        text += "<h3>Body Parameters</h3>";
+        text += "<p>" + (data.RequestDocumentation || '') + "</p>";
         if (data.BodyParameter) {
             text += getMetadataHtml(data.BodyParameter.MetadataWrapper);
         } else {
@@ -80,7 +80,7 @@ function loadApi() {
             for (var mediaType in data.SampleRequests) {
                 text += "<h4 class=\"sample-header\">" + mediaType + "</h4>";
                 text += "<div class=\"sample-content\">";
-                text += "    <span><b>Sample:</b></span>";
+                text += "<span><b>Sample:</b></span>";
                 var sample = data.SampleRequests[mediaType];
                 if (!sample) {
                     text += "<p>Sample not available.</p>";
@@ -106,7 +106,7 @@ function loadApi() {
             for (var mediaType in data.SampleResponses) {
                 text += "<h4 class=\"sample-header\">" + mediaType + "</h4>";
                 text += "<div class=\"sample-content\">";
-                text += "    <span><b>Sample:</b></span>";
+                text += "<span><b>Sample:</b></span>";
                 var sample = data.SampleResponses[mediaType];
                 if (!sample) {
                     text += "<p>Sample not available.</p>";
@@ -152,24 +152,24 @@ function getEnumMetaHtml(meta) {
         text += "<p>Possible enumeration values:</p>";
         text += "";
         text += "<table class=\"aspnetx-table\">";
-        text += "    <thead>";
-        text += "        <tr><th>Name</th><th>Value</th><th>Description</th></tr>";
-        text += "    </thead>";
-        text += "    <tbody>";
+        text += "<thead>";
+        text += "<tr><th>Name</th><th>Value</th><th>Description</th></tr>";
+        text += "</thead>";
+        text += "<tbody>";
         if (meta.EnumNamesAndValues) {
             for (var name in meta.EnumNamesAndValues) {
                 text += "<tr>";
-                text += "    <td class=\"enum-name\"><b>" + name + "</b></td>";
-                text += "    <td class=\"enum-value\">";
-                text += "        <p>" + meta.EnumNamesAndValues[name] + "</p>";
-                text += "    </td>";
-                text += "    <td class=\"enum-description\">";
-                text += "        <p>" + "None" + "</p>";
-                text += "    </td>";
+                text += "<td class=\"enum-name\"><b>" + name + "</b></td>";
+                text += "<td class=\"enum-value\">";
+                text += "<p>" + meta.EnumNamesAndValues[name] + "</p>";
+                text += "</td>";
+                text += "<td class=\"enum-description\">";
+                text += "<p>" + "None" + "</p>";
+                text += "</td>";
                 text += "</tr>";
             };
         }
-        text += "    </tbody>";
+        text += "</tbody>";
         text += "</table>";
     }
     return text;
@@ -179,27 +179,27 @@ function getComplexMetaHtml(meta) {
     var text = "";
     if (meta) {
         text += "<table class=\"aspnetx-table\">";
-        text += "    <thead>";
-        text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
-        text += "    </thead>";
-        text += "    <tbody>";
+        text += "<thead>";
+        text += "<tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
+        text += "</thead>";
+        text += "<tbody>";
         if (meta.Properties) {
             meta.Properties.forEach(function (property) {
                 text += "<tr>";
-                text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
-                text += "    <td class=\"parameter-documentation\">";
-                text += "        <p>" + (property.Documentation || "None") + "</p>";
-                text += "    </td>";
-                text += "    <td class=\"parameter-type\">";
-                text += "       <a href=\"meta.html?id=" + encodeURIComponent(property.Id) + "\">" + htmlEncode(property.ModelType) + "</a>";
-                text += "    </td>";
-                text += "    <td class=\"parameter-annotations\">";
-                text += "            <p>None.</p>";
-                text += "    </td>";
+                text += "<td class=\"parameter-name\">" + property.PropertyName + "</td>";
+                text += "<td class=\"parameter-documentation\">";
+                text += "<p>" + (property.Documentation || "None") + "</p>";
+                text += "</td>";
+                text += "<td class=\"parameter-type\">";
+                text += "<a href=\"meta.html?id=" + encodeURIComponent(property.Id) + "\">" + htmlEncode(property.ModelType) + "</a>";
+                text += "</td>";
+                text += "<td class=\"parameter-annotations\">";
+                text += "<p>None.</p>";
+                text += "</td>";
                 text += "</tr>";
             });
         }
-        text += "    </tbody>";
+        text += "</tbody>";
         text += "</table>";
     } else {
         text = "<p>None.</p>";
@@ -211,25 +211,25 @@ function getUriParameterHtml(parameters) {
     var text = "";
     if (parameters) {
         text += "<table class=\"aspnetx-table\">";
-        text += "    <thead>";
-        text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
-        text += "    </thead>";
-        text += "    <tbody>";
+        text += "<thead>";
+        text += "<tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
+        text += "</thead>";
+        text += "<tbody>";
         parameters.forEach(function (parameter) {
             text += "<tr>";
-            text += "    <td class=\"parameter-name\">" + parameter.Name + "</td>";
-            text += "    <td class=\"parameter-documentation\">";
-            text += "        <p>" + (parameter.Documentation || "None") + "</p>";
-            text += "    </td>";
-            text += "    <td class=\"parameter-type\">";
-            text += "       <a href=\"meta.html?id=" + encodeURIComponent(parameter.MetadataWrapper.Id) + "\">" + htmlEncode(parameter.MetadataWrapper.ModelType) + "</a>";
-            text += "    </td>";
-            text += "    <td class=\"parameter-annotations\">";
-            text += "            <p>None.</p>";
-            text += "    </td>";
+            text += "<td class=\"parameter-name\">" + parameter.Name + "</td>";
+            text += "<td class=\"parameter-documentation\">";
+            text += "<p>" + (parameter.Documentation || "None") + "</p>";
+            text += "</td>";
+            text += "<td class=\"parameter-type\">";
+            text += "<a href=\"meta.html?id=" + encodeURIComponent(parameter.MetadataWrapper.Id) + "\">" + htmlEncode(parameter.MetadataWrapper.ModelType) + "</a>";
+            text += "</td>";
+            text += "<td class=\"parameter-annotations\">";
+            text += "<p>None.</p>";
+            text += "</td>";
             text += "</tr>";
         });
-        text += "    </tbody>";
+        text += "</tbody>";
         text += "</table>";
     } else {
         text = "<p>None.</p>";
@@ -242,10 +242,10 @@ function getMetadataHtml(meta) {
     if (meta) {
         text += "<a href=\"meta.html?id=" + encodeURIComponent(meta.Id) + "\">" + htmlEncode(meta.ModelType) + "</a>";
         text += "<table class=\"aspnetx-table\">";
-        text += "    <thead>";
-        text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
-        text += "    </thead>";
-        text += "    <tbody>";
+        text += "<thead>";
+        text += "<tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
+        text += "</thead>";
+        text += "<tbody>";
         var properties = meta.Properties;
         if (meta.IsCollectionType || meta.IsEnumerableType) { //TODO meta.IsEnumerableType ?
             properties = meta.ElementMetadataWrapper.Properties;
@@ -253,20 +253,20 @@ function getMetadataHtml(meta) {
         if (properties) {
             properties.forEach(function (property) {
                 text += "<tr>";
-                text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
-                text += "    <td class=\"parameter-documentation\">";
-                text += "        <p>" + (property.Documentation || "None") + "</p>";
-                text += "    </td>";
-                text += "    <td class=\"parameter-type\">";
-                text += "       <a href=\"meta.html?id=" + encodeURIComponent(property.Id) + "\">" + htmlEncode(property.ModelType) + "</a>";
-                text += "    </td>";
-                text += "    <td class=\"parameter-annotations\">";
-                text += "            <p>None.</p>";
-                text += "    </td>";
+                text += "<td class=\"parameter-name\">" + property.PropertyName + "</td>";
+                text += "<td class=\"parameter-documentation\">";
+                text += "<p>" + (property.Documentation || "None") + "</p>";
+                text += "</td>";
+                text += "<td class=\"parameter-type\">";
+                text += "<a href=\"meta.html?id=" + encodeURIComponent(property.Id) + "\">" + htmlEncode(property.ModelType) + "</a>";
+                text += "</td>";
+                text += "<td class=\"parameter-annotations\">";
+                text += "<p>None.</p>";
+                text += "</td>";
                 text += "</tr>";
             });
         }
-        text += "    </tbody>";
+        text += "</tbody>";
         text += "</table>";
     }
     return text;

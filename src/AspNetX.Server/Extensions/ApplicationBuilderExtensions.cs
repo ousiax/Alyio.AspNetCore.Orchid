@@ -14,6 +14,7 @@ namespace AspNetX.Server.Extensions
     {
         public static IApplicationBuilder UseAspNetXFileServer(this IApplicationBuilder app)
         {
+            app.UseMiddleware<FileMinifierMiddleware>();
             app.UseFileServer(new FileServerOptions
             {
                 RequestPath = "",
