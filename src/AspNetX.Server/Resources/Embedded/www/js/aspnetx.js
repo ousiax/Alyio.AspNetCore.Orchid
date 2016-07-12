@@ -246,8 +246,12 @@ function getMetadataHtml(meta) {
         text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
         text += "    </thead>";
         text += "    <tbody>";
-        if (meta.Properties) {
-            meta.Properties.forEach(function (property) {
+        var properties = meta.Properties;
+        if (meta.IsCollectionType || meta.IsEnumerableType) { //TODO meta.IsEnumerableType ?
+            properties = meta.ElementMetadataWrapper.Properties;
+        }
+        if (properties) {
+            properties.forEach(function (property) {
                 text += "<tr>";
                 text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
                 text += "    <td class=\"parameter-documentation\">";
