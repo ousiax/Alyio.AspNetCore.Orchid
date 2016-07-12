@@ -1,7 +1,8 @@
 {
   "title": "AspNetX.Server",
-  "version": "1.0.0-beta-524",
+  "version": "1.0.0-beta-527",
   "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
+  "owners": [ "ROY" ],
   "authors": [ "ROY" ],
   "tags": [ "AspNet", "WebApi", "AspNetWebApi", "HelpPage", "AspNetCore" ],
   "projectUrl": "https://github.com/qqbuby/AspNetX",
@@ -21,6 +22,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
+        "System.Diagnostics.Debug": "4.0.11-beta-23516"
       }
     },
     "dotnet5.4": {

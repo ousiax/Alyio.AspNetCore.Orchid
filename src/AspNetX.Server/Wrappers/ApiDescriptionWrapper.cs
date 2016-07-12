@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Diagnostics;
 using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
+    [DebuggerDisplay("GroupName= {GroupName}, HttpMethod = {HttpMethod}, RelativePath = {RelativePath}")]
     internal class ApiDescriptionWrapper : IApiDescriptionWrapper
     {
+        private IModelMetadataWrapper _responseModelMetadataWrapper;
+
+        [JsonIgnore]
+        public IServiceProvider ServiceProvider { get; set; }
+
         [JsonIgnore]
         public ApiDescription ApiDescription { get; }
 
@@ -17,6 +25,20 @@ namespace AspNetX.Server.Wrappers
         public string HttpMethod { get { return this.ApiDescription.HttpMethod; } set { this.ApiDescription.HttpMethod = value; } }
 
         public string RelativePath { get { return this.ApiDescription.RelativePath; } set { this.ApiDescription.RelativePath = value; } }
+
+        public IModelMetadataWrapper ResponseModelMetadataWrapper
+        {
+            get
+            {
+                string name = ApiDescription.ResponseModelMetadata?.ModelType.Name;
+
+                if (_responseModelMetadataWrapper == null && ApiDescription.ResponseModelMetadata != null)
+                {
+                    _responseModelMetadataWrapper = ServiceProvider.GetService<IModelMetadataWrapperProvider>().GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
+                }
+                return _responseModelMetadataWrapper;
+            }
+        }
 
         public ApiDescriptionWrapper(ApiDescription apiDescription)
         {

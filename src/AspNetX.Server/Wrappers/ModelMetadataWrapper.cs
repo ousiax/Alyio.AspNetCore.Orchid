@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Converters;
@@ -10,6 +11,7 @@ using Newtonsoft.Json.Converters;
 
 namespace AspNetX.Server.Wrappers
 {
+    [DebuggerDisplay("ModelType = {ModelType}")]
     internal class ModelMetadataWrapper : IModelMetadataWrapper
     {
         public int Id { get; }

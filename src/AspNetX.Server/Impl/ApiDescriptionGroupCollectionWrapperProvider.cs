@@ -1,21 +1,24 @@
-﻿using AspNetX.Server.Abstractions;
+﻿using System;
+using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
 using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX.Server.Impl
 {
     public class ApiDescriptionGroupCollectionWrapperProvider : IApiDescriptionGroupCollectionWrapperProvider
     {
-        private readonly IApiDescriptionGroupCollectionProvider _descriptionProvider;
+        private readonly IApiDescriptionGroupCollectionWrapper _apiDescriptionGroupsWrapper;
 
-        public ApiDescriptionGroupCollectionWrapperProvider(IApiDescriptionGroupCollectionProvider descriptionProvider)
+        public ApiDescriptionGroupCollectionWrapperProvider(IServiceProvider resolver)
         {
-            this._descriptionProvider = descriptionProvider;
+            var descriptionProvider = resolver.GetService<IApiDescriptionGroupCollectionProvider>();
+            _apiDescriptionGroupsWrapper = new ApiDescriptionGroupCollectionWrapper(descriptionProvider.ApiDescriptionGroups) { ServiceProvider = resolver };
         }
 
-        public IApiDescriptionGroupCollectionWrapper ApiXDescriptionGroups
+        public IApiDescriptionGroupCollectionWrapper ApiDescriptionGroupsWrapper
         {
-            get { return new ApiDescriptionGroupCollectionWrapper(_descriptionProvider.ApiDescriptionGroups); }
+            get { return _apiDescriptionGroupsWrapper; }
         }
     }
 }

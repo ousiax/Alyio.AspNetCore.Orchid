@@ -23,7 +23,7 @@ namespace AspNetX.Server.Routing
             EnsureServices(context.HttpContext);
 
             context.HttpContext.Response.ContentType = "application/json";
-            var apiGroups = _descriptionProvider.ApiXDescriptionGroups;
+            var apiGroups = _descriptionProvider.ApiDescriptionGroupsWrapper;
             await context.HttpContext.Response.WriteJsonAsync(apiGroups);
             context.IsHandled = true;
         }

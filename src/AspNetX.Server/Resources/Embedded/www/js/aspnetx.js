@@ -69,7 +69,11 @@ function loadApi() {
         text += getUriParameterHtml(data.UriParameters);
         text += "    <h3>Body Parameters</h3>";
         text += "    <p>" + (data.RequestDocumentation || '') + "</p>";
-        text += getBodyParameterHtml(data.BodyParameter);
+        if (data.BodyParameter) {
+            text += getMetadataHtml(data.BodyParameter.MetadataWrapper);
+        } else {
+            text += "<p>None.</p>";
+        }
         if (data.SampleRequests) {
             text += "<h3>Request Formats</h3>";
             text += "<div>";
@@ -90,9 +94,12 @@ function loadApi() {
         }
         text += "<h2>Response Information</h2>";
         text += "<h3>Resource Description</h3>";
-        text += "<p>" + '' + "</p>"; // data.ResponseDescription.Documentation
-        //text += "    @if (Model.ResourceDescription != null) { @Html.DisplayFor(m => m.ResourceDescription.ModelType, \"ModelDescriptionLink\", new { modelDescription = Model.ResourceDescription }) if (Model.ResourceProperties != null) { @Html.DisplayFor(m => m.ResourceProperties, \"Parameters\") } } else {";
-        text += "<p>None.</p>";
+        text += "<p>" + 'None' + "</p>"; // data.ResponseDescription.Documentation
+        if (data.ResponseModelMetadataWrapper) {
+            text += getMetadataHtml(data.ResponseModelMetadataWrapper);
+        } else {
+            text += "<p>None.</p>";
+        }
         if (data.SampleResponses) {
             text += "<h3>Response Formats</h3>";
             text += "<div>";
@@ -230,17 +237,17 @@ function getUriParameterHtml(parameters) {
     return text;
 }
 
-function getBodyParameterHtml(bodyParameter) {
+function getMetadataHtml(meta) {
     var text = "";
-    if (bodyParameter) {
-        text += "<a href=\"meta.html?id=" + encodeURIComponent(bodyParameter.MetadataWrapper.Id) + "\">" + htmlEncode(bodyParameter.MetadataWrapper.ModelType) + "</a>";
+    if (meta) {
+        text += "<a href=\"meta.html?id=" + encodeURIComponent(meta.Id) + "\">" + htmlEncode(meta.ModelType) + "</a>";
         text += "<table class=\"aspnetx-table\">";
         text += "    <thead>";
         text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
         text += "    </thead>";
         text += "    <tbody>";
-        if (bodyParameter.MetadataWrapper.Properties) {
-            bodyParameter.MetadataWrapper.Properties.forEach(function (property) {
+        if (meta.Properties) {
+            meta.Properties.forEach(function (property) {
                 text += "<tr>";
                 text += "    <td class=\"parameter-name\">" + property.PropertyName + "</td>";
                 text += "    <td class=\"parameter-documentation\">";
@@ -257,8 +264,6 @@ function getBodyParameterHtml(bodyParameter) {
         }
         text += "    </tbody>";
         text += "</table>";
-    } else {
-        text = "<p>None.</p>";
     }
     return text;
 }

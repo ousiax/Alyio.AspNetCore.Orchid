@@ -13,7 +13,7 @@ namespace AspNetX.Server.Impl
         public ApiDescriptionWrapperProvider(IApiDescriptionGroupCollectionWrapperProvider descriptionWrapperProvider)
         {
             var dict = descriptionWrapperProvider
-                .ApiXDescriptionGroups
+                .ApiDescriptionGroupsWrapper
                 .Items
                 .SelectMany(o => o.Items)
                 .ToDictionary(p => p.Id, p => p);

@@ -7,6 +7,7 @@ using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -17,8 +18,9 @@ namespace AspNetX.Server.Impl
         private readonly IDictionary<ApiDescription, IApiModel> _apiModelCache;
         private readonly IModelMetadataWrapperProvider _metadataWrapperProvider;
         private readonly IObjectGenerator _objectGenerator;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ApiModelProvider(IModelMetadataWrapperProvider metadataWrapperProvider, IObjectGenerator objectGenerator)
+        public ApiModelProvider(IModelMetadataWrapperProvider metadataWrapperProvider, IObjectGenerator objectGenerator, IServiceProvider serviceProvider)
         {
             if (metadataWrapperProvider == null)
             {
@@ -28,9 +30,15 @@ namespace AspNetX.Server.Impl
             {
                 throw new ArgumentNullException(nameof(objectGenerator));
             }
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
 
             _metadataWrapperProvider = metadataWrapperProvider;
             _objectGenerator = objectGenerator;
+            _serviceProvider = serviceProvider;
+
             _apiModelCache = new ConcurrentDictionary<ApiDescription, IApiModel>();
         }
 
@@ -44,7 +52,7 @@ namespace AspNetX.Server.Impl
             IApiModel apiModel;
             if (!_apiModelCache.TryGetValue(description, out apiModel))
             {
-                apiModel = new ApiModel(description, _metadataWrapperProvider, _objectGenerator);
+                apiModel = new ApiModel(description, _metadataWrapperProvider, _objectGenerator) { ServiceProvider = _serviceProvider };
                 _apiModelCache.Add(description, apiModel);
             }
             return apiModel;
@@ -54,6 +62,11 @@ namespace AspNetX.Server.Impl
 
         internal sealed class ApiModel : IApiModel
         {
+            private IModelMetadataWrapper _responseModelMetadataWrapper;
+
+            [JsonIgnore]
+            public IServiceProvider ServiceProvider { get; set; }
+
             public IReadOnlyCollection<IApiParameterDescriptionWrapper> UriParameters { get; }
 
             public IApiParameterDescriptionWrapper BodyParameter { get; }
@@ -64,6 +77,20 @@ namespace AspNetX.Server.Impl
 
             [JsonIgnore]
             public ApiDescription ApiDescription { get; }
+
+            public IModelMetadataWrapper ResponseModelMetadataWrapper
+            {
+                get
+                {
+                    string name = ApiDescription.ResponseModelMetadata?.ModelType.Name;
+
+                    if (_responseModelMetadataWrapper == null && ApiDescription.ResponseModelMetadata != null)
+                    {
+                        _responseModelMetadataWrapper = ServiceProvider.GetService<IModelMetadataWrapperProvider>().GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
+                    }
+                    return _responseModelMetadataWrapper;
+                }
+            }
 
             public ApiModel(
                 ApiDescription description,

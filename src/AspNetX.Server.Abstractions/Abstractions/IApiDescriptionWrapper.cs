@@ -13,5 +13,7 @@ namespace AspNetX.Server.Abstractions
         string HttpMethod { get; }
 
         string RelativePath { get; }
+
+        IModelMetadataWrapper ResponseModelMetadataWrapper { get; }
     }
 }

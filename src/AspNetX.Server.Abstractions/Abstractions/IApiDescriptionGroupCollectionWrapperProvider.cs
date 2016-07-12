@@ -2,6 +2,6 @@
 {
     public interface IApiDescriptionGroupCollectionWrapperProvider
     {
-        IApiDescriptionGroupCollectionWrapper ApiXDescriptionGroups { get; }
+        IApiDescriptionGroupCollectionWrapper ApiDescriptionGroupsWrapper { get; }
     }
 }
