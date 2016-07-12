@@ -20,7 +20,7 @@ namespace AspNetX.Server.Wrappers
         [JsonIgnore]
         public ApiDescriptionGroupCollection ApiDescriptionGroupCollection { get; }
 
-        public ApiDescriptionGroupCollectionWrapper(ApiDescriptionGroupCollection collection)
+        public ApiDescriptionGroupCollectionWrapper(ApiDescriptionGroupCollection collection, IModelMetadataWrapperProvider metadataWrapperProvider)
         {
             if (collection == null)
             {
@@ -28,20 +28,24 @@ namespace AspNetX.Server.Wrappers
             }
 
             this.ApiDescriptionGroupCollection = collection;
+
+            this.Items = ApiDescriptionGroupCollection.Items
+                .Select(o => new ApiDescriptionGroupWrapper(o, metadataWrapperProvider))
+                .ToList()
+                .AsReadOnly();
         }
 
-        public IReadOnlyList<IApiDescriptionGroupWrapper> Items
-        {
-            get
-            {
-                return this.ApiDescriptionGroupCollection
-                    .Items
-                    .Select(o => new ApiDescriptionGroupWrapper(o) { ServiceProvider = this.ServiceProvider })
-                    .ToList()
-                    .AsReadOnly();
-            }
-        }
+        public IReadOnlyList<IApiDescriptionGroupWrapper> Items { get; }
 
         public int Version => this.ApiDescriptionGroupCollection.Version;
+
+        public override string ToString()
+        {
+            if (Debugger.IsAttached)
+            {
+                return this.Items.Count.ToString();
+            }
+            return base.ToString();
+        }
     }
 }

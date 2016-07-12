@@ -12,28 +12,30 @@ namespace AspNetX.Server.Wrappers
     internal class ApiDescriptionGroupWrapper : IApiDescriptionGroupWrapper
     {
         [JsonIgnore]
-        public IServiceProvider ServiceProvider { get; set; }
-
-        [JsonIgnore]
         public ApiDescriptionGroup ApiDescriptionGroup { get; }
-
-        public ApiDescriptionGroupWrapper(ApiDescriptionGroup apiDescriptionGroup)
-        {
-            this.ApiDescriptionGroup = apiDescriptionGroup;
-        }
 
         public string GroupName { get { return this.ApiDescriptionGroup.GroupName; } }
 
-        public IReadOnlyList<IApiDescriptionWrapper> Items
+        public IReadOnlyList<IApiDescriptionWrapper> Items { get; }
+
+        public ApiDescriptionGroupWrapper(ApiDescriptionGroup apiDescriptionGroup, IModelMetadataWrapperProvider metadataWrapperProvider)
         {
-            get
+            if (apiDescriptionGroup == null)
             {
-                return this.ApiDescriptionGroup
+                throw new ArgumentNullException(nameof(apiDescriptionGroup));
+            }
+            if (metadataWrapperProvider == null)
+            {
+                throw new ArgumentNullException(nameof(metadataWrapperProvider));
+            }
+
+            this.ApiDescriptionGroup = apiDescriptionGroup;
+
+            this.Items = this.ApiDescriptionGroup
                     .Items
-                    .Select(o => new ApiDescriptionWrapper(o) { ServiceProvider = this.ServiceProvider })
+                    .Select(o => new ApiDescriptionWrapper(o, metadataWrapperProvider))
                     .ToList()
                     .AsReadOnly();
-            }
         }
     }
 }

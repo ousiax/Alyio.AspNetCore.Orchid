@@ -10,11 +10,6 @@ namespace AspNetX.Server.Wrappers
     [DebuggerDisplay("GroupName= {GroupName}, HttpMethod = {HttpMethod}, RelativePath = {RelativePath}")]
     internal class ApiDescriptionWrapper : IApiDescriptionWrapper
     {
-        private IModelMetadataWrapper _responseModelMetadataWrapper;
-
-        [JsonIgnore]
-        public IServiceProvider ServiceProvider { get; set; }
-
         [JsonIgnore]
         public ApiDescription ApiDescription { get; }
 
@@ -26,24 +21,26 @@ namespace AspNetX.Server.Wrappers
 
         public string RelativePath { get { return this.ApiDescription.RelativePath; } set { this.ApiDescription.RelativePath = value; } }
 
-        public IModelMetadataWrapper ResponseModelMetadataWrapper
+        public IModelMetadataWrapper ResponseModelMetadataWrapper { get; }
+
+        public ApiDescriptionWrapper(ApiDescription apiDescription, IModelMetadataWrapperProvider metadataWrapperProvider)
         {
-            get
+            if (apiDescription == null)
             {
-                string name = ApiDescription.ResponseModelMetadata?.ModelType.Name;
-
-                if (_responseModelMetadataWrapper == null && ApiDescription.ResponseModelMetadata != null)
-                {
-                    _responseModelMetadataWrapper = ServiceProvider.GetService<IModelMetadataWrapperProvider>().GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
-                }
-                return _responseModelMetadataWrapper;
+                throw new ArgumentNullException(nameof(apiDescription));
             }
-        }
+            if (metadataWrapperProvider == null)
+            {
+                throw new ArgumentNullException(nameof(metadataWrapperProvider));
+            }
 
-        public ApiDescriptionWrapper(ApiDescription apiDescription)
-        {
             this.ApiDescription = apiDescription;
             this.Id = apiDescription.GetFriendlyId();
+
+            if (ApiDescription.ResponseModelMetadata != null)
+            {
+                ResponseModelMetadataWrapper = metadataWrapperProvider.GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
+            }
         }
 
         public override int GetHashCode()
