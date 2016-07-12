@@ -233,6 +233,7 @@ function getUriParameterHtml(parameters) {
 function getBodyParameterHtml(bodyParameter) {
     var text = "";
     if (bodyParameter) {
+        text += "<a href=\"meta.html?id=" + encodeURIComponent(bodyParameter.MetadataWrapper.Id) + "\">" + htmlEncode(bodyParameter.MetadataWrapper.ModelType) + "</a>";
         text += "<table class=\"aspnetx-table\">";
         text += "    <thead>";
         text += "        <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>";
