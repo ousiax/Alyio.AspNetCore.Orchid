@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX
 {
-    public class CoreServices
+    public static class CoreServices
     {
         public static IEnumerable<ServiceDescriptor> GetDefaultServices()
         {
