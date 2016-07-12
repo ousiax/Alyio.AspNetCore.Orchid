@@ -11,5 +11,7 @@ namespace AspNetX.Server.Abstractions
         bool TryGetModelPropertyWrapper(int id, out IModelPropertyWrapper wrapper);
 
         IModelPropertyWrapper GetModelPropertyWrapper(ModelMetadata metadata);
+
+        bool TryAdd(IModelMetadataWrapper wrapper);
     }
 }

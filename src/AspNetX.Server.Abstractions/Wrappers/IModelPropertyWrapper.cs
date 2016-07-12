@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNet.Mvc.ModelBinding;
 using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 
 namespace AspNetX.Server.Abstractions

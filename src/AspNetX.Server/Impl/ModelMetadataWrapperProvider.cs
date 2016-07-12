@@ -42,7 +42,6 @@ namespace AspNetX.Server.Impl
             if (!TryGetModelMetadataWrapper(id, out metadataWrapper))
             {
                 metadataWrapper = new ModelMetadataWrapper(metadata, _identityProvider, this);
-                _metadataWrapperCache.Add(id, metadataWrapper);
             }
             return metadataWrapper;
         }
@@ -67,6 +66,19 @@ namespace AspNetX.Server.Impl
             }
             IModelMetadataWrapper metadataWrapper = GetModelMetadataWrapper(metadata);
             return new ModelPropertyWrapper(metadataWrapper);
+        }
+
+        public bool TryAdd(IModelMetadataWrapper wrapper)
+        {
+            try
+            {
+                _metadataWrapperCache.Add(wrapper.Id, wrapper);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

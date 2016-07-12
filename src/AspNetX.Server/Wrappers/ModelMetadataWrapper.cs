@@ -75,6 +75,9 @@ namespace AspNetX.Server.Wrappers
 
             this.Metadata = metadata;
             this.Id = identityProvider.GetId(metadata.ToMetadataIdentity());
+
+            metadataWrapperProvider.TryAdd(this); // Important!, terminal recursion loops.
+
             if (this.IsComplexType && !(this.IsCollectionType || this.IsEnumerableType))
             {
                 this.Properties = metadata.Properties?.Select(o => metadataWrapperProvider.GetModelPropertyWrapper(o)).ToList().AsReadOnly();

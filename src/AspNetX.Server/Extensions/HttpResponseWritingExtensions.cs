@@ -15,11 +15,14 @@ namespace AspNetX.Server
 
         public static async Task WriteJsonAsync(this HttpResponse response, object value, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
         {
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore, //TODO Newtonsoft.Json.ReferenceLoopHandling
 #if DEBUG
-            var text = JsonConvert.SerializeObject(value, Formatting.Indented);
-#else
-            var text = JsonConvert.SerializeObject(value, Formatting.None);
+                Formatting = Formatting.Indented
 #endif
+            };
+            var text = JsonConvert.SerializeObject(value, settings);
             await response.WriteAsync(text, encoding, cancellationToken);
         }
     }
