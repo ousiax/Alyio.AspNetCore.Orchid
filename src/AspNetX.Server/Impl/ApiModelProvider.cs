@@ -5,8 +5,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
-using Microsoft.AspNet.Mvc.ApiExplorer;
-using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -78,15 +78,15 @@ namespace AspNetX.Server.Impl
             [JsonIgnore]
             public ApiDescription ApiDescription { get; }
 
-            public IModelMetadataWrapper ResponseModelMetadataWrapper
+            public IModelMetadataWrapper ResponseModelMetadataWrapper //TODO ApiDescription.SupportedResponseTypes
             {
                 get
                 {
-                    string name = ApiDescription.ResponseModelMetadata?.ModelType.Name;
+                    var responseModelMetadata = ApiDescription.SupportedResponseTypes.FirstOrDefault()?.ModelMetadata;
 
-                    if (_responseModelMetadataWrapper == null && ApiDescription.ResponseModelMetadata != null)
+                    if (_responseModelMetadataWrapper == null && responseModelMetadata != null)
                     {
-                        _responseModelMetadataWrapper = ServiceProvider.GetService<IModelMetadataWrapperProvider>().GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
+                        _responseModelMetadataWrapper = ServiceProvider.GetService<IModelMetadataWrapperProvider>().GetModelMetadataWrapper(responseModelMetadata);
                     }
                     return _responseModelMetadataWrapper;
                 }
@@ -117,12 +117,13 @@ namespace AspNetX.Server.Impl
                         { new MediaTypeHeaderValue("application/json"), objectGenerator.GenerateObject(BodyParameter.MetadataWrapper.ModelType) }
                         });
                 }
-                if (this.ApiDescription.ResponseType != null)
+                var responseType = ApiDescription.SupportedResponseTypes.FirstOrDefault()?.ModelMetadata?.ModelType;
+                if (responseType != null)  //TODO ApiDescription.SupportedResponseTypes
                 {
                     this.SampleResponses = new ReadOnlyDictionary<MediaTypeHeaderValue, object>(
                         new Dictionary<MediaTypeHeaderValue, object>
                         {
-                        { new MediaTypeHeaderValue("application/json"), objectGenerator.GenerateObject(this.ApiDescription.ResponseType) }
+                        { new MediaTypeHeaderValue("application/json"), objectGenerator.GenerateObject(responseType) }
                         });
                 }
             }

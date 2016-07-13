@@ -16,7 +16,7 @@ namespace AspNetX.Server.Impl
                 .ApiDescriptionGroupsWrapper
                 .Items
                 .SelectMany(o => o.Items)
-                .Distinct()
+                .Distinct() //TODO An item with the same key has already been added.
                 .ToDictionary(p => p.Id, p => p);
             this._cache = new ReadOnlyDictionary<string, IApiDescriptionWrapper>(dict);
         }

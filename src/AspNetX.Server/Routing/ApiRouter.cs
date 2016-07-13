@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AspNetX.Server.Abstractions;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX.Server.Routing
@@ -19,7 +19,9 @@ namespace AspNetX.Server.Routing
             throw new NotImplementedException();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task RouteAsync(RouteContext context)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             string id = context.RouteData.Values["id"] as string;
             if (string.IsNullOrEmpty(id))
@@ -29,22 +31,24 @@ namespace AspNetX.Server.Routing
 
             EnsureServices(context.HttpContext);
 
-            var api = (IApiDescriptionWrapper)null;
-            _descriptionProvider.TryGetValue(id, out api);
-            context.HttpContext.Response.ContentType = "application/json";
-            await context.HttpContext.Response.WriteJsonAsync(_apiModelProvider.GetApiModel(api.ApiDescription));
-            context.IsHandled = true;
+            context.Handler = async ctx =>
+            {
+                var api = (IApiDescriptionWrapper)null;
+                _descriptionProvider.TryGetValue(id, out api);
+                ctx.Response.ContentType = "application/json";
+                await ctx.Response.WriteJsonAsync(_apiModelProvider.GetApiModel(api.ApiDescription));
+            };
         }
 
         private void EnsureServices(HttpContext context)
         {
             if (_descriptionProvider == null)
             {
-                _descriptionProvider = context.ApplicationServices.GetService<IApiDescriptionWrapperProvider>();
+                _descriptionProvider = context.RequestServices.GetService<IApiDescriptionWrapperProvider>();
             }
             if (_apiModelProvider == null)
             {
-                _apiModelProvider = context.ApplicationServices.GetService<IApiModelProvider>();
+                _apiModelProvider = context.RequestServices.GetService<IApiModelProvider>();
             }
         }
     }

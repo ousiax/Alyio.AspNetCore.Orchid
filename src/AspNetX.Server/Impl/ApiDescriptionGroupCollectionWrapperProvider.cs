@@ -1,6 +1,6 @@
 ﻿using AspNetX.Server.Abstractions;
 using AspNetX.Server.Wrappers;
-using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace AspNetX.Server.Impl
 {

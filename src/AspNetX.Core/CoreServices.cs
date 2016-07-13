@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AspNetX.Initialization;
 using AspNetX.Internal;
-using Microsoft.AspNet.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX

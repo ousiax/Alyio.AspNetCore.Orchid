@@ -1,7 +1,7 @@
 ﻿using System;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Converters;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

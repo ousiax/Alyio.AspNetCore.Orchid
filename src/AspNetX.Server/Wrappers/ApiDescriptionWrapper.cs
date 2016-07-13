@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using AspNetX.Server.Abstractions;
-using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace AspNetX.Server.Wrappers
 {
@@ -36,9 +37,10 @@ namespace AspNetX.Server.Wrappers
             this.ApiDescription = apiDescription;
             this.Id = apiDescription.GetFriendlyId();
 
-            if (ApiDescription.ResponseModelMetadata != null)
+            var responseModelMetadata = ApiDescription.SupportedResponseTypes.FirstOrDefault()?.ModelMetadata;
+            if (responseModelMetadata != null)   //TODO ApiDescription.SupportedResponseTypes
             {
-                ResponseModelMetadataWrapper = metadataWrapperProvider.GetModelMetadataWrapper(ApiDescription.ResponseModelMetadata);
+                ResponseModelMetadataWrapper = metadataWrapperProvider.GetModelMetadataWrapper(responseModelMetadata);
             }
         }
 

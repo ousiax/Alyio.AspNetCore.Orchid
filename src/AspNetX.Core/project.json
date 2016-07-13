@@ -3,19 +3,21 @@
   "version": "1.0.0-beta-65535",
   "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
   "authors": [ "ROY" ],
-  "owners": [ "ROY" ],
-  "tags": [ "ASP.NET", "ASP.NET Core", "Web", "API", "Help Page" ],
-  "projectUrl": "https://github.com/qqbuby/AspNetX",
-  "licenseUrl": "https://github.com/qqbuby/AspNetX/blob/develop/LICENSE",
+  "packOptions": {
+    "tags": [ "ASP.NET", "ASP.NET Core", "Web", "API", "Help Page" ],
+    "projectUrl": "https://github.com/qqbuby/AspNetX",
+    "licenseUrl": "https://github.com/qqbuby/AspNetX/blob/develop/LICENSE"
+  },
   "copyright": "Copyright (c) 2016 ROY",
   "frameworks": {
-    "net451": { },
-    "dotnet5.4": { }
-  },
-  "dependencies": {
-    "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final",
-    "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final"
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
+        "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+        "Microsoft.Extensions.DependencyInjection": "1.0.0",
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0"
+      }
+    }
   }
 }
