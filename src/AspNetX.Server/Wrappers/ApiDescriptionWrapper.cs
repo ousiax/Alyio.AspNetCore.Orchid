@@ -2,12 +2,11 @@
 using System.Diagnostics;
 using AspNetX.Server.Abstractions;
 using Microsoft.AspNet.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers
 {
-    [DebuggerDisplay("GroupName= {GroupName}, HttpMethod = {HttpMethod}, RelativePath = {RelativePath}")]
+    [DebuggerDisplay("Id = {Id}")]
     internal class ApiDescriptionWrapper : IApiDescriptionWrapper
     {
         [JsonIgnore]
@@ -50,8 +49,12 @@ namespace AspNetX.Server.Wrappers
 
         public override bool Equals(object obj)
         {
-            string other = obj as string;
-            return string.Equals(this.Id, other, StringComparison.OrdinalIgnoreCase);
+            IApiDescriptionWrapper other = obj as IApiDescriptionWrapper;
+            if (other != null)
+            {
+                return string.Equals(this.Id, other.Id, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
         }
     }
 }

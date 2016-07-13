@@ -16,6 +16,7 @@ namespace AspNetX.Server.Impl
                 .ApiDescriptionGroupsWrapper
                 .Items
                 .SelectMany(o => o.Items)
+                .Distinct()
                 .ToDictionary(p => p.Id, p => p);
             this._cache = new ReadOnlyDictionary<string, IApiDescriptionWrapper>(dict);
         }
