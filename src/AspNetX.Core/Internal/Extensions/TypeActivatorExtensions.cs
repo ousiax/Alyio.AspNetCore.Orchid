@@ -13,23 +13,16 @@ namespace AspNetX.Internal
             return (T)activated;
         }
 
-        public static IEnumerable<object> CreateInstances(this ITypeActivator typeActivator, IEnumerable<TypeInfo> types)
+        public static IEnumerable<object> CreateInstances(this ITypeActivator typeActivator, IEnumerable<TypeInfo> typeInfos)
         {
-            var activated = types.Select(typeActivator.CreateInstance).Where(o => o != null);
+            var activated = typeInfos.Select(typeActivator.CreateInstance).Where(o => o != null);
 
             return activated;
         }
 
-        public static IEnumerable<T> CreateInstances<T>(this ITypeActivator typeActivator, IEnumerable<TypeInfo> types)
+        private static object CreateInstance(this ITypeActivator typeActivator, TypeInfo typeInfo)
         {
-            var activated = types.Select(t => (T)typeActivator.CreateInstance(t)).Where(o => o != null);
-
-            return activated;
-        }
-
-        private static object CreateInstance(this ITypeActivator typeActivator, TypeInfo type)
-        {
-            return typeActivator.CreateInstance(type);
+            return typeActivator.CreateInstance(typeInfo.AsType());
         }
     }
 }

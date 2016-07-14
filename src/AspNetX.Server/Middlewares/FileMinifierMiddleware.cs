@@ -28,7 +28,7 @@ namespace AspNetX.Server
 
         public async Task Invoke(HttpContext context)
         {
-            if (_hostingEnvironment.IsDevelopment())
+            if (!_hostingEnvironment.IsDevelopment()) // Minify static files.
             {
                 string fileName = Path.GetFileName(context.Request.Path);
                 var minFileName = (string)null;

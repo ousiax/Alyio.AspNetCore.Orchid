@@ -1,6 +1,6 @@
 {
   "title": "AspNetX.Server.Abstractions",
-  "version": "1.0.0-beta-65535",
+  "version": "1.0.0-beta.core-02433",
   "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
   "packOptions": {
     "authors": [ "ROY" ],
@@ -10,11 +10,12 @@
   },
   "copyright": "Copyright (c) 2016 ROY",
   "frameworks": {
+    "net451": {
+    },
     "netstandard1.6": {
-      "imports": "dnxcore50",
-      "dependencies": {
-        "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0"
-      }
     }
+  },
+  "dependencies": {
+    "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0"
   }
 }

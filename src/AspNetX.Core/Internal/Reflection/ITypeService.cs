@@ -6,12 +6,8 @@ namespace AspNetX.Internal
 {
     public interface ITypeService
     {
-        IEnumerable<object> Resolve(string coreLibrary, Type targetType);
+        IEnumerable<object> Resolve(Type targetType);
 
-        IEnumerable<object> Resolve(IEnumerable<Assembly> assemblies, Type targetType);
-
-        IEnumerable<TypeInfo> ResolveTypes(string coreLibrary, Type targetType);
-
-        IEnumerable<TypeInfo> ResolveTypes(IEnumerable<Assembly> assemblies, Type targetType);
+        IEnumerable<TypeInfo> ResolveTypes(Type targetType);
     }
 }

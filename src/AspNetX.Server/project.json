@@ -1,6 +1,6 @@
 {
   "title": "AspNetX.Server",
-  "version": "1.0.0-beta-65536",
+  "version": "1.0.0-beta.core-02433",
   "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
   "packOptions": {
     "authors": [ "ROY" ],
@@ -10,25 +10,28 @@
   },
   "copyright": "Copyright (c) 2016 ROY",
   "buildOptions": {
-    "resource": "Resources/Embedded/**/*.*"
+    "embed": "Resources/Embedded/**/*.*"
   },
   "frameworks": {
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0"
+      }
+    },
     "netstandard1.6": {
-      "imports": "dnxcore50",
       "dependencies": {
-        "AspNetX.Core": "1.0.0-beta-65535",
-        "AspNetX.Server.Abstractions": "1.0.0-beta-65535",
-        "System.Linq.Queryable": "4.0.1",
-        "System.Xml.XPath": "4.0.0",
-        "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
-        "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0",
-        "Microsoft.AspNetCore.StaticFiles": "1.0.0"
+        "System.Xml.XPath": "4.0.1",
+        "System.Diagnostics.Tools": "4.0.1",
+        "System.Data.Common": "4.1.0",
+        "System.Linq.Queryable": "4.0.1"
       }
     }
   },
   "dependencies": {
-    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-    "System.Data.Common": "4.1.0",
-    "System.Diagnostics.Tools": "4.0.1"
+    "AspNetX.Core": { "target": "project" },
+    "AspNetX.Server.Abstractions": { "target": "project" },
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0"
   }
 }
