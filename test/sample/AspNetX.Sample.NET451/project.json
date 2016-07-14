@@ -4,11 +4,11 @@
     "preserveCompilationContext": true
   },
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
+    "AspNetX.Sample.Models": { "target": "project" },
+    "AspNetX.Server": { "target": "project" },
     "Microsoft.AspNetCore.Mvc": "1.0.0",
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.0",
+    "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
@@ -17,13 +17,10 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "AspNetX.Server": { "target": "project" },
-    "AspNetX.Sample.Models": { "target": "project" }
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0"
   },
   "frameworks": {
-    "netcoreapp1.0": {
-    }
+    "net451": {}
   },
   "publishOptions": {
     "include": [
