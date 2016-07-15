@@ -1,4 +1,4 @@
-# AspNetX [Beta version]
+# AspNetX [Beta version on ASP.NET Core 1.0]
 
 You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/) feed or from its [github releases page](https://github.com/qqbuby/AspNetX/releases).
 
@@ -43,4 +43,4 @@ namespace AspNetX.Mvc.Sample.Controllers
 
 ### Others
 
-For **ASP.NET Core 1.0** app, please get this version `1.0.0-beta1-02433` from the offical [Nuget.org](http://www.nuget.org/packages/AspNetX.Server/1.0.0-beta1-02433) or from its github [releases](https://github.com/qqbuby/AspNetX/releases/tag/v1.0.0-beta1-02433) page.
+For **ASP.NET DNX RC1** app, please get this version `1.0.0-rc1-final` from the offical [Nuget.org](http://www.nuget.org/packages/AspNetX.Server/1.0.0-rc1-final) or from its github [releases](https://github.com/qqbuby/AspNetX/releases/tag/v1.0.0-rc1-final) page.

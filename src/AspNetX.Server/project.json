@@ -1,6 +1,6 @@
 {
   "title": "AspNetX.Server",
-  "version": "1.0.0-beta1-02433",
+  "version": "1.0.0-beta-65537",
   "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
   "packOptions": {
     "authors": [ "ROY" ],
