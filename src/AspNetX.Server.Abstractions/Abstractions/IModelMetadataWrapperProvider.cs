@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AspNetX.Server.Abstractions
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using AspNetX.Server.Abstractions;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace AspNetX.Server.Impl
 {

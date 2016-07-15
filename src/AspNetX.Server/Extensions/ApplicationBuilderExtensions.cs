@@ -1,12 +1,10 @@
 ﻿using System.Reflection;
 using AspNetX.Initialization;
 using AspNetX.Server.Routing;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.FileProviders;
-using Microsoft.AspNet.Routing;
-using Microsoft.AspNet.Routing.Template;
-using Microsoft.AspNet.StaticFiles;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace AspNetX.Server.Extensions
 {
@@ -26,12 +24,12 @@ namespace AspNetX.Server.Extensions
 
         public static IApplicationBuilder UseAspNetXRouter(this IApplicationBuilder app)
         {
-            var routeBuilder = new RouteBuilder { ServiceProvider = app.ApplicationServices };
+            var routeBuilder = new RouteBuilder(app);
             var routers = app.ApplicationServices.GetService<IExtensionProvider<ITemplateRouter>>().Instances;
             var inline = app.ApplicationServices.GetService<IInlineConstraintResolver>();
             foreach (var router in routers)
             {
-                routeBuilder.Routes.Add(new TemplateRoute(router, router.RouteTemplate, inline));
+                routeBuilder.Routes.Add(new Route(router, router.RouteTemplate, inline));
             }
             app.UseRouter(routeBuilder.Build());
             return app;

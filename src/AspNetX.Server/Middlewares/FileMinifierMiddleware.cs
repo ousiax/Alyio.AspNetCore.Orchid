@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNetX.Server
 {
@@ -29,7 +28,7 @@ namespace AspNetX.Server
 
         public async Task Invoke(HttpContext context)
         {
-            if (_hostingEnvironment.IsDevelopment())
+            if (!_hostingEnvironment.IsDevelopment()) // Minify static files.
             {
                 string fileName = Path.GetFileName(context.Request.Path);
                 var minFileName = (string)null;

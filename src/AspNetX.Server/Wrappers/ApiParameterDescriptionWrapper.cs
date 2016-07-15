@@ -1,5 +1,5 @@
 ﻿using AspNetX.Server.Abstractions;
-using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 
 namespace AspNetX.Server.Wrappers

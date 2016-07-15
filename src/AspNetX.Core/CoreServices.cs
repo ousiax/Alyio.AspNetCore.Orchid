@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AspNetX.Initialization;
 using AspNetX.Internal;
-using Microsoft.AspNet.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX
@@ -14,7 +14,7 @@ namespace AspNetX
             services.AddSingleton<ITypeActivator, DefaultTypeActivator>();
             services.AddSingleton<ITypeSelector, DefaultTypeSelector>();
             services.AddSingleton<ITypeService, DefaultTypeService>();
-            services.AddSingleton<IAssemblyProvider, DefaultAssemblyProvider>();
+            services.AddSingleton<IAssemblyPartDiscoveryProvider, DefaultAssemblyPartDiscoveryProvider>();
 
             services.AddSingleton<IExtensionProvider<IRegisterServices>, DefaultExtensionProvider<IRegisterServices>>();
             services.AddSingleton<IExtensionProvider<IRegisterMiddleware>, DefaultExtensionProvider<IRegisterMiddleware>>();

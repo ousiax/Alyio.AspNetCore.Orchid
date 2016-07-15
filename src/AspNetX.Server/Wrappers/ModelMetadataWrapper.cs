@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using AspNetX.Server.Abstractions;
 using AspNetX.Server.Converters;
-using Microsoft.AspNet.Mvc.ModelBinding;
-using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

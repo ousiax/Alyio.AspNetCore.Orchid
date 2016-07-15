@@ -1,7 +1,7 @@
 ﻿using AspNetX.Initialization;
 using AspNetX.Server.Extensions;
-using Microsoft.AspNet.Builder;
-using Microsoft.Extensions.OptionsModel;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
 
 namespace AspNetX.Server
 {

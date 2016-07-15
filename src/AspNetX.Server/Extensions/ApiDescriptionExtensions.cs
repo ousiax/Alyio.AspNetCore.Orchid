@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNet.Mvc.ApiExplorer;
-using Microsoft.AspNet.WebUtilities;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace AspNetX.Server
 {
