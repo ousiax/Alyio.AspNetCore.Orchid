@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace AspNetX.Services
 {
+    /// <inheritdoc />
     public class XmlDocumentationProviderFactory : IDocumentationProviderFactory
     {
         private IDocumentationProvider _documentationProvider;
@@ -16,6 +17,18 @@ namespace AspNetX.Services
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="XmlDocumentationProviderFactory"/>.
+        /// </summary>
+        /// <param name="serverOptions">
+        /// The <see cref="IOptions{ServerOptions}"/>.
+        /// </param>
+        /// <param name="hostingEnvironment">
+        /// The <see cref="IHostingEnvironment"/>.
+        /// </param>
+        /// <param name="loggerFactory">
+        /// The <see cref="ILoggerFactory"/>.
+        /// </param>
         public XmlDocumentationProviderFactory(IOptions<ServerOptions> serverOptions, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
         {
             _serverOptions = serverOptions.Value;
@@ -23,6 +36,7 @@ namespace AspNetX.Services
             _logger = loggerFactory.CreateLogger<XmlDocumentationProviderFactory>();
         }
 
+        /// <inheritdoc />
         public IDocumentationProvider Create()
         {
             if (_documentationProvider == null)

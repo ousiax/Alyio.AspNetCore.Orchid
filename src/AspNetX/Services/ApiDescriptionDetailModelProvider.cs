@@ -7,10 +7,17 @@ using AspNetX.Models;
 
 namespace AspNetX.Services
 {
+    /// <inheritdoc />
     public class ApiDescriptionDetailModelProvider : IApiDescriptionDetailModelProvider
     {
         private readonly IReadOnlyDictionary<string, ApiDescriptionDetailModel> _apiDescriptionDetailModelCache;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="ApiDescriptionDetailModelProvider"/>.
+        /// </summary>
+        /// <param name="apiDescriptionGroupModelCollectionProvider">
+        /// The <see cref="IApiDescriptionGroupModelCollectionProvider"/>.
+        /// </param>
         public ApiDescriptionDetailModelProvider(IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider)
         {
             var dictionary = apiDescriptionGroupModelCollectionProvider
