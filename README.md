@@ -1,5 +1,7 @@
 # AspNetX [Beta version on ASP.NET Core 1.0]
 
+## Redesigning, comming soon ...
+
 You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/) feed or from its [github releases page](https://github.com/qqbuby/AspNetX/releases).
 
 The AspNetX automatically generates help page content for the web APIs on your site.
