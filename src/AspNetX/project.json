@@ -1,12 +1,27 @@
 {
+  "title": "AspNetX",
   "version": "1.0.1-beta-95270",
-
+  "description": "The AspNetX automatically generates help page content for the web APIs on your site.",
+  "packOptions": {
+    "authors": [
+      "ROY"
+    ],
+    "tags": [
+      "ASP.NET",
+      "ASP.NET Core",
+      "Web",
+      "API",
+      "Help Page"
+    ],
+    "projectUrl": "https://github.com/qqbuby/AspNetX",
+    "licenseUrl": "https://github.com/qqbuby/AspNetX/blob/develop/LICENSE"
+  },
+  "copyright": "Copyright (c) 2016 ROY",
   "dependencies": {
     "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
-    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
+    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0"
   },
-
   "frameworks": {
     "net451": {
       "frameworkAssemblies": {
