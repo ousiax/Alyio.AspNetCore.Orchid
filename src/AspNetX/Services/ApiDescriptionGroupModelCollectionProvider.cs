@@ -97,7 +97,8 @@ namespace AspNetX.Services
                 Id = apiDescription.GetFriendlyId(),
                 GroupName = apiDescription.GroupName,
                 HttpMethod = apiDescription.HttpMethod,
-                RelativePath = apiDescription.RelativePath
+                RelativePath = apiDescription.RelativePath,
+                ApiDescription = apiDescription
             };
             if (_documentationProvider != null)
             {

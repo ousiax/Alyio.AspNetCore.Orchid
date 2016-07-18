@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace AspNetX.Models
 {
+    /// <summary>
+    /// Represents an API detail exposed by this application.
+    /// </summary>
     [DataContract]
     public class ApiDescriptionDetailModel : ApiDescriptionModel
     {
+        /// <summary>
+        /// Gets the <see cref="RequestInformation"/>.
+        /// </summary>
         [DataMember(Name = "requestInformation", Order = 1000)]
-        public RequestInformation RequestInformation { get; set; }
+        public RequestInformation RequestInformation { get; } = new RequestInformation();
 
-        [DataMember(Name = "responseInformation", Order = 1001)]
-        public ResponseInformation ResponseInformation { get; set; }
+        /// <summary>
+        /// Gets the <see cref="ResponseInformation"/>.
+        /// </summary>
+        /// [DataMember(Name = "responseInformation", Order = 1001)]
+        public ResponseInformation ResponseInformation { get; } = new ResponseInformation();
 
         public override bool Equals(object obj)
         {
@@ -29,13 +39,49 @@ namespace AspNetX.Models
         }
     }
 
+    /// <summary>
+    /// Represents the request information of an API.
+    /// </summary>
+    [DataContract]
     public class RequestInformation
     {
-        public IReadOnlyList<object> UriParameters { get; set; }
+        /// <summary>
+        /// Gets a list of Query or Path <see cref="ApiParameterDescriptionModel"/> for this api.
+        /// </summary>
+        [DataMember(Name = "uriParameterDescriptions")]
+        public IList<ApiParameterDescriptionModel> UriParameterDescriptions { get; } = new List<ApiParameterDescriptionModel>();
 
+        /// <summary>
+        /// Gets a list of body <see cref="ApiParameterDescriptionModel"/> for this api.
+        /// </summary>
+        [DataMember(Name = "bodyParameterDescriptions")]
+        public IList<ApiParameterDescriptionModel> BodyParameterDescriptions { get; } = new List<ApiParameterDescriptionModel>();
+
+        /// <summary>
+        /// Gets the list of possible formats for a response.
+        /// </summary>
+        /// <remarks>
+        /// Will be empty if the action returns no response, or if the response type is unclear. Use
+        /// <c>ProducesAttribute</c> on an action method to specify a response type.
+        /// </remarks>
+        [DataMember(Name = "supportedRequestFormats")]
+        public IList<ApiRequestFormat> SupportedRequestFormats { get; } = new List<ApiRequestFormat>();
     }
 
+    /// <summary>
+    /// Represents the response information of an API.
+    /// </summary>
+    [DataContract]
     public class ResponseInformation
     {
+        /// <summary>
+        /// Gets the list of possible formats for a response.
+        /// </summary>
+        /// <remarks>
+        /// Will be empty if the action returns no response, or if the response type is unclear. Use
+        /// <c>ProducesAttribute</c> on an action method to specify a response type.
+        /// </remarks>
+        [DataMember(Name = "supportedResponseTypes")]
+        public IList<ApiResponseType> SupportedResponseTypes { get; } = new List<ApiResponseType>();
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AspNetX.Abstractions;
 using AspNetX.Models;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AspNetX.Services
 {
@@ -44,7 +46,7 @@ namespace AspNetX.Services
 
         private ApiDescriptionDetailModel CreateApiDescriptionDetailModel(ApiDescriptionModel apiDescriptionModel)
         {
-            return new ApiDescriptionDetailModel
+            var apiDescriptionDetailModel = new ApiDescriptionDetailModel
             {
                 Id = apiDescriptionModel.Id,
                 Description = apiDescriptionModel.Description,
@@ -52,6 +54,23 @@ namespace AspNetX.Services
                 HttpMethod = apiDescriptionModel.HttpMethod,
                 RelativePath = apiDescriptionModel.RelativePath
             };
+            foreach (var parameter in apiDescriptionModel.ApiDescription.ParameterDescriptions)
+            {
+                if (parameter.Source == BindingSource.Body)
+                {
+                    apiDescriptionDetailModel.RequestInformation.BodyParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
+                }
+                else if (parameter.Source == BindingSource.Query || parameter.Source == BindingSource.Path)
+                {
+                    apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
+                }
+            }
+            return apiDescriptionDetailModel;
+        }
+
+        private static ApiParameterDescriptionModel CreateApiParameterDescriptionModel(ApiParameterDescription parameter)
+        {
+            return new ApiParameterDescriptionModel { ApiParameterDescription = parameter };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => _apiDescriptionDetailModelCache.GetEnumerator();
