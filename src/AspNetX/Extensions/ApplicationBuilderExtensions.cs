@@ -47,7 +47,8 @@ namespace AspNetX
             var inlineConstraintResolver = app.ApplicationServices.GetService<IInlineConstraintResolver>();
             var routers = new ITemplateRouter[] {
                 new ApiGroupsRouter(),
-                new ApiRouter()
+                new ApiRouter(),
+                new MetadataRouter()
             };
             foreach (var router in routers)
             {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using Newtonsoft.Json;
 
 namespace AspNetX.Json.Converters
@@ -25,25 +23,8 @@ namespace AspNetX.Json.Converters
                 writer.WriteNull();
                 return;
             }
-            var name = GetTypeName(type);
+            var name = type.GetTypeName();
             writer.WriteValue(name);
-        }
-
-        private static string GetTypeName(Type type)
-        {
-            string modelName = type.Name;
-            if (type.GetTypeInfo().IsGenericType)
-            {
-                Type genericType = type.GetGenericTypeDefinition();
-                Type[] genericArguments = type.GetGenericArguments();
-                string genericTypeName = genericType.Name;
-
-                genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
-                string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
-                modelName = $"{genericTypeName}<{String.Join(",", argumentTypeNames)}>";
-            }
-
-            return modelName;
         }
     }
 }

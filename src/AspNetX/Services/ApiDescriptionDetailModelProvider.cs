@@ -14,14 +14,26 @@ namespace AspNetX.Services
     {
         private readonly IReadOnlyDictionary<string, ApiDescriptionDetailModel> _apiDescriptionDetailModelCache;
 
+        private readonly IModelMetadataWrapperProvider _modelMetadataWrapperProvider;
+        private readonly IDocumentationProvider _documentationProvider;
+
         /// <summary>
         /// Creates a new instance of <see cref="ApiDescriptionDetailModelProvider"/>.
         /// </summary>
+        /// <param name="modelMetadataWrapperProvider">
+        /// The <see cref="IModelMetadataWrapperProvider"/>.
+        /// </param>
         /// <param name="apiDescriptionGroupModelCollectionProvider">
         /// The <see cref="IApiDescriptionGroupModelCollectionProvider"/>.
         /// </param>
-        public ApiDescriptionDetailModelProvider(IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider)
+        public ApiDescriptionDetailModelProvider(
+            IModelMetadataWrapperProvider modelMetadataWrapperProvider,
+            IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider,
+            IDocumentationProviderFactory documentationProviderFactory)
         {
+            _modelMetadataWrapperProvider = modelMetadataWrapperProvider;
+            _documentationProvider = documentationProviderFactory.Create();
+
             var dictionary = apiDescriptionGroupModelCollectionProvider
                 .ApiDescriptionGroups
                 .Items
@@ -68,9 +80,20 @@ namespace AspNetX.Services
             return apiDescriptionDetailModel;
         }
 
-        private static ApiParameterDescriptionModel CreateApiParameterDescriptionModel(ApiParameterDescription parameter)
+        private ApiParameterDescriptionModel CreateApiParameterDescriptionModel(ApiParameterDescription parameter)
         {
-            return new ApiParameterDescriptionModel { ApiParameterDescription = parameter };
+            var apiParameterDescriptionModel = new ApiParameterDescriptionModel
+            {
+                ApiParameterDescription = parameter,
+            };
+            ModelMetadataWrapper modelMetadataWrapper = null;
+            if (parameter.ModelMetadata != null)
+            {
+                _modelMetadataWrapperProvider.TryAdd(parameter.ModelMetadata.ModelType, out modelMetadataWrapper);
+                apiParameterDescriptionModel.Metadata = modelMetadataWrapper;
+                apiParameterDescriptionModel.Description = _documentationProvider?.GetDocumentation(parameter.ModelMetadata.ModelType); //TODO Get parameter descriptino from action method.
+            }
+            return apiParameterDescriptionModel;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => _apiDescriptionDetailModelCache.GetEnumerator();

@@ -14,6 +14,12 @@ namespace AspNetX.Models
     public class ApiParameterDescriptionModel
     {
         /// <summary>
+        /// Gets or sets a general description of the current instance.
+        /// </summary>
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets the name.
         /// </summary>
         [DataMember(Name = "name")]
@@ -32,6 +38,12 @@ namespace AspNetX.Models
         [DataMember(Name = "type")]
         [JsonConverter(typeof(TypeConverter))]
         public Type Type => this.ApiParameterDescription.Type;
+
+        /// <summary>
+        /// Gets or sets the id of the parameter <see cref="Type"/>.
+        /// </summary>
+        [DataMember(Name = "metadata")]
+        public ModelMetadataWrapper Metadata { get; set; }
 
         /// <summary>
         /// Gets or sets a metadata description of an input to an API.
