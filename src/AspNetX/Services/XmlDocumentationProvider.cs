@@ -35,6 +35,8 @@ namespace AspNetX.Services
 
         public string GetDocumentation(MemberInfo member)
         {
+            if (member == null) { return null; }
+
             string memberName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
             string expression = TypeExpression;
             switch (member.MemberType)

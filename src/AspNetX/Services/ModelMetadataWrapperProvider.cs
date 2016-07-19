@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using AspNetX.Abstractions;
 using AspNetX.Models;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace AspNetX.Services
 {
     /// <inheritdoc />
+    [DebuggerDisplay("ModelType = {_modelTypeCache.Count}")]
     public class ModelMetadataWrapperProvider : IModelMetadataWrapperProvider
     {
         private readonly IDictionary<string, ModelMetadataWrapper> _modelMetadataWrapperCache = new ConcurrentDictionary<string, ModelMetadataWrapper>();
@@ -27,7 +29,7 @@ namespace AspNetX.Services
         public bool TryAdd(Type modelType, out ModelMetadataWrapper modelMetadataWrapper)
         {
             string modelTypeId = modelType.GetTypeId();
-            bool result = TryAddModelTypeCache(modelTypeId, modelType);
+            bool result = TryUpdateModelTypeCache(modelTypeId, modelType);
 
             TryUpdateModelMetadataWrapperCache(modelTypeId, out modelMetadataWrapper);
 
@@ -45,7 +47,6 @@ namespace AspNetX.Services
             return false;
         }
 
-        //TODO adjust the method's algorithm.
         private bool TryUpdateModelMetadataWrapperCache(string modelTypeId, out ModelMetadataWrapper modelMetadataWrapper)
         {
             Type modelType = _modelTypeCache[modelTypeId];
@@ -64,7 +65,7 @@ namespace AspNetX.Services
                 {
                     var propertyModelTypId = property.ModelType.GetTypeId();
 
-                    TryAddModelTypeCache(propertyModelTypId, property.ModelType);
+                    TryUpdateModelTypeCache(propertyModelTypId, property.ModelType);
 
                     var propertyInfo = modelTypeInfo.GetProperty(property.PropertyName);
                     var propertyWrapper = new ModelMetadataPropertyWrapper(property)
@@ -82,7 +83,7 @@ namespace AspNetX.Services
             }
         }
 
-        private bool TryAddModelTypeCache(string modelTypeId, Type modelType)
+        private bool TryUpdateModelTypeCache(string modelTypeId, Type modelType)
         {
             if (!_modelTypeCache.ContainsKey(modelTypeId))
             {

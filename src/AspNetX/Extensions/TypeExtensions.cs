@@ -35,19 +35,19 @@ namespace AspNetX
         /// <returns></returns>
         public static string GetTypeId(this Type type)
         {
-            string modelName = type.FullName.Replace('.', '-');
+            string modelName = type.FullName;
             if (type.GetTypeInfo().IsGenericType)
             {
                 Type genericType = type.GetGenericTypeDefinition();
                 Type[] genericArguments = type.GetGenericArguments();
-                string genericTypeName = genericType.FullName.Replace('.', '-');
+                string genericTypeName = genericType.FullName;
 
                 genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
                 string[] argumentTypeNames = genericArguments.Select(t => GetTypeId(t)).ToArray();
                 modelName = $"{genericTypeName}-{string.Join(",", argumentTypeNames)}";
             }
 
-            return modelName;
+            return modelName.Replace('.', '-').Replace(',', '-');
         }
     }
 }

@@ -63,5 +63,16 @@ namespace AspNetX.Models
             this.ModelMetadata = modelMetadata;
             this.ModelTypeId = ModelType.GetTypeId();
         }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ModelMetadataWrapper;
+            return other != null && string.Equals(other.ModelTypeId, this.ModelTypeId, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return ModelTypeId?.GetHashCode() ?? 0;
+        }
     }
 }

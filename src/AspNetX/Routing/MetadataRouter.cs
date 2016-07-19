@@ -39,8 +39,8 @@ namespace AspNetX.Routing
                     else
                     {
                         context.HttpContext.Response.ContentType = "application/json; charset=utf-8";
-                        await context.HttpContext.Response.WriteJsonAsync($"A ModelMetadataWrapper with the specified {modelTypeId} could not be found.");
                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        await context.HttpContext.Response.WriteJsonAsync($"A ModelMetadataWrapper with the specified {modelTypeId} could not be found.");
                     }
                 };
             }

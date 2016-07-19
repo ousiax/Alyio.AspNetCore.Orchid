@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace AspNetNet451Website.Models
 {
@@ -34,6 +35,11 @@ namespace AspNetNet451Website.Models
         /// 思念像黏着身体的引力 还拉着泪不停的往下滴
         /// </summary>
         public IDictionary<string, object> Options { get; set; }
+
+        /// <summary>
+        /// 逃开了你 我躲在三万英尺的云底
+        /// </summary>
+        public BindingFlags BindingFlags { get; set; }
 
         public Node()
         {
