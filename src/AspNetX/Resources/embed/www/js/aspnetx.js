@@ -24,8 +24,3 @@ function htmlEncode(value) {
 function htmlDecode(value) {
     return $('<div/>').html(value).text();
 }
-
-function loadApiGroups() {
-    $.getJSON("./apigroups", function (data, status) {
-    });
-}

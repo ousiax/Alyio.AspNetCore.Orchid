@@ -1,1 +1,28 @@
-﻿
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.http-method {
+    text-transform: uppercase;
+}
+
+.relative-path {
+    margin-left: 10px;
+}
+
+.api-doc {
+    margin-left: 10px;
+}
+
+.api-doc-sm {
+    color: wheat;
+}
+
+.mime-type-name {
+    margin-top: 0;
+}
+
+.api-banner {
+    margin-bottom: 9px;
+}

@@ -16,13 +16,13 @@ namespace AspNetX
         {
             _next = next;
             _hostingEnvironment = hostingEnvironment;
-
             _minifierMap = new Dictionary<string, string>
             {
                 {"bootstrap.css", "bootstrap.min.css" },
-                {"main.css", "main.min.css" },
-                {"aspnetx.js", "aspnetx.min.js" },
+                {"aspnetx.css", "aspnetx.min.css" },
                 {"jquery.js", "jquery.min.js" },
+                {"bootstrap.js", "bootstrap.min.js" },
+                {"aspnetx.js", "aspnetx.min.js" },
             };
         }
 
