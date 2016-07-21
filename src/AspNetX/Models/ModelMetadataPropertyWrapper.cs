@@ -30,7 +30,7 @@ namespace AspNetX.Models
         /// Gets the container type of this metadata if it represents a property, otherwise null.
         /// </summary>
         [JsonConverter(typeof(TypeConverter))]
-        [DataMember(Name = "metadataId")]
+        [DataMember(Name = "containerType")]
         public Type ContainerType => ModelMetadata.ContainerType;
 
         /// <summary>
