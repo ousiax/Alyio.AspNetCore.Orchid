@@ -9,6 +9,137 @@
     <script src="lib/jquery/dist/jquery.js"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="js/aspnetx.js"></script>
+    <script>
+        $(document).ready(function () {
+            var query = parseQuery();
+            var id = query.id || '';
+            $.getJSON('api/' + id, function (data, status) {
+                var html = getBannerHtml(data);
+                if (data.requestInformation.uriParameterDescriptions.length || data.requestInformation.bodyParameterDescriptions.length) {
+                    html += getRequestInformationHtml(data.requestInformation);
+                }
+
+                $("#main-content").html(html);
+            });
+        });
+
+        function getBannerHtml(data) {
+            var html = "<div class=\"bg-primary well-sm api-banner\">";
+            html += "<h3 data-toggle=\"tooltip\" title=\"" + data.description + "\">";
+            html += "<span class=\"http-method\">" + data.httpMethod + "</span>";
+            html += "<span class=\"relative-path\">" + data.relativePath + "</span></h3></div>"
+            return html;
+        }
+
+        function getRequestInformationHtml(requestInformation) {
+            var html = "<div class=\"panel panel-info\">";
+            html += "<div class=\"panel-heading\">";
+            html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#request-information\">Request Information</a>";
+            html += "</div>";
+            html += "<div id=\"request-information\" class=\"panel-collapse collapse in\">";
+            html += "<div class=\"panel-body\">";
+            html += "<div class=\"panel-group\">";
+            if (requestInformation.uriParameterDescriptions.length) {
+                html += getUriParametersHtml(requestInformation.uriParameterDescriptions);
+            }
+            if (requestInformation.bodyParameterDescriptions.length) {
+                requestInformation.bodyParameterDescriptions.forEach(function (parameterDescription) {
+                    html += getBodyParametersHtml(parameterDescription);
+                });
+            }
+
+            html += "</div></div></div>";
+            return html;
+        }
+
+        function getUriParametersHtml(uriParameterDescriptions) {
+            var html = "<div class=\"panel panel-info\">";
+            html += "<div class=\"panel-heading\">";
+            html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#uri-parameter\">URI Parameters</a>";
+            html += "</div>";
+            html += "<div id=\"uri-parameter\" class=\"panel-collapse collapse in\">";
+            html += "<div class=\"panel-body\">";
+            html += "<table class=\"table table-hover\">";
+            html += "<thead>";
+            html += "<tr>";
+            html += "<th>Name</th>";
+            html += "<th>Type</th>";
+            html += "<th>Description</th>";
+            html += "</tr>";
+            html += "</thead>";
+            uriParameterDescriptions.forEach(function (parameter) {
+                html += "<tr>";
+                html += "<td>" + parameter.name + "</td>";
+                html += "<td>" + htmlEncode(parameter.type) + "</td>";
+                html += "<td>" + htmlEncode(parameter.description) || '' + "</td>";
+                html += "</tr>";
+            });
+            html += "</table>";
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+            return html;
+        }
+
+        function getBodyParametersHtml(bodyParameterDescription) {
+            var html = "<div class=\"panel panel-info\">";
+            html += "<div class=\"panel-heading\">";
+            html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#body-parameters\">Body Parameters</a>";
+            html += "</div>";
+            html += "<div id=\"body-parameters\" class=\"panel-collapse collapse in\">";
+            html += "<div class=\"panel-body\">";
+            var meta = bodyParameterDescription.metadata;
+            html += "<a href=\"meta.html?id=" + meta.modelTypeId + "\" data-toggle=\"tooltip\" title=\"" + bodyParameterDescription.description + "\">" + htmlEncode(meta.modelType) + "</a>";
+            html += "<table class=\"table table-hover\">";
+            html += "<thead>";
+            html += "<tr>";
+            html += "<th>Name</th>";
+            html += "<th>Type</th>";
+            html += "<th>Description</th>";
+            html += "</tr>";
+            html += "</thead>";
+            html += "<tbody>";
+            if (meta.properties) {
+                meta.properties.forEach(function (property) {
+                    html += "<tr>";
+                    html += "<td>" + property.propertyName + "</td>";
+                    html += "<td><a href=\"meta.html?id=" + property.modelTypeId + "\">" + htmlEncode(property.modelType) + "</a></td>";
+                    html += "<td>" + htmlEncode(property.description) + "</td>";
+                    html += "</tr>";
+                });
+            }
+            html += "</tbody>";
+            html += "</table>";
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+            return html;
+        }
+
+        function getRequestFormats(data) {
+            var html = "<div class=\"panel panel-info\">";
+            html += "<div class=\"panel-heading\">";
+            html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#request-formats\">Request Formats</a>";
+            html += "</div>";
+            html += "<div id=\"request-formats\" class=\"panel-collapse collapse in\">";
+            html += "<div class=\"panel-body\">";
+            html += "<h4 class=\"mime-type-name\"><span class=\"label label-primary\">application/json</span></h4>";
+            html += "<pre><code>[";
+            html += "{";
+            html += "\"startDate\": \"2016-07-20T17:00:10.6128268+08:00\",";
+            html += "\"endDate\": \"2016-07-20T17:00:10.6128268+08:00\"";
+            html += "},";
+            html += "{";
+            html += "\"startDate\": \"2016-07-20T17:00:10.6128268+08:00\",";
+            html += "\"endDate\": \"2016-07-20T17:00:10.6128268+08:00\"";
+            html += "}";
+            html += "]</code></pre>";
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+            return html;
+        }
+    </script>
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -31,252 +162,252 @@
         </div>
     </div>
     <main class="container">
-        <section>
-            <div class="bg-primary well-sm api-banner">
-                <h3 data-toggle="tooltip" title="幻想也许是你假装不看我 让我得不到更珍惜所有">
-                    <span class="http-method">POST</span>
-                    <span class="relative-path">api/3.0.0-beta/drilldown/query</span>
-                </h3>
-            </div>
+        <section id="main-content">
+            <!--<div class="bg-primary well-sm api-banner">
+                            <h3 data-toggle="tooltip" title="幻想也许是你假装不看我 让我得不到更珍惜所有">
+                                <span class="http-method">POST</span>
+                                <span class="relative-path">api/3.0.0-beta/drilldown/query</span>
+                            </h3>
+                        </div>
 
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a class="panel-title" data-toggle="collapse" href="#request-info">Request Information</a>
-                </div>
-                <div id="request-info" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="panel-group">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <a class="panel-title" data-toggle="collapse" href="#request-information">Request Information</a>
+                            </div>
+                            <div id="request-information" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="panel-group">
 
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" href="#uri-parameter">URI Parameters</a>
-                                </div>
-                                <div id="uri-parameter" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Type</th>
-                                                    <th>Description</th>
-                                                </tr>
-                                            </thead>
-                                            <tr>
-                                                <td>profileId</td>
-                                                <td>Int32</td>
-                                                <td>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</td>
-                                            </tr>
-                                        </table>
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" href="#uri-parameter">URI Parameters</a>
+                                            </div>
+                                            <div id="uri-parameter" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Type</th>
+                                                                <th>Description</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tr>
+                                                            <td>profileId</td>
+                                                            <td>Int32</td>
+                                                            <td>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" href="#body-parameters">Body Parameters</a>
+                                            </div>
+                                            <div id="body-parameters" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <a href="meta.html?id=437" data-toggle="tooltip" title="你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩">CommonQuery</a>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Type</th>
+                                                                <th>Description</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Columns</td>
+                                                                <td><a href="meta.html?id=438">List&lt;String&gt;</a></td>
+                                                                <td><p>None.</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>GroupBys</td>
+                                                                <td><a href="meta.html?id=439">List&lt;String&gt;</a></td>
+                                                                <td><p>None</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Filter</td>
+                                                                <td><a href="meta.html?id=440">FilterItem</a></td>
+                                                                <td><p>None.</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Paging</td>
+                                                                <td><a href="meta.html?id=441">Paging</a></td>
+                                                                <td><p>None.</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>OrderBys</td>
+                                                                <td><a href="meta.html?id=444">List&lt;OrderBy&gt;</a></td>
+                                                                <td><p>None.</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Options</td>
+                                                                <td><a href="meta.html?id=448">Option&lt;String,Object&gt;</a></td>
+                                                                <td><p>None.</p></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" href="#request-formats">Request Formats</a>
+                                            </div>
+                                            <div id="request-formats" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
+                                                    <pre><code>[
+                {
+                    "startDate": "2016-07-20T17:00:10.6128268+08:00",
+                    "endDate": "2016-07-20T17:00:10.6128268+08:00"
+                },
+                {
+                    "startDate": "2016-07-20T17:00:10.6128268+08:00",
+                    "endDate": "2016-07-20T17:00:10.6128268+08:00"
+                }
+            ]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" href="#body-parameters">Body Parameters</a>
-                                </div>
-                                <div id="body-parameters" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <a href="meta.html?id=437" data-toggle="tooltip" title="你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩">CommonQuery</a>
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Type</th>
-                                                    <th>Description</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Columns</td>
-                                                    <td><a href="meta.html?id=438">List&lt;String&gt;</a></td>
-                                                    <td><p>None.</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>GroupBys</td>
-                                                    <td><a href="meta.html?id=439">List&lt;String&gt;</a></td>
-                                                    <td><p>None</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Filter</td>
-                                                    <td><a href="meta.html?id=440">FilterItem</a></td>
-                                                    <td><p>None.</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Paging</td>
-                                                    <td><a href="meta.html?id=441">Paging</a></td>
-                                                    <td><p>None.</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>OrderBys</td>
-                                                    <td><a href="meta.html?id=444">List&lt;OrderBy&gt;</a></td>
-                                                    <td><p>None.</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Options</td>
-                                                    <td><a href="meta.html?id=448">Option&lt;String,Object&gt;</a></td>
-                                                    <td><p>None.</p></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" href="#request-formats">Request Formats</a>
-                                </div>
-                                <div id="request-formats" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
-                                        <pre><code>[
-    {
-        "startDate": "2016-07-20T17:00:10.6128268+08:00",
-        "endDate": "2016-07-20T17:00:10.6128268+08:00"
-    },
-    {
-        "startDate": "2016-07-20T17:00:10.6128268+08:00",
-        "endDate": "2016-07-20T17:00:10.6128268+08:00"
-    }
-]</code></pre>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
-                    </div>
-                </div>
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <a class="panel-title" data-toggle="collapse" href="#response-information">Response Information</a>
+                            </div>
+                            <div id="response-information" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="panel-group">
+
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" href="#resource-description">Resource Description</a>
+                                            </div>
+                                            <div id="resource-description" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <a href="meta.html?id=90" data-toggle="tooltip" title="你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩">DataResult</a>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Type</th>
+                                                                <th>Description</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Headers</td>
+                                                                <td><a href="meta.html?id=91">List&lt;String&gt;</a></td>
+                                                                <td><p>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Data</td>
+                                                                <td><a href="meta.html?id=92">List&lt;Object[]&gt;</a></td>
+                                                                <td><p>幻想也许是你假装不看我 让我得不到更珍惜所有</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Options</td>
+                                                                <td><a href="meta.html?id=95">Option&lt;String,Object&gt;</a></td>
+                                                                <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TotalCount</td>
+                                                                <td><a href="meta.html?id=100">Int32</a></td>
+                                                                <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a class="panel-title" data-toggle="collapse" href="#response-formats">Response Formats</a>
+                                            </div>
+                                            <div id="response-formats" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
+                                                    <pre><code>{
+                "headers": [
+                    "sample string 1",
+                    "sample string 2"
+                ],
+                "data": [
+                    [
+                        {},
+                        {}
+                    ],
+                    [
+                        {},
+                        {}
+                    ]
+                ],
+                "options": {
+                    "OptionPairs": [
+                        {
+                            "Key": "sample string 1",
+                            "Value": {}
+                        },
+                        {
+                            "Key": "sample string 1",
+                            "Value": {}
+                        }
+                    ]
+                },
+                "totalCount": 1
+            }</code></pre>
 
 
-            </div>
+                                                    <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
+                                                    <pre><code>{
+                "headers": [
+                    "sample string 1",
+                    "sample string 2"
+                ],
+                "data": [
+                    [
+                        {},
+                        {}
+                    ],
+                    [
+                        {},
+                        {}
+                    ]
+                ],
+                "options": {
+                    "OptionPairs": [
+                        {
+                            "Key": "sample string 1",
+                            "Value": {}
+                        },
+                        {
+                            "Key": "sample string 1",
+                            "Value": {}
+                        }
+                    ]
+                },
+                "totalCount": 1
+            }</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
 
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a class="panel-title" data-toggle="collapse" href="#response-information">Response Information</a>
-                </div>
-                <div id="response-information" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="panel-group">
-
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" href="#resource-description">Resource Description</a>
-                                </div>
-                                <div id="resource-description" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <a href="meta.html?id=90" data-toggle="tooltip" title="你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩">DataResult</a>
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Type</th>
-                                                    <th>Description</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Headers</td>
-                                                    <td><a href="meta.html?id=91">List&lt;String&gt;</a></td>
-                                                    <td><p>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Data</td>
-                                                    <td><a href="meta.html?id=92">List&lt;Object[]&gt;</a></td>
-                                                    <td><p>幻想也许是你假装不看我 让我得不到更珍惜所有</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Options</td>
-                                                    <td><a href="meta.html?id=95">Option&lt;String,Object&gt;</a></td>
-                                                    <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>TotalCount</td>
-                                                    <td><a href="meta.html?id=100">Int32</a></td>
-                                                    <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" href="#response-formats">Response Formats</a>
-                                </div>
-                                <div id="response-formats" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
-                                        <pre><code>{
-    "headers": [
-        "sample string 1",
-        "sample string 2"
-    ],
-    "data": [
-        [
-            {},
-            {}
-        ],
-        [
-            {},
-            {}
-        ]
-    ],
-    "options": {
-        "OptionPairs": [
-            {
-                "Key": "sample string 1",
-                "Value": {}
-            },
-            {
-                "Key": "sample string 1",
-                "Value": {}
-            }
-        ]
-    },
-    "totalCount": 1
-}</code></pre>
-
-
-                                        <h4 class="mime-type-name"><span class="label label-primary">application/json</span></h4>
-                                        <pre><code>{
-    "headers": [
-        "sample string 1",
-        "sample string 2"
-    ],
-    "data": [
-        [
-            {},
-            {}
-        ],
-        [
-            {},
-            {}
-        ]
-    ],
-    "options": {
-        "OptionPairs": [
-            {
-                "Key": "sample string 1",
-                "Value": {}
-            },
-            {
-                "Key": "sample string 1",
-                "Value": {}
-            }
-        ]
-    },
-    "totalCount": 1
-}</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </div>-->
 
         </section>
         <hr />

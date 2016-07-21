@@ -31,7 +31,7 @@ namespace AspNetX.Services
             string modelTypeId = modelType.GetTypeId();
             bool result = TryUpdateModelTypeCache(modelTypeId, modelType);
 
-            TryUpdateModelMetadataWrapperCache(modelTypeId, out modelMetadataWrapper);
+            TryGetOrCreateModelMetadataWrapperCache(modelTypeId, out modelMetadataWrapper);
 
             return result;
         }
@@ -41,13 +41,20 @@ namespace AspNetX.Services
         {
             if (_modelTypeCache.ContainsKey(modelTypeId))
             {
-                return TryUpdateModelMetadataWrapperCache(modelTypeId, out modelMetadataWrapper);
+                TryGetOrCreateModelMetadataWrapperCache(modelTypeId, out modelMetadataWrapper);
+                return true;
             }
             modelMetadataWrapper = null;
             return false;
         }
 
-        private bool TryUpdateModelMetadataWrapperCache(string modelTypeId, out ModelMetadataWrapper modelMetadataWrapper)
+        /// <summary>
+        /// Try to update model metedata wrapper cache.
+        /// </summary>
+        /// <param name="modelTypeId">The type id of the model type.</param>
+        /// <param name="modelMetadataWrapper">The metadata wrapper of the model type's metadata.</param>
+        /// <returns>True if updated, otherwise false.</returns>
+        private bool TryGetOrCreateModelMetadataWrapperCache(string modelTypeId, out ModelMetadataWrapper modelMetadataWrapper)
         {
             Type modelType = _modelTypeCache[modelTypeId];
             if (!_modelMetadataWrapperCache.ContainsKey(modelTypeId))
