@@ -9,6 +9,51 @@
     <script src="lib/jquery/dist/jquery.js"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="js/aspnetx.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.getJSON("apigroups/", function (data, status) {
+                var html = "<div class=\"bg-primary well-sm api-banner\">";
+                html += "<h3><small class=\"api-doc api-doc-sm\">";
+                html += data.description;
+                html += "</small></h3></div>";
+
+                data.items.forEach(function (group) {
+                    html += "<div class=\"panel panel-info\">";
+
+                    html += "<div class=\"panel-heading\">";
+                    html += "<h1 class=\"panel-title\">";
+                    html += "<a data-toggle=\"collapse\" href=\"#api-" + group.groupName + "\">" + group.groupName + "</a>";
+                    html += "<span class=\"api-doc\">" + group.description + "</span></h1></div>";
+
+                    html += "<div id=\"api-" + group.groupName + "\" class=\"panel-collapse collapse in\">";
+                    html += "<div class=\"panel-body\">";
+
+                    html += "<table class=\"table table-hover\"><tbody>";
+
+                    group.items.forEach(function (api) {
+                        html += "<tr><td><a class=\"" + getHttpMethodCssClass(api.httpMethod) + "\" href=\"api.html?id=" + api.id + "\">" + api.httpMethod + "</a></td>";
+                        html += "<td><a href=\"api.html?id=" + api.id + "\">" + api.relativePath + "</a></td>";
+                        html += "<td>" + api.description + "</td></tr>";
+                    });
+                    html += "</tbody></table></div></div></div>";
+                });
+                $("#main-content").html(html);
+            });
+        });
+
+        function getHttpMethodCssClass(httpMethod) {
+            if (httpMethod == "POST") {
+                return 'http-method btn btn-warning';
+            }
+            if (httpMethod == "PUT") {
+                return 'http-method btn btn-info';
+            }
+            if (httpMethod == "DELETE") {
+                return 'http-method btn btn-danger';
+            }
+            return 'http-method btn btn-primary';
+        }
+    </script>
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -31,9 +76,9 @@
         </div>
     </div>
     <main class="container">
-        <section>
+        <section id="main-content">
             <div class="bg-primary well-sm api-banner">
-                <h3>AspNetX<small class="api-doc api-doc-sm">幻想也许是你假装不看我 让我得不到更珍惜所有</small></h3>
+                <h3><small class="api-doc api-doc-sm">幻想也许是你假装不看我 让我得不到更珍惜所有</small></h3>
             </div>
 
             <div class="panel panel-info">
