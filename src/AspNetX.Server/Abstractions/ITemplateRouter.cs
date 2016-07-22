@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNet.Routing;
 
 namespace AspNetX.Abstractions
 {

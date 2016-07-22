@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 
 namespace AspNetX.Models
 {
@@ -65,7 +65,7 @@ namespace AspNetX.Models
         /// <c>ProducesAttribute</c> on an action method to specify a response type.
         /// </remarks>
         //[DataMember(Name = "supportedRequestFormats")]
-        public IList<ApiRequestFormat> SupportedRequestFormats { get; } = new List<ApiRequestFormat>();
+        //public IList<ApiRequestFormat> SupportedRequestFormats { get; } = new List<ApiRequestFormat>();
 
         [DataMember(Name = "supportedRequestSamples")]
         public IDictionary<string, object> SupportedRequestSamples { get; } = new Dictionary<string, object>();
@@ -85,7 +85,7 @@ namespace AspNetX.Models
         /// <c>ProducesAttribute</c> on an action method to specify a response type.
         /// </remarks>
         //[DataMember(Name = "supportedResponseTypes")]
-        public IList<ApiResponseType> SupportedResponseTypes { get; } = new List<ApiResponseType>();
+        //public IList<ApiResponseType> SupportedResponseTypes { get; } = new List<ApiResponseType>();
 
         [DataMember(Name = "supportedResponseTypeMetadatas")]
         public IList<ModelMetadataWrapper> SupportedResponseTypeMetadatas { get; } = new List<ModelMetadataWrapper>();

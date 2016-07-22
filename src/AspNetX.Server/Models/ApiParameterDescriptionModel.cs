@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using AspNetX.Json.Converters;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
 namespace AspNetX.Models
 {
     /// <summary>
-    /// Represents a description model for an <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.
+    /// Represents a description model for an <see cref="Microsoft.AspNet.Mvc.ApiExplorer.ApiParameterDescription"/>.
     /// </summary>
     [DataContract]
     public class ApiParameterDescriptionModel

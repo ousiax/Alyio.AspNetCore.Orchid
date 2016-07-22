@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AspNetX.Abstractions;
 using AspNetX.Models;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.ModelBinding;
 
 namespace AspNetX.Services
 {
@@ -82,16 +82,12 @@ namespace AspNetX.Services
                     apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
                 }
             }
-            foreach (var supportedResponseType in apiDescription.SupportedResponseTypes)
+            if (apiDescription.ResponseType != null)
             {
-                apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypes.Add(supportedResponseType);
-                if (supportedResponseType.Type != null)
-                {
-                    var modelMetadataWrapper = (ModelMetadataWrapper)null;
-                    _modelMetadataWrapperProvider.TryAdd(supportedResponseType.Type, out modelMetadataWrapper);
-                    apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypeMetadatas.Add(modelMetadataWrapper);
-                    apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(supportedResponseType.Type));
-                }
+                var modelMetadataWrapper = (ModelMetadataWrapper)null;
+                _modelMetadataWrapperProvider.TryAdd(apiDescription.ResponseType, out modelMetadataWrapper);
+                apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypeMetadatas.Add(modelMetadataWrapper);
+                apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(apiDescription.ResponseType));
             }
             return apiDescriptionDetailModel;
         }

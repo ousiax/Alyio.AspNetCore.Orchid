@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNet.Mvc.ApplicationModels;
+using Microsoft.AspNet.Mvc.Infrastructure;
 
 namespace AspNetX.Conventions
 {

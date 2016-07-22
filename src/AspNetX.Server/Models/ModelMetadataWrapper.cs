@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AspNetX.Abstractions;
 using AspNetX.Json.Converters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace AspNetX.Models
 {
     /// <summary>
-    /// Represents a wrapper class of <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/>.
+    /// Represents a wrapper class of <see cref="Microsoft.AspNet.Mvc.ModelBinding.ModelMetadata"/>.
     /// </summary>
     [DataContract]
     public class ModelMetadataWrapper
@@ -50,7 +50,7 @@ namespace AspNetX.Models
         public bool IsCollectionType => ModelMetadata.IsCollectionType;
 
         /// <summary>
-        /// Gets a value indicating whether Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata.ModelType is a simple type.
+        /// Gets a value indicating whether Microsoft.AspNet.Mvc.ModelBinding.ModelMetadata.ModelType is a simple type.
         /// </summary>
         /// <remarks>
         /// A simple type is defined as a <see cref="System.Type"/> which has a <see cref="System.ComponentModel.TypeConverter"/> 

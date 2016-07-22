@@ -9,9 +9,9 @@ namespace AspNetX.Abstractions
     public interface IModelMetadataWrapperProvider
     {
         /// <summary>
-        /// Try to add a <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata.ModelType"/>.
+        /// Try to add a <see cref="Microsoft.AspNet.Mvc.ModelBinding.ModelMetadata.ModelType"/>.
         /// </summary>
-        /// <param name="modelType">The <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata.ModelType"/>.</param>
+        /// <param name="modelType">The <see cref="Microsoft.AspNet.Mvc.ModelBinding.ModelMetadata.ModelType"/>.</param>
         /// <param name="modelMetadataWrapper">The <see cref="ModelMetadataWrapper"/>.</param>
         /// <returns>True if add success, otherwise false if <paramref name="modelType"/> existed.</returns>
         /// <remarks><paramref name="modelMetadataWrapper"/> will always be a instance of <see cref="ModelMetadataWrapper"/>.</remarks>

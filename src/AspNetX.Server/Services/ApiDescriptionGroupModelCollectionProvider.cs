@@ -2,9 +2,9 @@
 using System.Linq;
 using AspNetX.Abstractions;
 using AspNetX.Models;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.Controllers;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AspNetX.Services
 {

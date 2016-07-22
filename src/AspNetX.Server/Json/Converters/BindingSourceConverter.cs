@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
 namespace AspNetX.Json.Converters

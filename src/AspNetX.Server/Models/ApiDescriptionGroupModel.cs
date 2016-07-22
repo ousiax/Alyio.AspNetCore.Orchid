@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 
 namespace AspNetX.Models
 {

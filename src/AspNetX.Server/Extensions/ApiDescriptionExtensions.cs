@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNet.Mvc.ApiExplorer;
+using Microsoft.AspNet.WebUtilities;
 
 namespace AspNetX
 {

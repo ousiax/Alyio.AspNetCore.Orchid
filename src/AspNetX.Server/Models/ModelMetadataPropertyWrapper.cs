@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using AspNetX.Json.Converters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNet.Mvc.ModelBinding;
+using Microsoft.AspNet.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace AspNetX.Models
 {
     /// <summary>
-    /// Represents a wrapper class of <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata.Properties"/>.
+    /// Represents a wrapper class of <see cref="Microsoft.AspNet.Mvc.ModelBinding.ModelMetadata.Properties"/>.
     /// </summary>
     [DataContract]
     public class ModelMetadataPropertyWrapper

@@ -3,8 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AspNetX.Abstractions;
 using AspNetX.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetX.Routing
@@ -20,28 +20,24 @@ namespace AspNetX.Routing
             throw new NotImplementedException();
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task RouteAsync(RouteContext context)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             string modelTypeId = context.RouteData.Values["modelTypeId"] as string;
             if (!string.IsNullOrEmpty(modelTypeId))
             {
                 EnsureServices(context.HttpContext);
-                context.Handler = async _ =>
+                var modelMetadataWrapper = (ModelMetadataWrapper)null;
+                if (_modelMetadataWrapperProvider.TryGet(modelTypeId, out modelMetadataWrapper))
                 {
-                    var modelMetadataWrapper = (ModelMetadataWrapper)null;
-                    if (_modelMetadataWrapperProvider.TryGet(modelTypeId, out modelMetadataWrapper))
-                    {
-                        context.HttpContext.Response.ContentType = "application/json; charset=utf-8";
-                        await context.HttpContext.Response.WriteJsonAsync(modelMetadataWrapper);
-                    }
-                    else
-                    {
-                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        await context.HttpContext.Response.WriteAsync($"A ModelMetadataWrapper with the specified {modelTypeId} could not be found.");
-                    }
-                };
+                    context.HttpContext.Response.ContentType = "application/json; charset=utf-8";
+                    await context.HttpContext.Response.WriteJsonAsync(modelMetadataWrapper);
+                }
+                else
+                {
+                    context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    await context.HttpContext.Response.WriteAsync($"A ModelMetadataWrapper with the specified {modelTypeId} could not be found.");
+                }
+                context.IsHandled = true;
             }
         }
 

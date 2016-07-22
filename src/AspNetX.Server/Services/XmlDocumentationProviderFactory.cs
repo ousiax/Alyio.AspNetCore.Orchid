@@ -2,9 +2,9 @@
 using System.IO;
 using System.Reflection;
 using AspNetX.Abstractions;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AspNetX.Services
 {
@@ -61,7 +61,7 @@ namespace AspNetX.Services
         {
             string[] lookupPaths = new[] {
                 ".",
-                _hostingEnvironment.ContentRootPath,
+                //_hostingEnvironment.ContentRootPath,
                 Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)
             };
 

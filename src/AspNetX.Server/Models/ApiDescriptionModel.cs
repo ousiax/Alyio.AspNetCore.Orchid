@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNet.Mvc.ApiExplorer;
 
 namespace AspNetX.Models
 {
@@ -10,7 +10,7 @@ namespace AspNetX.Models
     public class ApiDescriptionModel
     {
         /// <summary>
-        /// Gets or sets the URI-friendly ID for the <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+        /// Gets or sets the URI-friendly ID for the <see cref="Microsoft.AspNet.Mvc.ApiExplorer.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
         /// </summary>
         [DataMember(Name = "id")]
         public string Id { get; set; }
@@ -45,7 +45,7 @@ namespace AspNetX.Models
         public string RelativePath { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>
+        /// Gets or sets the <see cref="Microsoft.AspNet.Mvc.ApiExplorer.ApiDescription"/>
         /// </summary>
         public ApiDescription ApiDescription { get; set; }
     }

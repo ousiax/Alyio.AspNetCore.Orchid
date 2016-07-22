@@ -2,12 +2,14 @@
 using AspNetX.Abstractions;
 using AspNetX.Conventions;
 using AspNetX.Routing;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.FileProviders;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Routing;
+using Microsoft.AspNet.Routing.Template;
+using Microsoft.AspNet.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AspNetX
 {
@@ -43,7 +45,7 @@ namespace AspNetX
 
         private static IApplicationBuilder UseXRouter(this IApplicationBuilder app)
         {
-            var routeBuilder = new RouteBuilder(app);
+            var routeBuilder = new RouteBuilder { ServiceProvider = app.ApplicationServices };
             var inlineConstraintResolver = app.ApplicationServices.GetService<IInlineConstraintResolver>();
             var routers = new ITemplateRouter[] {
                 new ApiGroupsRouter(),
@@ -52,7 +54,7 @@ namespace AspNetX
             };
             foreach (var router in routers)
             {
-                routeBuilder.Routes.Add(new Route(router, router.Template, inlineConstraintResolver));
+                routeBuilder.Routes.Add(new TemplateRoute(router, router.Template, inlineConstraintResolver));
             }
 
             app.UseRouter(routeBuilder.Build());
