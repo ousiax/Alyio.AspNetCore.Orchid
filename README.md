@@ -41,6 +41,6 @@ public class Startup
 }
 ```
 
-### Others
+### ASP.NET DNX RC1
 
-For **ASP.NET DNX RC1** app, please get this version `1.0.0-beta-65536` from the offical [Nuget.org](http://www.nuget.org/packages/AspNetX.Server/1.0.0-beta-65536) or from its github [releases](https://github.com/qqbuby/AspNetX/releases/tag/v1.0.0-beta-65536) page.
+For **ASP.NET DNX RC1** app, please get this version `1.0.2-rc1-final` from the offical [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/1.0.2-rc1-final) or from its github [releases](https://github.com/qqbuby/AspNetX/releases/tag/v1.0.2-rc1-final) page.
