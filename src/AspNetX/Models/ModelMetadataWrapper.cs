@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using AspNetX.Abstractions;
 using AspNetX.Json.Converters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
@@ -120,10 +121,16 @@ namespace AspNetX.Models
         /// </summary>
         public ModelMetadata ModelMetadata { get; }
 
-        public ModelMetadataWrapper(ModelMetadata modelMetadata)
+        public ModelMetadataWrapper(ModelMetadata modelMetadata, IModelMetadataWrapperProvider modelMetadataWrapperProvider)
         {
             this.ModelMetadata = modelMetadata;
             this.ModelTypeId = ModelType.GetTypeId();
+            if (modelMetadata.ElementMetadata != null)
+            {
+                var elementMetadataWrapper = (ModelMetadataWrapper)null;
+                modelMetadataWrapperProvider.TryAdd(modelMetadata.ElementMetadata.ModelType, out elementMetadataWrapper);
+                this.ElementMetadataWrapper = elementMetadataWrapper;
+            }
         }
 
         public override bool Equals(object obj)

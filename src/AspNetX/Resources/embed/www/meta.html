@@ -18,32 +18,18 @@
                 html += "<h3>" + htmlEncode(data.modelType) + "<small class=\"api-doc api-doc-sm\">" + htmlEncode(data.description) + "</small></h3>";
                 html += "</div>";
 
-                if (data.properties && data.properties.length) {
+                if (data.properties && data.properties.length && !data.isEnum) {
                     html += "<div class=\"panel panel-info\">";
                     html += "<div class=\"panel-heading\">";
                     html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#resource-description\">Resource Description</a>";
                     html += "</div>";
                     html += "<div id=\"resource-description\" class=\"panel-collapse collapse in\">";
                     html += "<div class=\"panel-body\">";
-                    //html += "<a href=\"meta.html?id=" + data.modelTypeId + "\" data-toggle=\"tooltip\" title=\"" + htmlEncode(data.description) + "\">DataResult</a>";
-                    html += "<table class=\"table table-hover\">";
-                    html += "<thead>";
-                    html += "<tr>";
-                    html += "<th>Name</th>";
-                    html += "<th>Type</th>";
-                    html += "<th>Description</th>";
-                    html += "</tr>";
-                    html += "</thead>";
-                    html += "<tbody>";
-                    data.properties.forEach(function (property) {
-                        html += "<tr>";
-                        html += "<td>" + property.propertyName + "</td>";
-                        html += "<td><a href=\"meta.html?id=" + property.modelTypeId + "\">" + htmlEncode(property.modelType) + "</a></td>";
-                        html += "<td>" + htmlEncode(property.description) + "</td>";
-                        html += "</tr>";
-                    });
-                    html += "</tbody>";
-                    html += "</table>";
+                    if (data.isEnumerableType || data.isCollectionType) {
+                        html += getMetadataTableHtml(data.elementMetadata);
+                    } else {
+                        html += getMetadataTableHtml(data);
+                    }
                     html += "</div>";
                     html += "</div>";
                     html += "</div>";
@@ -51,6 +37,42 @@
                 $("#main-content").html(html);
             });
         });
+
+        function getMetadataTableHtml(data) {
+            var html = "<a href=\"meta.html?id=" + data.modelTypeId + "\" data-toggle=\"tooltip\" title=\"" + htmlEncode(data.description) + "\">" + htmlEncode(data.modelType) + "</a>";
+
+            if (data.properties && data.properties.length || data.isEnum) {
+                html += "<table class=\"table table-hover\">";
+                html += "<thead>";
+                html += "<tr>";
+                html += "<th>Name</th>";
+                html += "<th>Type</th>";
+                html += "<th>Description</th>";
+                html += "</tr>";
+                html += "</thead>";
+                html += "<tbody>";
+                if (data.properties && data.properties.length) {
+                    data.properties.forEach(function (property) {
+                        html += "<tr>";
+                        html += "<td>" + property.propertyName + "</td>";
+                        html += "<td><a href=\"meta.html?id=" + property.modelTypeId + "\">" + htmlEncode(property.modelType) + "</a></td>";
+                        html += "<td>" + htmlEncode(property.description) + "</td>";
+                        html += "</tr>";
+                    });
+                } else if (data.isEnum) {
+                    data.enumNamesAndValues.forEach(function (propertyName) {
+                        html += "<tr>";
+                        html += "<td>" + propertyName + "</td>";
+                        html += "<td>" + enumNamesAndValues[propertyName] + "</td>";
+                        html += "<td></td>";
+                        html += "</tr>";
+                    });
+                }
+                html += "</tbody>";
+                html += "</table>";
+            }
+            return html;
+        }
     </script>
 </head>
 <body>

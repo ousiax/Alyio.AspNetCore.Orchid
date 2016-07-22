@@ -61,7 +61,7 @@ namespace AspNetX.Services
             {
                 ModelMetadata modelMetadata = _modelMetadataProvider.GetMetadataForType(modelType);
 
-                modelMetadataWrapper = new ModelMetadataWrapper(modelMetadata)
+                modelMetadataWrapper = new ModelMetadataWrapper(modelMetadata, this)
                 {
                     Description = _documentationProvider?.GetDocumentation(modelType)
                 };
