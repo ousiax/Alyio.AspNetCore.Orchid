@@ -38,7 +38,7 @@ namespace AspNetX
             {
                 RequestPath = "",
                 EnableDefaultFiles = true,
-                FileProvider = new EmbeddedFileProvider(typeof(ApplicationBuilderExtensions).GetTypeInfo().Assembly, "AspNetX.Resources.embed.www")
+                FileProvider = new EmbeddedFileProvider(typeof(ApplicationBuilderExtensions).GetTypeInfo().Assembly, "AspNetX.Server.Resources.embed.www")
             });
             return app;
         }

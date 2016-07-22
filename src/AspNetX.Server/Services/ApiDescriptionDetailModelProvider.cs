@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,6 +7,7 @@ using AspNetX.Abstractions;
 using AspNetX.Models;
 using Microsoft.AspNet.Mvc.ApiExplorer;
 using Microsoft.AspNet.Mvc.ModelBinding;
+using Newtonsoft.Json.Linq;
 
 namespace AspNetX.Services
 {
@@ -41,6 +43,7 @@ namespace AspNetX.Services
                 .ApiDescriptionGroups
                 .Items
                 .SelectMany(g => g.Items)
+                .Distinct()
                 .ToDictionary(o => o.Id, o => CreateApiDescriptionDetailModel(o));   //TODO Maybe exits dumpliate ids.
             _apiDescriptionDetailModelCache = new ReadOnlyDictionary<string, ApiDescriptionDetailModel>(dictionary);
         }
@@ -84,8 +87,7 @@ namespace AspNetX.Services
             }
             if (apiDescription.ResponseType != null)
             {
-                var modelMetadataWrapper = (ModelMetadataWrapper)null;
-                _modelMetadataWrapperProvider.TryAdd(apiDescription.ResponseType, out modelMetadataWrapper);
+                var modelMetadataWrapper = _modelMetadataWrapperProvider.GetOrCreate(apiDescription.ResponseType);
                 apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypeMetadatas.Add(modelMetadataWrapper);
                 apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(apiDescription.ResponseType));
             }
@@ -98,11 +100,9 @@ namespace AspNetX.Services
             {
                 ApiParameterDescription = parameter,
             };
-            ModelMetadataWrapper modelMetadataWrapper = null;
             if (parameter.ModelMetadata != null)
             {
-                _modelMetadataWrapperProvider.TryAdd(parameter.ModelMetadata.ModelType, out modelMetadataWrapper);
-                apiParameterDescriptionModel.Metadata = modelMetadataWrapper;
+                apiParameterDescriptionModel.Metadata = _modelMetadataWrapperProvider.GetOrCreate(parameter.ModelMetadata.ModelType);
                 apiParameterDescriptionModel.Description = _documentationProvider?.GetDocumentation(parameter.ModelMetadata.ModelType); //TODO Get parameter descriptino from action method.
             }
             return apiParameterDescriptionModel;

@@ -59,34 +59,35 @@ namespace AspNetX.Services
 
         private string GetDocumentationPath()
         {
-            string[] lookupPaths = new[] {
-                ".",
-                //_hostingEnvironment.ContentRootPath,
-                Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)
-            };
+            return _serverOptions.DocumentationPath;
+            //string[] lookupPaths = new[] {
+            //    ".",
+            //    //_hostingEnvironment.ContentRootPath,
+            //    //Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)
+            //};
 
-            var documentationPath = _serverOptions.DocumentationPath;
+            //var documentationPath = _serverOptions.DocumentationPath;
 
-            if (string.IsNullOrWhiteSpace(documentationPath) || !File.Exists(documentationPath))
-            {
-                _logger.LogWarning($"Documentation path not be specified or not a valid file path.");
+            //if (string.IsNullOrWhiteSpace(documentationPath) || !File.Exists(documentationPath))
+            //{
+            //    _logger.LogWarning($"Documentation path not be specified or not a valid file path.");
 
-                var fileName = $"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().GetName().Name)}.xml";
-                foreach (var basePath in lookupPaths)
-                {
-                    documentationPath = Path.Combine(basePath, fileName);
-                    if (!File.Exists(documentationPath))
-                    {
-                        _logger.LogWarning($"[Failure]: Try to look up the documentation at [{documentationPath}].");
-                    }
-                    else
-                    {
-                        _logger.LogWarning($"[Success]: Try to look up the documentation at [{documentationPath}].");
-                    }
-                }
-            }
+            //    var fileName = $"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().GetName().Name)}.xml";
+            //    foreach (var basePath in lookupPaths)
+            //    {
+            //        documentationPath = Path.Combine(basePath, fileName);
+            //        if (!File.Exists(documentationPath))
+            //        {
+            //            _logger.LogWarning($"[Failure]: Try to look up the documentation at [{documentationPath}].");
+            //        }
+            //        else
+            //        {
+            //            _logger.LogWarning($"[Success]: Try to look up the documentation at [{documentationPath}].");
+            //        }
+            //    }
+            //}
 
-            return documentationPath;
+            //return documentationPath;
         }
     }
 }
