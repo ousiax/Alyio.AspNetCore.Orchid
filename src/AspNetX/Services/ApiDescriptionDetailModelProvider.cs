@@ -15,6 +15,7 @@ namespace AspNetX.Services
         private readonly IReadOnlyDictionary<string, ApiDescriptionDetailModel> _apiDescriptionDetailModelCache;
 
         private readonly IModelMetadataWrapperProvider _modelMetadataWrapperProvider;
+        private readonly IObjectGenerator _objectGenerator;
         private readonly IDocumentationProvider _documentationProvider;
 
         /// <summary>
@@ -29,9 +30,11 @@ namespace AspNetX.Services
         public ApiDescriptionDetailModelProvider(
             IModelMetadataWrapperProvider modelMetadataWrapperProvider,
             IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider,
+            IObjectGenerator objectGenerator,
             IDocumentationProviderFactory documentationProviderFactory)
         {
             _modelMetadataWrapperProvider = modelMetadataWrapperProvider;
+            _objectGenerator = objectGenerator;
             _documentationProvider = documentationProviderFactory.Create();
 
             var dictionary = apiDescriptionGroupModelCollectionProvider
@@ -66,15 +69,28 @@ namespace AspNetX.Services
                 HttpMethod = apiDescriptionModel.HttpMethod,
                 RelativePath = apiDescriptionModel.RelativePath
             };
-            foreach (var parameter in apiDescriptionModel.ApiDescription.ParameterDescriptions)
+            var apiDescription = apiDescriptionModel.ApiDescription;
+            foreach (var parameter in apiDescription.ParameterDescriptions)
             {
                 if (parameter.Source == BindingSource.Body)
                 {
                     apiDescriptionDetailModel.RequestInformation.BodyParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
+                    apiDescriptionDetailModel.RequestInformation.SupportedRequestSamples.Add("application/json", _objectGenerator.GenerateObject(parameter.Type));
                 }
                 else if (parameter.Source == BindingSource.Query || parameter.Source == BindingSource.Path)
                 {
                     apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
+                }
+            }
+            foreach (var supportedResponseType in apiDescription.SupportedResponseTypes)
+            {
+                apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypes.Add(supportedResponseType);
+                if (supportedResponseType.Type != null)
+                {
+                    var modelMetadataWrapper = (ModelMetadataWrapper)null;
+                    _modelMetadataWrapperProvider.TryAdd(supportedResponseType.Type, out modelMetadataWrapper);
+                    apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypeMetadatas.Add(modelMetadataWrapper);
+                    apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(supportedResponseType.Type));
                 }
             }
             return apiDescriptionDetailModel;

@@ -10,69 +10,7 @@
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="js/aspnetx.js"></script>
     <script>
-        $(document).ready(function () {
-            var query = parseQuery();
-            var id = query.id || '';
-            $.getJSON('meta/' + id, function (data, status) {
-                var html = "<div class=\"bg-primary well-sm api-banner\">";
-                html += "<h3>" + htmlEncode(data.modelType) + "<small class=\"api-doc api-doc-sm\">" + htmlEncode(data.description) + "</small></h3>";
-                html += "</div>";
-
-                if (data.properties && data.properties.length && !data.isEnum) {
-                    html += "<div class=\"panel panel-info\">";
-                    html += "<div class=\"panel-heading\">";
-                    html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#resource-description\">Resource Description</a>";
-                    html += "</div>";
-                    html += "<div id=\"resource-description\" class=\"panel-collapse collapse in\">";
-                    html += "<div class=\"panel-body\">";
-                    if (data.isEnumerableType || data.isCollectionType) {
-                        html += getMetadataTableHtml(data.elementMetadata);
-                    } else {
-                        html += getMetadataTableHtml(data);
-                    }
-                    html += "</div>";
-                    html += "</div>";
-                    html += "</div>";
-                }
-                $("#main-content").html(html);
-            });
-        });
-
-        function getMetadataTableHtml(data) {
-            var html = "<a href=\"meta.html?id=" + data.modelTypeId + "\" data-toggle=\"tooltip\" title=\"" + htmlEncode(data.description) + "\">" + htmlEncode(data.modelType) + "</a>";
-
-            if (data.properties && data.properties.length || data.isEnum) {
-                html += "<table class=\"table table-hover\">";
-                html += "<thead>";
-                html += "<tr>";
-                html += "<th>Name</th>";
-                html += "<th>Type</th>";
-                html += "<th>Description</th>";
-                html += "</tr>";
-                html += "</thead>";
-                html += "<tbody>";
-                if (data.properties && data.properties.length) {
-                    data.properties.forEach(function (property) {
-                        html += "<tr>";
-                        html += "<td>" + property.propertyName + "</td>";
-                        html += "<td><a href=\"meta.html?id=" + property.modelTypeId + "\">" + htmlEncode(property.modelType) + "</a></td>";
-                        html += "<td>" + htmlEncode(property.description) + "</td>";
-                        html += "</tr>";
-                    });
-                } else if (data.isEnum) {
-                    data.enumNamesAndValues.forEach(function (propertyName) {
-                        html += "<tr>";
-                        html += "<td>" + propertyName + "</td>";
-                        html += "<td>" + enumNamesAndValues[propertyName] + "</td>";
-                        html += "<td></td>";
-                        html += "</tr>";
-                    });
-                }
-                html += "</tbody>";
-                html += "</table>";
-            }
-            return html;
-        }
+        $(document).ready(loadMetadataHtml);
     </script>
 </head>
 <body>
@@ -96,58 +34,13 @@
         </div>
     </div>
     <main class="container">
-        <section id="main-content">
-            <div class="bg-primary well-sm api-banner">
-                <h3>DataResult<small class="api-doc api-doc-sm">幻想也许是你假装不看我 让我得不到更珍惜所有</small></h3>
-            </div>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a class="panel-title" data-toggle="collapse" href="#resource-description">Resource Description</a>
-                </div>
-                <div id="resource-description" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <a href="meta.html?id=90" data-toggle="tooltip" title="你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩">DataResult</a>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Headers</td>
-                                    <td><a href="meta.html?id=91">List&lt;String&gt;</a></td>
-                                    <td><p>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</p></td>
-                                </tr>
-                                <tr>
-                                    <td>Data</td>
-                                    <td><a href="meta.html?id=92">List&lt;Object[]&gt;</a></td>
-                                    <td><p>幻想也许是你假装不看我 让我得不到更珍惜所有</p></td>
-                                </tr>
-                                <tr>
-                                    <td>Options</td>
-                                    <td><a href="meta.html?id=95">Option&lt;String,Object&gt;</a></td>
-                                    <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
-                                </tr>
-                                <tr>
-                                    <td>TotalCount</td>
-                                    <td><a href="meta.html?id=100">Int32</a></td>
-                                    <td><p>我试试对你微微笑 你总视而不见 何必 何必 何必</p></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <hr />
+        <section id="main-content"></section>
+        <!--<hr />
         <section>
             <footer>
                 <p>&copy; 2016 - AspNetX</p>
             </footer>
-        </section>
+        </section>-->
     </main>
 </body>
 </html>

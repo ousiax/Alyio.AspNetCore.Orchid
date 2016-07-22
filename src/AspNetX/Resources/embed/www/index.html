@@ -10,54 +10,7 @@
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="js/aspnetx.js"></script>
     <script>
-        $(document).ready(function () {
-            $.getJSON("apigroups/", function (data, status) {
-                var html = "<section id=\"main-content\">";
-                html += "<div class=\"bg-primary well-sm api-banner\">";
-                html += "<h3><small class=\"api-doc api-doc-sm\">" + data.description + "</small></h3>";
-                html += "</div>";
-
-                data.items.forEach(function (group) {
-                    html += "<div class=\"panel panel-info\">";
-                    html += "<div class=\"panel-heading\">";
-                    html += "<h1 class=\"panel-title\">";
-                    html += "<a data-toggle=\"collapse\" href=\"#api-" + group.groupName + "\">" + group.groupName + "</a>";
-                    html += "<span class=\"api-doc\">" + group.description + "</span>";
-                    html += "</h1>";
-                    html += "</div>";
-                    html += "<div id=\"api-" + group.groupName + "\" class=\"panel-collapse collapse in\">";
-                    html += "<div class=\"panel-body\">";
-                    html += "<table class=\"table table-hover\">";
-                    html += "<tbody>";
-                    group.items.forEach(function (api) {
-                        html += "<tr>";
-                        html += "<td><a class=\"" + getHttpMethodCssClass(api.httpMethod) + "\" href=\"api.html?id=" + api.id + "\">" + api.httpMethod + "</a></td>";
-                        html += "<td><a href=\"api.html?id=" + api.id + "\">" + api.relativePath + "</a></td>";
-                        html += "<td>" + api.description + "</td>";
-                        html += "</tr>";
-                    });
-                    html += "</tbody>";
-                    html += "</table>";
-                    html += "</div>";
-                    html += "</div>";
-                    html += "</div>";
-                });
-                $("#main-content").html(html);
-            });
-        });
-
-        function getHttpMethodCssClass(httpMethod) {
-            if (httpMethod == "POST") {
-                return 'http-method btn btn-warning';
-            }
-            if (httpMethod == "PUT") {
-                return 'http-method btn btn-info';
-            }
-            if (httpMethod == "DELETE") {
-                return 'http-method btn btn-danger';
-            }
-            return 'http-method btn btn-primary';
-        }
+        $(document).ready(loadApiGroupsHtml);
     </script>
 </head>
 <body>
@@ -81,114 +34,13 @@
         </div>
     </div>
     <main class="container">
-        <section id="main-content">
-            <div class="bg-primary well-sm api-banner">
-                <h3><small class="api-doc api-doc-sm">幻想也许是你假装不看我 让我得不到更珍惜所有</small></h3>
-            </div>
-
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h1 class="panel-title">
-                        <a data-toggle="collapse" href="#api-download1">Download</a>
-                        <span class="api-doc">难以抗拒你的容颜</span>
-                    </h1>
-                </div>
-                <div id="api-download1" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <td><span class="http-method btn btn-primary">GET</span></td>
-                                    <td>
-                                        <a href="api.html?id=GET-api-3.0.0-beta-download-downloadFile&amp;method=GET&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FdownloadFile">
-                                            api/3.0.0-beta/download/downloadFile
-                                        </a>
-                                    </td>
-                                    <td>你仿佛没有见过我 只是让我梦成空 伤心 不语 退缩</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="http-method btn btn-warning">POST</span></td>
-                                    <td>
-                                        <a href="api.html?id=POST-api-3.0.0-beta-download-uploadImage&amp;method=POST&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FuploadImage">
-                                            api/3.0.0-beta/download/uploadImage
-                                        </a>
-                                    </td>
-                                    <td>幻想也许是你假装不看我 让我得不到更珍惜所有</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="http-method btn btn-danger">delete</span></td>
-                                    <td>
-                                        <a href="api.html?id=POST-api-3.0.0-beta-download-removeImage&amp;method=POST&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FremoveImage">
-                                            api/3.0.0-beta/download/removeImage
-                                        </a>
-                                    </td>
-                                    <td>我试试对你微微笑 你总视而不见 何必 何必 何必</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h1 class="panel-title">
-                        <a data-toggle="collapse" href="#api-nodes">Nodes</a>
-                        <span class="api-doc">爬升 速度将我推向椅背</span>
-                    </h1>
-                </div>
-                <div id="api-nodes" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <td><span class="http-method btn btn-primary">GET</span></td>
-                                    <td>
-                                        <a href="api.html?id=GET-api-3.0.0-beta-download-downloadFile&amp;method=GET&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FdownloadFile">
-                                            api/3.0.0-beta/download/downloadFile
-                                        </a>
-                                    </td>
-                                    <td>模糊的城市 慢慢飞出我的视线</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="http-method btn btn-warning">POST</span></td>
-                                    <td>
-                                        <a href="api.html?id=POST-api-3.0.0-beta-download-uploadImage&amp;method=POST&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FuploadImage">
-                                            api/3.0.0-beta/download/uploadImage
-                                        </a>
-                                    </td>
-                                    <td>呼吸 提醒我活着的证明</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="http-method btn btn-info">put</span></td>
-                                    <td>
-                                        <a href="api.html?id=POST-api-3.0.0-beta-download-removeImage&amp;method=POST&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FremoveImage">
-                                            api/3.0.0-beta/download/removeImage
-                                        </a>
-                                    </td>
-                                    <td>飞机正在抵抗地球 我正在抵抗你</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="http-method btn btn-danger">delete</span></td>
-                                    <td>
-                                        <a href="api.html?id=POST-api-3.0.0-beta-download-removeImage&amp;method=POST&amp;relativePath=api%2F3.0.0-beta%2Fdownload%2FremoveImage">
-                                            api/3.0.0-beta/download/removeImage
-                                        </a>
-                                    </td>
-                                    <td>远离地面 快接近三万英尺的距离</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <hr />
+        <section id="main-content"></section>
+        <!--<hr />
         <section>
             <footer>
                 <p>&copy; 2016 - AspNetX</p>
             </footer>
-        </section>
+        </section>-->
     </main>
 </body>
 </html>

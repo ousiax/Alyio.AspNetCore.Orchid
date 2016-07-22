@@ -20,7 +20,7 @@ namespace AspNetX.Models
         /// <summary>
         /// Gets the <see cref="ResponseInformation"/>.
         /// </summary>
-        /// [DataMember(Name = "responseInformation", Order = 1001)]
+        [DataMember(Name = "responseInformation", Order = 1001)]
         public ResponseInformation ResponseInformation { get; } = new ResponseInformation();
 
         public override bool Equals(object obj)
@@ -64,8 +64,11 @@ namespace AspNetX.Models
         /// Will be empty if the action returns no response, or if the response type is unclear. Use
         /// <c>ProducesAttribute</c> on an action method to specify a response type.
         /// </remarks>
-        [DataMember(Name = "supportedRequestFormats")]
+        //[DataMember(Name = "supportedRequestFormats")]
         public IList<ApiRequestFormat> SupportedRequestFormats { get; } = new List<ApiRequestFormat>();
+
+        [DataMember(Name = "supportedRequestSamples")]
+        public IDictionary<string, object> SupportedRequestSamples { get; } = new Dictionary<string, object>();
     }
 
     /// <summary>
@@ -81,7 +84,13 @@ namespace AspNetX.Models
         /// Will be empty if the action returns no response, or if the response type is unclear. Use
         /// <c>ProducesAttribute</c> on an action method to specify a response type.
         /// </remarks>
-        [DataMember(Name = "supportedResponseTypes")]
+        //[DataMember(Name = "supportedResponseTypes")]
         public IList<ApiResponseType> SupportedResponseTypes { get; } = new List<ApiResponseType>();
+
+        [DataMember(Name = "supportedResponseTypeMetadatas")]
+        public IList<ModelMetadataWrapper> SupportedResponseTypeMetadatas { get; } = new List<ModelMetadataWrapper>();
+
+        [DataMember(Name = "supportedResponseSamples")]
+        public IDictionary<string, object> SupportedResponseSamples { get; } = new Dictionary<string, object>();
     }
 }
