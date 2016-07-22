@@ -41,6 +41,7 @@ namespace AspNetX.Services
                 .ApiDescriptionGroups
                 .Items
                 .SelectMany(g => g.Items)
+                .Distinct()
                 .ToDictionary(o => o.Id, o => CreateApiDescriptionDetailModel(o));   //TODO Maybe exits dumpliate ids.
             _apiDescriptionDetailModelCache = new ReadOnlyDictionary<string, ApiDescriptionDetailModel>(dictionary);
         }
@@ -87,8 +88,7 @@ namespace AspNetX.Services
                 apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypes.Add(supportedResponseType);
                 if (supportedResponseType.Type != null)
                 {
-                    var modelMetadataWrapper = (ModelMetadataWrapper)null;
-                    _modelMetadataWrapperProvider.TryAdd(supportedResponseType.Type, out modelMetadataWrapper);
+                    var modelMetadataWrapper = _modelMetadataWrapperProvider.GetOrCreate(supportedResponseType.Type);
                     apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypeMetadatas.Add(modelMetadataWrapper);
                     apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(supportedResponseType.Type));
                 }
@@ -102,11 +102,9 @@ namespace AspNetX.Services
             {
                 ApiParameterDescription = parameter,
             };
-            ModelMetadataWrapper modelMetadataWrapper = null;
             if (parameter.ModelMetadata != null)
             {
-                _modelMetadataWrapperProvider.TryAdd(parameter.ModelMetadata.ModelType, out modelMetadataWrapper);
-                apiParameterDescriptionModel.Metadata = modelMetadataWrapper;
+                apiParameterDescriptionModel.Metadata = _modelMetadataWrapperProvider.GetOrCreate(parameter.ModelMetadata.ModelType);
                 apiParameterDescriptionModel.Description = _documentationProvider?.GetDocumentation(parameter.ModelMetadata.ModelType); //TODO Get parameter descriptino from action method.
             }
             return apiParameterDescriptionModel;

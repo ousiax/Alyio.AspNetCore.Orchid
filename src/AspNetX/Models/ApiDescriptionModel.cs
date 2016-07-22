@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace AspNetX.Models
@@ -48,5 +49,19 @@ namespace AspNetX.Models
         /// Gets or sets the <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>
         /// </summary>
         public ApiDescription ApiDescription { get; set; }
+
+        public override int GetHashCode()
+        {
+            return this.Id?.GetHashCode() ?? 0;
+        }
+        public override bool Equals(object obj)
+        {
+            var other = obj as ApiDescriptionModel;
+            if (other != null)
+            {
+                return string.Equals(other.Id, this.Id, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
+        }
     }
 }

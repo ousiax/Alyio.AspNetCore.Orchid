@@ -266,7 +266,7 @@ function loadMetadataHtml() {
         html += "<h3>" + htmlEncode(metadata.modelType) + "<small class=\"api-doc api-doc-sm\">" + htmlEncode(metadata.description) + "</small></h3>";
         html += "</div>";
 
-        if (metadata.properties && metadata.properties.length && !metadata.isEnum) {
+        if (metadata.properties && metadata.properties.length || metadata.isEnum) {
             html += "<div class=\"panel panel-info\">";
             html += "<div class=\"panel-heading\">";
             html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#resource-description\">Resource Description</a>";
@@ -308,13 +308,13 @@ function getMetadataTableHtml(containerMetadata, metadata) {
                 html += "</tr>";
             });
         } else if (metadata.isEnum) {
-            metadata.enumNamesAndValues.forEach(function (propertyName) {
+            for (var enumName in metadata.enumNamesAndValues) {
                 html += "<tr>";
-                html += "<td>" + propertyName + "</td>";
-                html += "<td>" + enumNamesAndValues[propertyName] + "</td>";
+                html += "<td>" + enumName + "</td>";
+                html += "<td>" + metadata.enumNamesAndValues[enumName] + "</td>";
                 html += "<td></td>";
                 html += "</tr>";
-            });
+            }
         }
         html += "</tbody>";
         html += "</table>";

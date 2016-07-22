@@ -125,11 +125,11 @@ namespace AspNetX.Models
         {
             this.ModelMetadata = modelMetadata;
             this.ModelTypeId = ModelType.GetTypeId();
+            modelMetadataWrapperProvider.RegisterModelType(this.ModelType);
+            modelMetadataWrapperProvider.RegisterModelMetadataWrapper(this);
             if (modelMetadata.ElementMetadata != null)
             {
-                var elementMetadataWrapper = (ModelMetadataWrapper)null;
-                modelMetadataWrapperProvider.TryAdd(modelMetadata.ElementMetadata.ModelType, out elementMetadataWrapper);
-                this.ElementMetadataWrapper = elementMetadataWrapper;
+                this.ElementMetadataWrapper = modelMetadataWrapperProvider.GetOrCreate(modelMetadata.ElementMetadata.ModelType);
             }
         }
 
