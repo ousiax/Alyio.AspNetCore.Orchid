@@ -1,1 +1,0 @@
-﻿## These controller and models are copy from [https://github.com/aspnet/Mvc/tree/1.0.0/test/WebSites/ApiExplorerWebSite](https://github.com/aspnet/Mvc/tree/1.0.0/test/WebSites/ApiExplorerWebSite)

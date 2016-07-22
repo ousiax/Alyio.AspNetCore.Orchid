@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "AspNetMvcApiExplorerWebSite": { "target": "project" },
     "AspNetX": { "target": "project" },
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.0",

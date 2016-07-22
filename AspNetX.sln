@@ -20,10 +20,6 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNetNet451Website", "test
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNetNetStandard16Website", "test\websites\AspNetNetStandard16Website\AspNetNetStandard16Website.xproj", "{CA450585-4A3B-48C6-8FEA-021D2320C209}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNetMvcApiExplorerWebSite", "test\websites\AspNetMvcApiExplorerWebSite\AspNetMvcApiExplorerWebSite.xproj", "{9A8572F8-F5AA-4228-8D3B-FCE51185150B}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AsptNetWebApp", "test\websites\AsptNetWebApp\AsptNetWebApp.xproj", "{A5233D67-AA8F-4105-96C4-E632BC3CEAA5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,14 +38,6 @@ Global
 		{CA450585-4A3B-48C6-8FEA-021D2320C209}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA450585-4A3B-48C6-8FEA-021D2320C209}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA450585-4A3B-48C6-8FEA-021D2320C209}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A8572F8-F5AA-4228-8D3B-FCE51185150B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A8572F8-F5AA-4228-8D3B-FCE51185150B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A8572F8-F5AA-4228-8D3B-FCE51185150B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A8572F8-F5AA-4228-8D3B-FCE51185150B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5233D67-AA8F-4105-96C4-E632BC3CEAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5233D67-AA8F-4105-96C4-E632BC3CEAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5233D67-AA8F-4105-96C4-E632BC3CEAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5233D67-AA8F-4105-96C4-E632BC3CEAA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,7 +47,5 @@ Global
 		{DF09CF7B-44E0-441D-8146-3CA477130440} = {0269FA76-746C-4BF4-BC6B-0C450A07612C}
 		{D412E1C0-8725-468C-95B9-44E6684E5E3F} = {DF09CF7B-44E0-441D-8146-3CA477130440}
 		{CA450585-4A3B-48C6-8FEA-021D2320C209} = {DF09CF7B-44E0-441D-8146-3CA477130440}
-		{9A8572F8-F5AA-4228-8D3B-FCE51185150B} = {DF09CF7B-44E0-441D-8146-3CA477130440}
-		{A5233D67-AA8F-4105-96C4-E632BC3CEAA5} = {DF09CF7B-44E0-441D-8146-3CA477130440}
 	EndGlobalSection
 EndGlobal
