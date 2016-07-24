@@ -1,9 +1,6 @@
 ﻿{
   "dependencies": {
-    "AspNetX": {
-      "target": "package",
-      "version": "1.0.1-beta-95273"
-    },
+    "AspNetX": { "target": "project" },
     "Microsoft.NETCore.App": {
       "version": "1.0.0",
       "type": "platform"
