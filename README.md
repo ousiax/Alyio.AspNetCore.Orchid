@@ -40,6 +40,19 @@ public class Startup
     }
 }
 ```
+### Screenshots
+
+- *Home - AspNetX*
+
+![Home - AspNetX](apis.png)
+
+- *API - AspNetX*
+
+![API - AspNetX](api.png)
+
+- *Metadata - AspNetX*
+
+![Metadata - AspNetX](meta.png)
 
 ### ASP.NET DNX RC1
 
