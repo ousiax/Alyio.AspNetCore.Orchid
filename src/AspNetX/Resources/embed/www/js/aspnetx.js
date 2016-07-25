@@ -30,7 +30,7 @@ function loadApiGroupsHtml() {
     $.getJSON("apigroups/", function (data, status) {
         var html = "<section id=\"main-content\">";
         html += "<div class=\"bg-primary well-sm api-banner\">";
-        html += "<h3><small class=\"api-doc api-doc-sm\">" + data.description + "</small></h3>";
+        html += "<h3><small class=\"api-doc api-doc-sm\">" + htmlEncode(data.description || '') + "</small></h3>";
         html += "</div>";
 
         data.items.forEach(function (group) {
@@ -38,7 +38,7 @@ function loadApiGroupsHtml() {
             html += "<div class=\"panel-heading\">";
             html += "<h1 class=\"panel-title\">";
             html += "<a data-toggle=\"collapse\" href=\"#api-" + group.groupName + "\">" + group.groupName + "</a>";
-            html += "<span class=\"api-doc\">" + group.description + "</span>";
+            html += "<span class=\"api-doc\">" + htmlEncode(group.description || '') + "</span>";
             html += "</h1>";
             html += "</div>";
             html += "<div id=\"api-" + group.groupName + "\" class=\"panel-collapse collapse in\">";
@@ -49,7 +49,7 @@ function loadApiGroupsHtml() {
                 html += "<tr>";
                 html += "<td><a class=\"" + getHttpMethodCssClass(api.httpMethod) + "\" href=\"api.html?id=" + api.id + "\">" + api.httpMethod + "</a></td>";
                 html += "<td><a href=\"api.html?id=" + api.id + "\">" + api.relativePath + "</a></td>";
-                html += "<td>" + api.description + "</td>";
+                html += "<td>" + htmlEncode(api.description || '') + "</td>";
                 html += "</tr>";
             });
             html += "</tbody>";
