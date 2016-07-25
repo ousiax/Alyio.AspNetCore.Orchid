@@ -7,14 +7,14 @@ The AspNetX automatically generates help page content for the web APIs on your s
 AspNetX can be added to your in app in just a few simple steps:
 
 - Add a dependency on the "AspNetX" package in `project.json`
-- Call `services.AddAspNetX()` in `ConfigureServices`
-- Call `app.UseAspNetX()` in `Configure`
+- Call `services.AddAspNetX` in `ConfigureServices`
+- Call `app.UseAspNetX` in `Configure`
 
-Now, and when the user browses to *http://&lt;yourApp&gt;/api-docs*, and you should see Web Api information in the web browser. 
+You can also custom to config the AspNetX with `services.Configure<ServerOptions>` in term of you app.
 
-By default, *AspNetX* just collects these API `Controller`s that are annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
+And when you browse to *http://&lt;yourApp&gt;/api-docs*, you should see Web APIs information in the web browser. 
 
-You can also custom some options of AspNetX with `ServerOptions`.
+By default, *AspNetX* just collects the API `Controller` annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
 
 An example *Startup.cs*.
 
@@ -29,7 +29,6 @@ public class Startup
     {
         services.Configure<ServerOptions>(o => o.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》");
         services.AddAspNetX();
-        // Add framework services.
         services.AddMvc();
     }
 
