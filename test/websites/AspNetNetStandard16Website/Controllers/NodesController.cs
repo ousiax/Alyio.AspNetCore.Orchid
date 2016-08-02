@@ -24,10 +24,11 @@ namespace AspNetNet451Website.Controllers
         /// <summary>
         /// 幻想也许是你假装不看我 让我得不到更珍惜所有
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">这是ID</param>
+        /// <param name="sword">这是剑</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public Node Get(int id)
+        [HttpGet("{id}/{sword}")]
+        public Node Get(int id, string sword)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +36,7 @@ namespace AspNetNet451Website.Controllers
         /// <summary>
         ///  我试试对你微微笑 你总视而不见 何必 何必 何必
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">这是Value</param>
         /// <returns></returns>
         [HttpPost]
         public Node Post([FromBody]Node value)

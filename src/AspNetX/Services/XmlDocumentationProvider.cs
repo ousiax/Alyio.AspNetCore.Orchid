@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -62,10 +63,45 @@ namespace AspNetX.Services
             return GetTagValue(propertyNode, "summary");
         }
 
+        public IDictionary<string, string> GetParameterDocumentation(MethodInfo methodInfo)
+        {
+            IDictionary<string, string> descriptions = new Dictionary<string, string>();
+            if (methodInfo != null)
+            {
+                XPathNavigator methodNode = GetMethodNode(methodInfo);
+                if (methodNode != null)
+                {
+                    foreach (var parameterName in methodInfo.GetParameters())
+                    {
+                        XPathNavigator parameterNode = methodNode.SelectSingleNode(string.Format(CultureInfo.InvariantCulture, ParameterExpression, parameterName.Name));
+                        if (parameterNode != null)
+                        {
+                            var desc = parameterNode.Value.Trim();
+                            descriptions.Add(parameterName.Name, desc);
+                        }
+                    }
+                }
+            }
+            return descriptions;
+        }
+
         public string GetDocumentation(Type type)
         {
             XPathNavigator typeNode = GetTypeNode(type);
             return GetTagValue(typeNode, "summary");
+        }
+
+        private XPathNavigator GetMethodNode(MethodInfo method)
+        {
+            string memberName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(method.DeclaringType), method.Name);
+            string[] paremeterTypeFullNames = method.GetParameters().Select(p => p.ParameterType.FullName).ToArray();
+            if (paremeterTypeFullNames.Length > 0)
+            {
+                memberName += $"({string.Join(",", paremeterTypeFullNames)})"; // fix memeberName for method type.
+            }
+            string selectExpression = string.Format(CultureInfo.InvariantCulture, MethodExpression, memberName);
+            XPathNavigator methodNode = _documentNavigator.SelectSingleNode(selectExpression);
+            return methodNode;
         }
 
         private static string GetTagValue(XPathNavigator parentNode, string tagName)

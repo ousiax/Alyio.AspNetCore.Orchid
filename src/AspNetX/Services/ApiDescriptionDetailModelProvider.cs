@@ -5,6 +5,7 @@ using System.Linq;
 using AspNetX.Abstractions;
 using AspNetX.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AspNetX.Services
@@ -68,22 +69,17 @@ namespace AspNetX.Services
                 Description = apiDescriptionModel.Description,
                 GroupName = apiDescriptionModel.GroupName,
                 HttpMethod = apiDescriptionModel.HttpMethod,
-                RelativePath = apiDescriptionModel.RelativePath
+                RelativePath = apiDescriptionModel.RelativePath,
+                ApiDescription = apiDescriptionModel.ApiDescription
             };
-            var apiDescription = apiDescriptionModel.ApiDescription;
-            foreach (var parameter in apiDescription.ParameterDescriptions)
-            {
-                if (parameter.Source == BindingSource.Body)
-                {
-                    apiDescriptionDetailModel.RequestInformation.BodyParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
-                    apiDescriptionDetailModel.RequestInformation.SupportedRequestSamples.Add("application/json", _objectGenerator.GenerateObject(parameter.Type));
-                }
-                else if (parameter.Source == BindingSource.Query || parameter.Source == BindingSource.Path)
-                {
-                    apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter));
-                }
-            }
-            foreach (var supportedResponseType in apiDescription.SupportedResponseTypes)
+            BuildRequestInformation(apiDescriptionDetailModel);
+            BuildResponseInformation(apiDescriptionDetailModel);
+            return apiDescriptionDetailModel;
+        }
+
+        private void BuildResponseInformation(ApiDescriptionDetailModel apiDescriptionDetailModel)
+        {
+            foreach (var supportedResponseType in apiDescriptionDetailModel.ApiDescription.SupportedResponseTypes)
             {
                 apiDescriptionDetailModel.ResponseInformation.SupportedResponseTypes.Add(supportedResponseType);
                 if (supportedResponseType.Type != null)
@@ -93,10 +89,32 @@ namespace AspNetX.Services
                     apiDescriptionDetailModel.ResponseInformation.SupportedResponseSamples.Add("application/json", _objectGenerator.GenerateObject(supportedResponseType.Type));
                 }
             }
-            return apiDescriptionDetailModel;
         }
 
-        private ApiParameterDescriptionModel CreateApiParameterDescriptionModel(ApiParameterDescription parameter)
+        private void BuildRequestInformation(ApiDescriptionDetailModel apiDescriptionDetailModel)
+        {
+            IDictionary<string, string> parameterDescriptions = new Dictionary<string, string>();
+            var controllerActionDescriptor = apiDescriptionDetailModel.ApiDescription.ActionDescriptor as ControllerActionDescriptor;
+            if (_documentationProvider != null && controllerActionDescriptor != null)
+            {
+                parameterDescriptions = _documentationProvider.GetParameterDocumentation(controllerActionDescriptor.MethodInfo);
+            }
+
+            foreach (var parameter in apiDescriptionDetailModel.ApiDescription.ParameterDescriptions)
+            {
+                if (parameter.Source == BindingSource.Body)
+                {
+                    apiDescriptionDetailModel.RequestInformation.BodyParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
+                    apiDescriptionDetailModel.RequestInformation.SupportedRequestSamples.Add("application/json", _objectGenerator.GenerateObject(parameter.Type));
+                }
+                else if (parameter.Source == BindingSource.Query || parameter.Source == BindingSource.Path)
+                {
+                    apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
+                }
+            }
+        }
+
+        private ApiParameterDescriptionModel CreateApiParameterDescriptionModel(ApiParameterDescription parameter, IDictionary<string, string> descriptions)
         {
             var apiParameterDescriptionModel = new ApiParameterDescriptionModel
             {
@@ -105,7 +123,9 @@ namespace AspNetX.Services
             if (parameter.ModelMetadata != null)
             {
                 apiParameterDescriptionModel.Metadata = _modelMetadataWrapperProvider.GetOrCreate(parameter.ModelMetadata.ModelType);
-                apiParameterDescriptionModel.Description = _documentationProvider?.GetDocumentation(parameter.ModelMetadata.ModelType); //TODO Get parameter descriptino from action method.
+                string desc = string.Empty;
+                descriptions.TryGetValue(parameter.Name, out desc);
+                apiParameterDescriptionModel.Description = desc;
             }
             return apiParameterDescriptionModel;
         }
