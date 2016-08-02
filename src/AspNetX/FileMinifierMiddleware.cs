@@ -22,6 +22,7 @@ namespace AspNetX
                 {"aspnetx.css", "aspnetx.min.css" },
                 {"jquery.js", "jquery.min.js" },
                 {"bootstrap.js", "bootstrap.min.js" },
+                {"commonmark.js", "commonmark.min.js" },
                 {"aspnetx.js", "aspnetx.min.js" },
             };
         }
