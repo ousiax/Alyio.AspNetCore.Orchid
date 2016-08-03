@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetNet451Website.Controllers
 {
+    /// <summary>
+    /// 权利的游戏-冰与火之歌
+    /// </summary>
     [ApiExplorerSettings(IgnoreApi = false)]
     [Route("api/[controller]")]
     public class ValuesController : Controller

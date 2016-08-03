@@ -37,7 +37,7 @@ function loadApiGroupsHtml() {
             html += "<div class=\"panel panel-info\">";
             html += "<div class=\"panel-heading\">";
             html += "<h1 class=\"panel-title\">";
-            html += "<a data-toggle=\"collapse\" href=\"#api-" + group.groupName + "\">" + group.groupName + "</a>";
+            html += "<a data-toggle=\"collapse\" href=\"#api-" + group.groupName + "\">" + group.groupName + " <sup>(" + group.items.length + ")</sup></a>";
             html += "<span class=\"api-doc\">" + htmlEncode(group.description || '') + "</span>";
             html += "</h1>";
             html += "</div>";
