@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,6 +8,9 @@ using AspNetX.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AspNetX.Services
 {
@@ -18,6 +22,7 @@ namespace AspNetX.Services
         private readonly IModelMetadataWrapperProvider _modelMetadataWrapperProvider;
         private readonly IObjectGenerator _objectGenerator;
         private readonly IDocumentationProvider _documentationProvider;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Creates a new instance of <see cref="ApiDescriptionDetailModelProvider"/>.
@@ -32,16 +37,32 @@ namespace AspNetX.Services
             IModelMetadataWrapperProvider modelMetadataWrapperProvider,
             IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider,
             IObjectGenerator objectGenerator,
-            IDocumentationProviderFactory documentationProviderFactory)
+            IDocumentationProviderFactory documentationProviderFactory,
+            ILoggerFactory loggerFactory)
         {
             _modelMetadataWrapperProvider = modelMetadataWrapperProvider;
             _objectGenerator = objectGenerator;
             _documentationProvider = documentationProviderFactory.Create();
+            _logger = loggerFactory.CreateLogger("ASPNETX");
 
-            var dictionary = apiDescriptionGroupModelCollectionProvider
+            var apiDescriptionGroupModels = apiDescriptionGroupModelCollectionProvider
                 .ApiDescriptionGroups
                 .Items
                 .SelectMany(g => g.Items)
+                .ToList();
+            foreach (var item in apiDescriptionGroupModels.GroupBy(o => o.Id).Where(p => p.Count() > 1))
+            {
+                var controllerActionDescriptors = item.Select(o => o.ApiDescription.ActionDescriptor)
+                    .OfType<ControllerActionDescriptor>()
+                    .Select(p => new JObject
+                    {
+                        { "ControllerName", p.ControllerName},
+                        { "ActionName", p.ActionName},
+                        { "RouteTemplate", p.AttributeRouteInfo.Template},
+                    });
+                _logger.LogWarning($"dumplicate web apis with the same route template.{Environment.NewLine}{JsonConvert.SerializeObject(controllerActionDescriptors, Formatting.Indented)}");
+            }
+            var dictionary = apiDescriptionGroupModels
                 .Distinct()
                 .ToDictionary(o => o.Id, o => CreateApiDescriptionDetailModel(o));   //TODO Maybe exits dumpliate ids.
             _apiDescriptionDetailModelCache = new ReadOnlyDictionary<string, ApiDescriptionDetailModel>(dictionary);

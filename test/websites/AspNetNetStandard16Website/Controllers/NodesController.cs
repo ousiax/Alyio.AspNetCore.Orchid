@@ -33,6 +33,12 @@ namespace AspNetNet451Website.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet("{id}/{sword}")]
+        public Node Get1(int id, string sword)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  我试试对你微微笑 你总视而不见 何必 何必 何必
         /// </summary>
