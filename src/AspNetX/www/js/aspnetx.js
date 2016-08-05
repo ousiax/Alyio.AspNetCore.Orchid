@@ -321,3 +321,16 @@ function getMetadataTableHtml(containerMetadata, metadata) {
     }
     return html;
 }
+
+// About -- about.html
+
+function loadAbout() {
+    $.get("about", function (data, status) {
+        var reader = new commonmark.Parser();
+        var writer = new commonmark.HtmlRenderer();
+        var parsed = reader.parse(data); // parsed is a 'Node' tree
+        // transform parsed if you like...
+        var result = writer.render(parsed); // result is a String
+        $("#main-content").html(result);
+    });
+}
