@@ -20,5 +20,10 @@
         /// Gets or sets a general description of the api in you app.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the about file path. (Styling with Markdown is supported)
+        /// </summary>
+        public string About { get; set; } = "about.md";
     }
 }

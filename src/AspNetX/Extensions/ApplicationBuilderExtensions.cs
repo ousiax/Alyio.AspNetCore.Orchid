@@ -48,7 +48,8 @@ namespace AspNetX
             var routers = new ITemplateRouter[] {
                 new ApiGroupsRouter(),
                 new ApiRouter(),
-                new MetadataRouter()
+                new MetadataRouter(),
+                new AboutRouter()
             };
             foreach (var router in routers)
             {

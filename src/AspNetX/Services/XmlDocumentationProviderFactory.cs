@@ -60,7 +60,6 @@ namespace AspNetX.Services
         private string GetDocumentationPath()
         {
             string[] lookupPaths = new[] {
-                ".",
                 _hostingEnvironment.ContentRootPath,
                 Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)
             };

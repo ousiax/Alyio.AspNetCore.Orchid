@@ -3,14 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - AspNetX</title>
+    <title>About - AspNetX</title>
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="css/aspnetx.css" />
     <script src="lib/jquery/dist/jquery.js"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="lib/commonmark/dist/commonmark.js"></script>
     <script src="js/aspnetx.js"></script>
     <script>
-        $(document).ready(loadApiGroupsHtml);
+        $(document).ready(function () {
+            $.get("about", function (data, status) {
+                var reader = new commonmark.Parser();
+                var writer = new commonmark.HtmlRenderer();
+                var parsed = reader.parse(data); // parsed is a 'Node' tree
+                // transform parsed if you like...
+                var result = writer.render(parsed); // result is a String
+                $("#main-content").html(result);
+            });
+        });
     </script>
 </head>
 <body>
@@ -35,12 +45,6 @@
     </div>
     <main class="container">
         <section id="main-content"></section>
-        <!--<hr />
-        <section>
-            <footer>
-                <p>&copy; 2016 - AspNetX</p>
-            </footer>
-        </section>-->
     </main>
 </body>
 </html>
