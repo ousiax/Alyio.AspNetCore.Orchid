@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>d412e1c0-8725-468c-95b9-44e6684e5e3f</ProjectGuid>
-    <RootNamespace>AspNetNet451Website</RootNamespace>
+    <ProjectGuid>2c60e7c5-d3a2-4ee5-8be6-5ba55b40df76</ProjectGuid>
+    <RootNamespace>SinaWeibo</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
