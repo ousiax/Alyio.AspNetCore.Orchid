@@ -11,7 +11,7 @@ namespace AspNetX.Services
     /// <inheritdoc />
     internal class ObjectGenerator : IObjectGenerator
     {
-        internal const int DefaultCollectionSize = 2;
+        internal const int DefaultCollectionSize = 1;
         private readonly SimpleTypeObjectGenerator SimpleObjectGenerator = new SimpleTypeObjectGenerator();
 
         /// <inheritdoc />
