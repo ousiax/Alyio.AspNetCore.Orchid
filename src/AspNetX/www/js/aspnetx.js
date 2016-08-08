@@ -266,7 +266,7 @@ function loadMetadataHtml() {
         html += "<h3>" + htmlEncode(metadata.modelType) + "<small class=\"api-doc api-doc-sm\">" + htmlEncode(metadata.description) + "</small></h3>";
         html += "</div>";
 
-        if (metadata.properties && metadata.properties.length || metadata.isEnum) {
+        if (metadata.properties && metadata.properties.length || metadata.isEnumerableType || metadata.isEnum) {
             html += "<div class=\"panel panel-info\">";
             html += "<div class=\"panel-heading\">";
             html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#resource-description\">Resource Description</a>";

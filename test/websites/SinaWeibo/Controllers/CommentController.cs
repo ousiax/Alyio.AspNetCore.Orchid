@@ -27,7 +27,7 @@ namespace SinaWeibo.Controllers
         /// <param name="filter_by_author">作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。 </param>
         /// <returns></returns>
         [HttpGet("show.json")]
-        public IList<Comment> Show(
+        public IEnumerable<Comment> Show(
             [FromQuery] string access_token,
             [FromQuery]long id,
             [FromQuery] long since_id,
