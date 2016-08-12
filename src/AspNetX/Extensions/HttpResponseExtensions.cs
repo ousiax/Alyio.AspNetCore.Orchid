@@ -8,19 +8,17 @@ namespace AspNetX
 {
     public static class HttpResponseExtensions
     {
-        public static async Task WriteJsonAsync(this HttpResponse response, object value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task WriteJsonAsync(this HttpResponse response, object value, Formatting formatting = Formatting.None, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await response.WriteJsonAsync(value, Encoding.UTF8, cancellationToken);
+            await response.WriteJsonAsync(value, formatting, Encoding.UTF8, cancellationToken);
         }
 
-        public static async Task WriteJsonAsync(this HttpResponse response, object value, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task WriteJsonAsync(this HttpResponse response, object value, Formatting formatting, Encoding encoding, CancellationToken cancellationToken = default(CancellationToken))
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore, //TODO Newtonsoft.Json.ReferenceLoopHandling
-#if DEBUG
-                Formatting = Formatting.Indented
-#endif
+                Formatting = formatting
             };
             var text = JsonConvert.SerializeObject(value, settings);
             await response.WriteAsync(text, encoding, cancellationToken);

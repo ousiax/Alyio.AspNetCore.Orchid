@@ -2,14 +2,17 @@
 using System.Threading.Tasks;
 using AspNetX.Abstractions;
 using AspNetX.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace AspNetX.Routing
 {
     public class ApiRouter : ITemplateRouter
     {
+        private IHostingEnvironment _hostingEnvironment;
         private IApiDescriptionDetailModelProvider _apiDescriptionDetailModelProvider;
 
         public string Template => "api/{id}";
@@ -34,7 +37,8 @@ namespace AspNetX.Routing
                     if (_apiDescriptionDetailModelProvider.TryGetValue(id, out apiDescriptionDetailModel))
                     {
                         context.HttpContext.Response.ContentType = "application/json; charset=utf-8";
-                        await context.HttpContext.Response.WriteJsonAsync(apiDescriptionDetailModel);
+                        Formatting formatting = _hostingEnvironment.IsDevelopment() ? Formatting.Indented : Formatting.None;
+                        await context.HttpContext.Response.WriteJsonAsync(apiDescriptionDetailModel, formatting);
                     }
                 };
             }
@@ -42,6 +46,10 @@ namespace AspNetX.Routing
 
         private void EnsureServices(HttpContext context)
         {
+            if (_hostingEnvironment == null)
+            {
+                _hostingEnvironment = context.RequestServices.GetService<IHostingEnvironment>();
+            }
             if (_apiDescriptionDetailModelProvider == null)
             {
                 _apiDescriptionDetailModelProvider = context.RequestServices.GetService<IApiDescriptionDetailModelProvider>();

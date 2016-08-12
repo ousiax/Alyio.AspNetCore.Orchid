@@ -3,14 +3,17 @@ using System.Net;
 using System.Threading.Tasks;
 using AspNetX.Abstractions;
 using AspNetX.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace AspNetX.Routing
 {
     public class MetadataRouter : ITemplateRouter
     {
+        private IHostingEnvironment _hostingEnvironment;
         private IModelMetadataWrapperProvider _modelMetadataWrapperProvider;
 
         public string Template => "meta/{modelTypeId}";
@@ -34,7 +37,8 @@ namespace AspNetX.Routing
                     if (_modelMetadataWrapperProvider.TryGet(modelTypeId, out modelMetadataWrapper))
                     {
                         context.HttpContext.Response.ContentType = "application/json; charset=utf-8";
-                        await context.HttpContext.Response.WriteJsonAsync(modelMetadataWrapper);
+                        Formatting formatting = _hostingEnvironment.IsDevelopment() ? Formatting.Indented : Formatting.None;
+                        await context.HttpContext.Response.WriteJsonAsync(modelMetadataWrapper, formatting);
                     }
                     else
                     {
@@ -47,6 +51,10 @@ namespace AspNetX.Routing
 
         private void EnsureServices(HttpContext context)
         {
+            if (_hostingEnvironment == null)
+            {
+                _hostingEnvironment = context.RequestServices.GetService<IHostingEnvironment>();
+            }
             if (_modelMetadataWrapperProvider == null)
             {
                 _modelMetadataWrapperProvider = context.RequestServices.GetService<IModelMetadataWrapperProvider>();
