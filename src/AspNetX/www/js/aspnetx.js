@@ -41,7 +41,7 @@ function loadApiGroupsHtml() {
             html += "<span class=\"api-doc\">" + htmlEncode(group.description || '') + "</span>";
             html += "</h1>";
             html += "</div>";
-            html += "<div id=\"api-" + group.groupName + "\" class=\"panel-collapse collapse in\">";
+            html += "<div id=\"api-" + group.groupName + "\" class=\"panel-collapse collapse\">";
             html += "<div class=\"panel-body\">";
             html += "<table class=\"table table-hover\">";
             html += "<tbody>";
