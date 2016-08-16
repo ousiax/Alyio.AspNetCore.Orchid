@@ -1,8 +1,10 @@
-# AspNetX [Beta version on ASP.NET Core 1.0]
+# AspNetX
 
 You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/AspNetX/) feed or from its [github releases page](https://github.com/qqbuby/AspNetX/releases).
 
 The AspNetX automatically generates help page content for the web APIs on your site.
+
+### Usage
 
 AspNetX can be added to your in app in just a few simple steps:
 
@@ -10,9 +12,11 @@ AspNetX can be added to your in app in just a few simple steps:
 - Call `services.AddAspNetX` in `ConfigureServices`
 - Call `app.UseAspNetX` in `Configure`
 
-You can also custom to config the AspNetX with `services.Configure<ServerOptions>` in term of you app.
-
 And when you browse to *http://&lt;yourApp&gt;/api-docs*, you should see Web APIs information in the web browser. 
+
+### Customization
+
+You can also custom the AspNetX with `services.Configure<ServerOptions>` about you app and write a *about.md* in the `IHostingEnvironment.ContentRoot` to generate the about page.
 
 By default, *AspNetX* just collects the API `Controller` annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
 
@@ -39,19 +43,44 @@ public class Startup
     }
 }
 ```
-### Screenshots
 
-- *Home - AspNetX*
+### Features
 
-![Home - AspNetX](apis.png)
+1. Auto generate Web API description.
 
-- *API - AspNetX*
+    - Http method
+    - Relative path
+    - URL or query paramter
+    - Body parameter
+    - Request format and samples
+    - Response format and samples
+    - Model or entity metadata
 
-![API - AspNetX](api.png)
+2. Highlight http verbs.
 
-- *Metadata - AspNetX*
+    For example, the `DELETE` method, we use the red color, and `GET` with blue color.
 
-![Metadata - AspNetX](meta.png)
+3. Auto load xml documentation description.
+
+    Set the `xmlDoc` as `true` to generate XML documentation from triple-slash comments in the source code.
+
+    ```
+    {
+        "buildOptions": {
+            "xmlDoc": true
+        }
+    }
+    ```
+
+### Support frameworks
+
+- .NET framework 4.5.1
+- .NET standard 1.6
+
+### Support platforms
+
+- ASP.NET Core 1.0
+- ASP.NET RC1
 
 ### ASP.NET DNX RC1
 
