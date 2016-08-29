@@ -25,5 +25,13 @@
         /// Gets or sets the about file path. (Styling with Markdown is supported)
         /// </summary>
         public string About { get; set; } = "about.md";
+
+        /// <summary>
+        /// Gets or sets the regular expression pattern to match the obsolete api route action.
+        /// </summary>
+        /// <remarks>
+        /// If the api action method was marked with [ObsolteAttribute], it will be treated as an obsolete route.
+        /// </remarks>
+        public string ObsoleteRoutePathPattern { get; set; }
     }
 }

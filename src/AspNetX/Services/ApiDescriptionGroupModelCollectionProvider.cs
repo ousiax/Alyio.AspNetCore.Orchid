@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AspNetX.Abstractions;
 using AspNetX.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace AspNetX.Services
@@ -11,9 +13,11 @@ namespace AspNetX.Services
     /// <inheritdoc />
     public class ApiDescriptionGroupModelCollectionProvider : IApiDescriptionGroupModelCollectionProvider
     {
+        private readonly ILogger _logger;
         private readonly ServerOptions _serverOptions;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly IDocumentationProvider _documentationProvider;
+        private readonly Regex _obsoleteRouteRegex;
 
         private ApiDescriptionGroupModelCollection _apiDescriptionGroups;
 
@@ -26,9 +30,25 @@ namespace AspNetX.Services
         public ApiDescriptionGroupModelCollectionProvider(
             IOptions<ServerOptions> serverOptions,
             IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
-            IDocumentationProviderFactory documentationProviderFactory)
+            IDocumentationProviderFactory documentationProviderFactory,
+            ILoggerFactory loggerFactory)
         {
+            _logger = loggerFactory.CreateLogger<ApiDescriptionGroupModelCollectionProvider>();
             _serverOptions = serverOptions.Value;
+            if (_serverOptions.ObsoleteRoutePathPattern != null)
+            {
+                try
+                {
+                    _obsoleteRouteRegex = new Regex(_serverOptions.ObsoleteRoutePathPattern, RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Invalid obsolete route pattern: {ex.Message}");
+#if DEBUG
+                    throw;
+#endif
+                }
+            }
             _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
             _documentationProvider = documentationProviderFactory.Create();
         }
@@ -108,6 +128,10 @@ namespace AspNetX.Services
                     .MethodInfo
                     .CustomAttributes
                     .Any(o => o.AttributeType == typeof(ObsoleteAttribute));
+            }
+            if (!apiDescriptionModel.IsDeprecated && _obsoleteRouteRegex != null) // filter obsolete api route with ObsoleteRoutePathPattern.
+            {
+                apiDescriptionModel.IsDeprecated = _obsoleteRouteRegex.IsMatch(apiDescriptionModel.RelativePath);
             }
             if (_documentationProvider != null && controllerActionDescriptor != null)
             {
