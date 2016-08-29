@@ -20,6 +20,7 @@ namespace SinaWeibo.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [Obsolete]
         public string Get(int id)
         {
             return "value";
@@ -33,6 +34,7 @@ namespace SinaWeibo.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
+        [Obsolete]
         public void Put(int id, [FromBody]string value)
         {
         }

@@ -48,7 +48,7 @@ function loadApiGroupsHtml() {
             group.items.forEach(function (api) {
                 html += "<tr>";
                 html += "<td><a class=\"" + getHttpMethodCssClass(api.httpMethod) + "\" href=\"api.html?id=" + api.id + "\">" + api.httpMethod + "</a></td>";
-                html += "<td><a href=\"api.html?id=" + api.id + "\">" + api.relativePath + "</a></td>";
+                html += "<td><a href=\"api.html?id=" + api.id + "\">" + getRelativePathHtml(api) + "</a></td>";
                 html += "<td>" + htmlEncode(api.description || '') + "</td>";
                 html += "</tr>";
             });
@@ -75,6 +75,14 @@ function getHttpMethodCssClass(httpMethod) {
     return 'http-method btn btn-primary';
 }
 
+function getRelativePathHtml(api) {
+    if (api.isDeprecated) {
+        return "<del class=\"text-danger\">" + api.relativePath + "</del>"
+    } else {
+        return api.relativePath;
+    }
+}
+
 // Api -- api.html
 function loadApiHtml() {
     var query = parseQuery();
@@ -95,7 +103,7 @@ function getBannerHtml(data) {
     var html = "<div class=\"bg-primary well-sm api-banner\">";
     html += "<h3 data-toggle=\"tooltip\" title=\"" + data.description + "\">";
     html += "<span class=\"http-method\">" + data.httpMethod + "</span>";
-    html += "<span class=\"relative-path\">" + data.relativePath + "</span></h3></div>"
+    html += "<span class=\"relative-path\">" + getRelativePathHtml(data) + "</span></h3></div>"
     return html;
 }
 

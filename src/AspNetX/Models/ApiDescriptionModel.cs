@@ -46,6 +46,12 @@ namespace AspNetX.Models
         public string RelativePath { get; set; }
 
         /// <summary>
+        /// Marks the API whether was no longer in use.
+        /// </summary>
+        [DataMember(Name = "isDeprecated")]
+        public bool IsDeprecated { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets the <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>
         /// </summary>
         public ApiDescription ApiDescription { get; set; }

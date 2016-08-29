@@ -100,13 +100,18 @@ namespace AspNetX.Services
                 RelativePath = apiDescription.RelativePath,
                 ApiDescription = apiDescription
             };
-            if (_documentationProvider != null)
+            var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor != null)
             {
-                var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
-                if (controllerActionDescriptor != null)
-                {
-                    apiDescriptionModel.Description = _documentationProvider.GetDocumentation(controllerActionDescriptor.MethodInfo);
-                }
+                apiDescriptionModel.IsDeprecated =
+                    controllerActionDescriptor
+                    .MethodInfo
+                    .CustomAttributes
+                    .Any(o => o.AttributeType == typeof(ObsoleteAttribute));
+            }
+            if (_documentationProvider != null && controllerActionDescriptor != null)
+            {
+                apiDescriptionModel.Description = _documentationProvider.GetDocumentation(controllerActionDescriptor.MethodInfo);
             }
             return apiDescriptionModel;
         }

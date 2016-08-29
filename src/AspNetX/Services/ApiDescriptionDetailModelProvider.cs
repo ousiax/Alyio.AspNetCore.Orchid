@@ -91,6 +91,7 @@ namespace AspNetX.Services
                 GroupName = apiDescriptionModel.GroupName,
                 HttpMethod = apiDescriptionModel.HttpMethod,
                 RelativePath = apiDescriptionModel.RelativePath,
+                IsDeprecated = apiDescriptionModel.IsDeprecated,
                 ApiDescription = apiDescriptionModel.ApiDescription
             };
             BuildRequestInformation(apiDescriptionDetailModel);
