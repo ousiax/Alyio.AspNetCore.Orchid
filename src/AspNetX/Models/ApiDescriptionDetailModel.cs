@@ -46,10 +46,16 @@ namespace AspNetX.Models
     public class RequestInformation
     {
         /// <summary>
-        /// Gets a list of Query or Path <see cref="ApiParameterDescriptionModel"/> for this api.
+        /// Gets a list of Path parameters <see cref="ApiParameterDescriptionModel"/> for this api.
         /// </summary>
-        [DataMember(Name = "uriParameterDescriptions")]
-        public IList<ApiParameterDescriptionModel> UriParameterDescriptions { get; } = new List<ApiParameterDescriptionModel>();
+        [DataMember(Name = "pathParameterDescriptions")]
+        public IList<ApiParameterDescriptionModel> RouteParameterDescriptions { get; } = new List<ApiParameterDescriptionModel>();
+
+        /// <summary>
+        /// Gets a list of Query parameters <see cref="ApiParameterDescriptionModel"/> for this api.
+        /// </summary>
+        [DataMember(Name = "queryParameterDescriptions")]
+        public IList<ApiParameterDescriptionModel> QueryParameterDescriptions { get; } = new List<ApiParameterDescriptionModel>();
 
         /// <summary>
         /// Gets a list of body <see cref="ApiParameterDescriptionModel"/> for this api.

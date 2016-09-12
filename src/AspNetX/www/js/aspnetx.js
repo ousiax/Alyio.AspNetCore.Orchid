@@ -89,7 +89,9 @@ function loadApiHtml() {
     var id = query.id || '';
     $.getJSON('api/' + id, function (data, status) {
         var html = getBannerHtml(data);
-        if (data.requestInformation.uriParameterDescriptions.length || data.requestInformation.bodyParameterDescriptions.length) {
+        if (data.requestInformation.pathParameterDescriptions.length
+            || data.requestInformation.queryParameterDescriptions.length
+            || data.requestInformation.bodyParameterDescriptions.length) {
             html += getRequestInformationHtml(data.requestInformation);
         }
         if (data.responseInformation.supportedResponseTypeMetadatas.length) {
@@ -115,8 +117,11 @@ function getRequestInformationHtml(requestInformation) {
     html += "<div id=\"request-information\" class=\"panel-collapse collapse in\">";
     html += "<div class=\"panel-body\">";
     html += "<div class=\"panel-group\">";
-    if (requestInformation.uriParameterDescriptions.length) {
-        html += getUriParametersHtml(requestInformation.uriParameterDescriptions);
+    if (requestInformation.pathParameterDescriptions.length) {
+        html += getUriParametersHtml(requestInformation.pathParameterDescriptions, "Route");
+    }
+    if (requestInformation.queryParameterDescriptions.length) {
+        html += getUriParametersHtml(requestInformation.queryParameterDescriptions, "QueryString");
     }
     if (requestInformation.bodyParameterDescriptions.length) {
         requestInformation.bodyParameterDescriptions.forEach(function (parameterDescription) {
@@ -133,10 +138,10 @@ function getRequestInformationHtml(requestInformation) {
     return html;
 }
 
-function getUriParametersHtml(uriParameterDescriptions) {
+function getUriParametersHtml(uriParameterDescriptions, title) {
     var html = "<div class=\"panel panel-info\">";
     html += "<div class=\"panel-heading\">";
-    html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#uri-parameter\">URI Parameters</a>";
+    html += "<a class=\"panel-title\" data-toggle=\"collapse\" href=\"#uri-parameter\">" + title + " Parameters</a>";
     html += "</div>";
     html += "<div id=\"uri-parameter\" class=\"panel-collapse collapse in\">";
     html += "<div class=\"panel-body\">";

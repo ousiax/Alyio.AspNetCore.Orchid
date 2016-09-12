@@ -129,9 +129,13 @@ namespace AspNetX.Services
                     apiDescriptionDetailModel.RequestInformation.BodyParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
                     apiDescriptionDetailModel.RequestInformation.SupportedRequestSamples.Add("application/json", _objectGenerator.GenerateObject(parameter.Type));
                 }
-                else if (parameter.Source == BindingSource.Query || parameter.Source == BindingSource.Path)
+                else if (parameter.Source == BindingSource.Path)
                 {
-                    apiDescriptionDetailModel.RequestInformation.UriParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
+                    apiDescriptionDetailModel.RequestInformation.RouteParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
+                }
+                else if (parameter.Source == BindingSource.Query)
+                {
+                    apiDescriptionDetailModel.RequestInformation.QueryParameterDescriptions.Add(CreateApiParameterDescriptionModel(parameter, parameterDescriptions));
                 }
             }
         }

@@ -14,7 +14,8 @@
   },
   "copyright": "Copyright (c) 2016 ROY",
   "buildOptions": {
-    "embed": "www/**/*.*"
+    "embed": "www/**/*.*",
+    "xmlDoc": true
   },
   "dependencies": {
     "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
