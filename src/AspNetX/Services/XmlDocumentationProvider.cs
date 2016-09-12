@@ -47,7 +47,7 @@ namespace AspNetX.Services
                     break;
                 case MemberTypes.Method:
                     MethodInfo methodInfo = (MethodInfo)member;
-                    string[] paremeterTypeFullNames = methodInfo.GetParameters().Select(p => p.ParameterType.FullName).ToArray();
+                    string[] paremeterTypeFullNames = methodInfo.GetParameters().Select(p => p.ParameterType.FullName.Replace("+", ".")).ToArray();
                     if (paremeterTypeFullNames.Length > 0)
                     {
                         memberName += $"({string.Join(",", paremeterTypeFullNames)})"; // fix memeberName for method type.
