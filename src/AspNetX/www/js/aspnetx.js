@@ -321,13 +321,13 @@ function getMetadataTableHtml(containerMetadata, metadata) {
                 html += "</tr>";
             });
         } else if (metadata.isEnum) {
-            for (var enumName in metadata.enumNamesAndValues) {
+            metadata.enumFieldDescrptions.forEach(function (efd) {
                 html += "<tr>";
-                html += "<td>" + enumName + "</td>";
-                html += "<td>" + metadata.enumNamesAndValues[enumName] + "</td>";
-                html += "<td></td>";
+                html += "<td>" + efd.name + "</td>";
+                html += "<td>" + efd.value + "</td>";
+                html += "<td>" + efd.description + "</td>";
                 html += "</tr>";
-            }
+            });
         }
         html += "</tbody>";
         html += "</table>";

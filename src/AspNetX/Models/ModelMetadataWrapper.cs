@@ -41,6 +41,12 @@ namespace AspNetX.Models
         public IReadOnlyDictionary<string, string> EnumNamesAndValues => ModelMetadata.EnumNamesAndValues;
 
         /// <summary>
+        /// The <see cref="EnumFieldDescription"/>.
+        /// </summary>
+        [DataMember(Name = "enumFieldDescrptions")]
+        public IList<EnumFieldDescription> EnumFieldDescrptions { get; set; } = new List<EnumFieldDescription>();
+
+        /// <summary>
         /// Gets a value indicating whether or not <see cref="ModelType"/> is a collection type.
         /// </summary>
         /// <remarks>
@@ -121,6 +127,11 @@ namespace AspNetX.Models
         /// </summary>
         public ModelMetadata ModelMetadata { get; }
 
+        /// <summary>
+        /// Create a new instance of the <see cref="ModelMetadataWrapper"/>.
+        /// </summary>
+        /// <param name="modelMetadata">The <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/>.</param>
+        /// <param name="modelMetadataWrapperProvider">The <see cref="IModelMetadataWrapperProvider"/>.</param>
         public ModelMetadataWrapper(ModelMetadata modelMetadata, IModelMetadataWrapperProvider modelMetadataWrapperProvider)
         {
             this.ModelMetadata = modelMetadata;

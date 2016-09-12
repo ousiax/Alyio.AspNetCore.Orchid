@@ -68,7 +68,7 @@ namespace AspNetX.Models
 
         public override bool Equals(object obj)
         {
-            var other = obj as ModelMetadataWrapper;
+            var other = obj as ModelMetadataPropertyWrapper;
             return other != null && string.Equals(other.ModelTypeId, this.ModelTypeId, StringComparison.OrdinalIgnoreCase);
         }
 

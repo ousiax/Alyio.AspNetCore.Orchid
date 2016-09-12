@@ -25,7 +25,7 @@ namespace SinaWeibo
         {
             services.Configure<ServerOptions>(o =>
             {
-                o.ObsoleteRoutePathPattern = "^comments/(";
+                o.ObsoleteRoutePathPattern = "comments";
                 o.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》";
             });
             services.AddAspNetX();

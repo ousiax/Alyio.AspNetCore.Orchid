@@ -69,6 +69,19 @@ namespace AspNetX.Services
                     };
                     modelMetadataWrapper.Properties.Add(propertyWrapper);
                 }
+                if (modelMetadata.IsEnum)
+                {
+                    foreach (var enumNameAndValue in modelMetadata.EnumNamesAndValues)
+                    {
+                        var enumFieldDescription = new EnumFieldDescription
+                        {
+                            Name = enumNameAndValue.Key,
+                            Value = enumNameAndValue.Value,
+                            Description = _documentationProvider?.GetDocumentation(modelTypeInfo.GetField(enumNameAndValue.Key))
+                        };
+                        modelMetadataWrapper.EnumFieldDescrptions.Add(enumFieldDescription);
+                    }
+                }
             }
             return modelMetadataWrapper;
         }
