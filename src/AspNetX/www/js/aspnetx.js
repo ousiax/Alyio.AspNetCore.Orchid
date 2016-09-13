@@ -66,7 +66,7 @@ function getHttpMethodCssClass(httpMethod) {
     if (httpMethod == "POST") {
         return 'http-method btn btn-warning';
     }
-    if (httpMethod == "PUT") {
+    if (httpMethod == "PUT" || httpMethod == "PATCH") {
         return 'http-method btn btn-info';
     }
     if (httpMethod == "DELETE") {
@@ -156,7 +156,7 @@ function getUriParametersHtml(uriParameterDescriptions, title) {
     uriParameterDescriptions.forEach(function (parameter) {
         html += "<tr>";
         html += "<td>" + parameter.name + "</td>";
-        html += "<td>" + htmlEncode(parameter.type) + "</td>";
+        html += "<td><a href=\"meta.html?id=" + parameter.metadata.modelTypeId + "\">" + htmlEncode(parameter.metadata.modelType) + "</a></td>";
         html += "<td>" + htmlEncode(parameter.description) || '' + "</td>";
         html += "</tr>";
     });
