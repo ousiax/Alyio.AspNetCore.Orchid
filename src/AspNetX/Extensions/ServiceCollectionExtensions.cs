@@ -12,7 +12,7 @@ namespace AspNetX
             services.AddSingleton<IApiDescriptionDetailModelProvider, ApiDescriptionDetailModelProvider>();
             services.AddSingleton<IModelMetadataWrapperProvider, ModelMetadataWrapperProvider>();
             services.AddSingleton<IObjectGenerator, ObjectGenerator>();
-            services.AddSingleton<IDocumentationProviderFactory, XmlDocumentationProviderFactory>();
+            services.AddSingleton<IDocumentationProvider, XmlDocumentationProvider>();
             return services;
         }
     }

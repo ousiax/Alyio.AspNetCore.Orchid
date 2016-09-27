@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using AspNetX.Abstractions;
 using AspNetX.Models;
@@ -30,7 +31,7 @@ namespace AspNetX.Services
         public ApiDescriptionGroupModelCollectionProvider(
             IOptions<ServerOptions> serverOptions,
             IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
-            IDocumentationProviderFactory documentationProviderFactory,
+            IDocumentationProvider documentationProvider,
             ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<ApiDescriptionGroupModelCollectionProvider>();
@@ -50,7 +51,7 @@ namespace AspNetX.Services
                 }
             }
             _apiDescriptionGroupCollectionProvider = apiDescriptionGroupCollectionProvider;
-            _documentationProvider = documentationProviderFactory.Create();
+            _documentationProvider = documentationProvider;
         }
 
         /// <inheritdoc />
@@ -86,13 +87,10 @@ namespace AspNetX.Services
                              .Select(CreateApiDescriptionModel)
                              .ToList()
                              .AsReadOnly());
-            if (_documentationProvider != null)
+            Type controllerType;
+            if (TryGetControllerType(apiDescriptionGroup, out controllerType))
             {
-                Type controllerType;
-                if (TryGetControllerType(apiDescriptionGroup, out controllerType))
-                {
-                    apiDescriptionGroupModel.Description = _documentationProvider.GetDocumentation(controllerType);
-                }
+                apiDescriptionGroupModel.Description = _documentationProvider.GetDocumentation(controllerType.GetTypeInfo());
             }
             return apiDescriptionGroupModel;
         }
@@ -133,7 +131,7 @@ namespace AspNetX.Services
             {
                 apiDescriptionModel.IsDeprecated = _obsoleteRouteRegex.IsMatch(apiDescriptionModel.RelativePath);
             }
-            if (_documentationProvider != null && controllerActionDescriptor != null)
+            if (controllerActionDescriptor != null)
             {
                 apiDescriptionModel.Description = _documentationProvider.GetDocumentation(controllerActionDescriptor.MethodInfo);
             }

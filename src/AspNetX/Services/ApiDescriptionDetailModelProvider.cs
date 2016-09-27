@@ -27,23 +27,22 @@ namespace AspNetX.Services
         /// <summary>
         /// Creates a new instance of <see cref="ApiDescriptionDetailModelProvider"/>.
         /// </summary>
-        /// <param name="modelMetadataWrapperProvider">
-        /// The <see cref="IModelMetadataWrapperProvider"/>.
-        /// </param>
-        /// <param name="apiDescriptionGroupModelCollectionProvider">
-        /// The <see cref="IApiDescriptionGroupModelCollectionProvider"/>.
-        /// </param>
+        /// <param name="modelMetadataWrapperProvider">The <see cref="IModelMetadataWrapperProvider"/>.</param>
+        /// <param name="apiDescriptionGroupModelCollectionProvider">The <see cref="IApiDescriptionGroupModelCollectionProvider"/>.</param>
+        /// <param name="objectGenerator"></param>
+        /// <param name="documentationProvider"></param>
+        /// <param name="loggerFactory"></param>
         public ApiDescriptionDetailModelProvider(
             IModelMetadataWrapperProvider modelMetadataWrapperProvider,
             IApiDescriptionGroupModelCollectionProvider apiDescriptionGroupModelCollectionProvider,
             IObjectGenerator objectGenerator,
-            IDocumentationProviderFactory documentationProviderFactory,
+            IDocumentationProvider documentationProvider,
             ILoggerFactory loggerFactory)
         {
             _modelMetadataWrapperProvider = modelMetadataWrapperProvider;
             _objectGenerator = objectGenerator;
-            _documentationProvider = documentationProviderFactory.Create();
-            _logger = loggerFactory.CreateLogger("ASPNETX");
+            _documentationProvider = documentationProvider;
+            _logger = loggerFactory.CreateLogger<ApiDescriptionDetailModelProvider>();
 
             var apiDescriptionGroupModels = apiDescriptionGroupModelCollectionProvider
                 .ApiDescriptionGroups
@@ -117,7 +116,7 @@ namespace AspNetX.Services
         {
             IDictionary<string, string> parameterDescriptions = new Dictionary<string, string>();
             var controllerActionDescriptor = apiDescriptionDetailModel.ApiDescription.ActionDescriptor as ControllerActionDescriptor;
-            if (_documentationProvider != null && controllerActionDescriptor != null)
+            if (controllerActionDescriptor != null)
             {
                 parameterDescriptions = _documentationProvider.GetParameterDocumentation(controllerActionDescriptor.MethodInfo);
             }

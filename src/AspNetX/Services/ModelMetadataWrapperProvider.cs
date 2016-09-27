@@ -19,10 +19,10 @@ namespace AspNetX.Services
         private readonly IModelMetadataProvider _modelMetadataProvider;
         private readonly IDocumentationProvider _documentationProvider;
 
-        public ModelMetadataWrapperProvider(IModelMetadataProvider modelMetadataProvider, IDocumentationProviderFactory documentationProviderFactory)
+        public ModelMetadataWrapperProvider(IModelMetadataProvider modelMetadataProvider, IDocumentationProvider documentationProvider)
         {
             _modelMetadataProvider = modelMetadataProvider;
-            _documentationProvider = documentationProviderFactory.Create();
+            _documentationProvider = documentationProvider;
         }
 
         public void RegisterModelType(Type modelType)
@@ -56,7 +56,7 @@ namespace AspNetX.Services
 
                 modelMetadataWrapper = new ModelMetadataWrapper(modelMetadata, this)
                 {
-                    Description = _documentationProvider?.GetDocumentation(modelType)
+                    Description = _documentationProvider.GetDocumentation(modelType.GetTypeInfo())
                 };
 
                 var modelTypeInfo = modelType.GetTypeInfo();
@@ -65,7 +65,7 @@ namespace AspNetX.Services
                     var propertyInfo = modelTypeInfo.GetProperty(property.PropertyName);
                     var propertyWrapper = new ModelMetadataPropertyWrapper(property, this)
                     {
-                        Description = _documentationProvider?.GetDocumentation(propertyInfo)
+                        Description = _documentationProvider.GetDocumentation(propertyInfo)
                     };
                     modelMetadataWrapper.Properties.Add(propertyWrapper);
                 }
@@ -77,7 +77,7 @@ namespace AspNetX.Services
                         {
                             Name = enumNameAndValue.Key,
                             Value = enumNameAndValue.Value,
-                            Description = _documentationProvider?.GetDocumentation(modelTypeInfo.GetField(enumNameAndValue.Key))
+                            Description = _documentationProvider.GetDocumentation(modelTypeInfo.GetField(enumNameAndValue.Key))
                         };
                         modelMetadataWrapper.EnumFieldDescrptions.Add(enumFieldDescription);
                     }

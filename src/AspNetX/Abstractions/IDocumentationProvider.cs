@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
 namespace AspNetX.Abstractions
@@ -10,24 +9,18 @@ namespace AspNetX.Abstractions
     public interface IDocumentationProvider
     {
         /// <summary>
-        /// Gets the documentation based on <c>System.Reflection.MemberInfo</c>.
+        /// Gets the documentation based on <see cref="System.Reflection.MemberInfo"/>.
         /// </summary>
         /// <param name="member">The <c>System.Reflection.MemberInfo</c> of a <c>System.Type</c></param>
+        /// <param name="tagName">The documentation tag name. The default is summary.</param>
         /// <returns>The documentation for <paramref name="member"/>.</returns>
-        string GetDocumentation(MemberInfo member);
+        string GetDocumentation(MemberInfo member, string tagName = "summary");
 
         /// <summary>
-        /// Gets the documentation based on <c>System.Type</c>.
+        /// Gets the documentation of method's parameters based on <see cref="System.Reflection.MethodInfo"/>.
         /// </summary>
-        /// <param name="type">The <c>System.Type</c>.</c></param>
-        /// <returns>The documentation for <paramref name="type"/>.</returns>
-        string GetDocumentation(Type type);
-
-        /// <summary>
-        /// Gets the documentation of method's parameters based on <c>System.Reflection.MethodInfo</c>.
-        /// </summary>
-        /// <param name="method">The <c>System.Reflection.MethodInfo</c> of a <c>System.Type</c></param>
-        /// <returns>The documentation for <paramref name="method"/>.</returns>
-        IDictionary<string, string> GetParameterDocumentation(MethodInfo method);
+        /// <param name="method">The <see cref="System.Reflection.MethodInfo"/>.</param>
+        /// <returns>The <see cref="IDictionary{TKey, TValue}"/>.</returns>
+        IDictionary<string,string> GetParameterDocumentation(MethodInfo method);
     }
 }

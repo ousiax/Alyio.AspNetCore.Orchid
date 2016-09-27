@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
 using AspNetX.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace AspNetX.Services
 {
@@ -13,139 +16,186 @@ namespace AspNetX.Services
     /// </summary>
     public class XmlDocumentationProvider : IDocumentationProvider
     {
-        private XPathNavigator _documentNavigator;
         private const string TypeExpression = "/doc/members/member[@name='T:{0}']";
         private const string MethodExpression = "/doc/members/member[@name='M:{0}']";
         private const string PropertyExpression = "/doc/members/member[@name='P:{0}']";
         private const string FieldExpression = "/doc/members/member[@name='F:{0}']";
         private const string ParameterExpression = "param[@name='{0}']";
 
+        private readonly ILogger<XmlDocumentationProvider> _logger;
+        private readonly IDictionary<Assembly, XPathNavigator> _navigators = new ConcurrentDictionary<Assembly, XPathNavigator>();
+        private readonly ISet<Assembly> _notFoundXmlAssemblies = new HashSet<Assembly>();
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="XmlDocumentationProvider"/> class.
+        /// Initializes a new instance of <see cref="XmlDocumentationProvider"/>.
         /// </summary>
-        /// <param name="documentPath">The physical path to XML document.</param>
-        public XmlDocumentationProvider(string documentPath)
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
+        public XmlDocumentationProvider(ILoggerFactory loggerFactory)
         {
-            if (documentPath == null)
-            {
-                throw new ArgumentNullException(nameof(documentPath));
-            }
-            XPathDocument xpath = new XPathDocument(documentPath);
-            _documentNavigator = xpath.CreateNavigator();
+            _logger = loggerFactory.CreateLogger<XmlDocumentationProvider>();
         }
 
-        public string GetDocumentation(MemberInfo member)
+        /// <inheritdoc />
+        public string GetDocumentation(MemberInfo member, string tagName = "summary")
         {
-            if (member == null) { return null; }
-
-            string memberName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
-            string expression = TypeExpression;
-            switch (member.MemberType)
+            if (member == null)
             {
-                case MemberTypes.Field:
-                    expression = FieldExpression;
-                    break;
-                case MemberTypes.Method:
-                    MethodInfo methodInfo = (MethodInfo)member;
-                    string[] paremeterTypeFullNames = methodInfo.GetParameters().Select(p => p.ParameterType.FullName.Replace("+", ".")).ToArray();
-                    if (paremeterTypeFullNames.Length > 0)
-                    {
-                        memberName += $"({string.Join(",", paremeterTypeFullNames)})"; // fix memeberName for method type.
-                    }
-                    expression = MethodExpression;
-                    break;
-                case MemberTypes.Property:
-                    expression = PropertyExpression;
-                    break;
+                return null;
+                // TODO throw new ArgumentNullException(nameof(member));
             }
-            string selectExpression = string.Format(CultureInfo.InvariantCulture, expression, memberName);
-            XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
-            return GetTagValue(propertyNode, "summary");
+            var assembly = (Assembly)null;
+            if (member.MemberType == MemberTypes.TypeInfo || member.MemberType == MemberTypes.NestedType)
+            {
+                assembly = ((TypeInfo)member).Assembly;
+            }
+            else
+            {
+                assembly = member.DeclaringType.GetTypeInfo().Assembly;
+            }
+            XPathNavigator navigator = GetXPathNavigator(assembly);
+            if (navigator == null)
+            {
+                return null;
+            }
+            var memberNode = GetMemberNode(navigator, member);
+            if (memberNode == null)
+            {
+                return null;
+            }
+            return GetTagValue(memberNode, tagName);
         }
 
+        /// <inheritdoc />
         public IDictionary<string, string> GetParameterDocumentation(MethodInfo methodInfo)
         {
-            IDictionary<string, string> descriptions = new Dictionary<string, string>();
-            if (methodInfo != null)
+            if (methodInfo == null)
             {
-                XPathNavigator methodNode = GetMethodNode(methodInfo);
-                if (methodNode != null)
+                return null;
+                // TODO throw new ArgumentNullException(nameof(methodInfo));
+            }
+
+            IDictionary<string, string> descriptions = new Dictionary<string, string>();
+
+            var assembly = methodInfo.DeclaringType.GetTypeInfo().Assembly;
+            XPathNavigator navigator = GetXPathNavigator(assembly);
+            if (navigator == null)
+            {
+                return descriptions;
+            }
+            var methodNode = GetMemberNode(navigator, methodInfo);
+            if (methodNode != null)
+            {
+                foreach (var parameter in methodInfo.GetParameters())
                 {
-                    foreach (var parameterName in methodInfo.GetParameters())
+                    XPathNavigator parameterNode = methodNode.SelectSingleNode(string.Format(CultureInfo.InvariantCulture, ParameterExpression, parameter.Name));
+                    if (parameterNode != null)
                     {
-                        XPathNavigator parameterNode = methodNode.SelectSingleNode(string.Format(CultureInfo.InvariantCulture, ParameterExpression, parameterName.Name));
-                        if (parameterNode != null)
-                        {
-                            var desc = parameterNode.Value.Trim();
-                            descriptions.Add(parameterName.Name, desc);
-                        }
+                        var desc = parameterNode.Value.Trim();
+                        descriptions.Add(parameter.Name, desc);
                     }
                 }
             }
             return descriptions;
         }
 
-        public string GetDocumentation(Type type)
+        private XPathNavigator GetXPathNavigator(Assembly assembly)
         {
-            XPathNavigator typeNode = GetTypeNode(type);
-            return GetTagValue(typeNode, "summary");
-        }
-
-        private XPathNavigator GetMethodNode(MethodInfo method)
-        {
-            string memberName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(method.DeclaringType), method.Name);
-            string[] paremeterTypeFullNames = method.GetParameters().Select(p => p.ParameterType.FullName).ToArray();
-            if (paremeterTypeFullNames.Length > 0)
+            if (_notFoundXmlAssemblies.Contains(assembly))
             {
-                memberName += $"({string.Join(",", paremeterTypeFullNames)})"; // fix memeberName for method type.
+                return null;
             }
-            string selectExpression = string.Format(CultureInfo.InvariantCulture, MethodExpression, memberName);
-            XPathNavigator methodNode = _documentNavigator.SelectSingleNode(selectExpression);
-            return methodNode;
+            var navigator = (XPathNavigator)null;
+            if (!_navigators.TryGetValue(assembly, out navigator))
+            {
+                var path = Path.Combine(Path.GetDirectoryName(assembly.Location), assembly.GetName().Name + ".xml");
+                if (!File.Exists(path))
+                {
+                    _notFoundXmlAssemblies.Add(assembly);
+                    _logger.LogWarning($"Counld not find documentation file '{path}'.");
+                    return null;
+                }
+                var document = new XPathDocument(path);
+                navigator = document.CreateNavigator();
+                _navigators.Add(assembly, navigator);
+            }
+
+            return navigator;
         }
 
-        private static string GetTagValue(XPathNavigator parentNode, string tagName)
+        private XPathNavigator GetMemberNode(XPathNavigator navigator, MemberInfo member)
         {
-            if (parentNode != null)
+            if (member == null) { return null; }
+
+            string memberName = null;
+            string expression = null;
+            switch (member.MemberType)
             {
-                XPathNavigator node = parentNode.SelectSingleNode(tagName);
-                if (node != null)
-                {
-                    return node.Value.Trim();
-                }
+                case MemberTypes.TypeInfo:
+                case MemberTypes.NestedType:
+                    var typeInfo = (TypeInfo)member;
+                    memberName = GetTypeName(typeInfo.AsType());
+                    expression = TypeExpression;
+                    break;
+                case MemberTypes.Field:
+                    memberName = $"{GetTypeName(member.DeclaringType)}.{member.Name}";
+                    expression = FieldExpression;
+                    break;
+                case MemberTypes.Property:
+                    memberName = $"{GetTypeName(member.DeclaringType)}.{member.Name}";
+                    expression = PropertyExpression;
+                    break;
+                case MemberTypes.Method:
+                    memberName = GetMethodName((MethodInfo)member);
+                    expression = MethodExpression;
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+            string selectExpression = string.Format(CultureInfo.InvariantCulture, expression, memberName);
+            var node = navigator.SelectSingleNode(selectExpression);
+            if (node == null)
+            {
+                _logger.LogWarning($"Counld not find xml node named [{selectExpression}].");
+            }
+            return node;
+        }
+
+        private static string GetTagValue(XPathNavigator navigator, string tagName)
+        {
+            XPathNavigator node = navigator.SelectSingleNode(tagName);
+            if (node != null)
+            {
+                return node.Value.Trim();
             }
 
             return null;
         }
 
-        private XPathNavigator GetTypeNode(Type type)
-        {
-            string controllerTypeName = GetTypeName(type);
-            string selectExpression = String.Format(CultureInfo.InvariantCulture, TypeExpression, controllerTypeName);
-            return _documentNavigator.SelectSingleNode(selectExpression);
-        }
-
         private static string GetTypeName(Type type)
         {
-            string name = type.FullName;
-            if (type.GetTypeInfo().IsGenericType)
-            {
-                // Format the generic type name to something like: Generic{System.Int32,System.String}
-                Type genericType = type.GetGenericTypeDefinition();
-                Type[] genericArguments = type.GetGenericArguments();
-                string genericTypeName = genericType.FullName;
+            return type.FullName.Split('[')[0].Replace("+", ".");
+        }
 
-                // Trim the generic parameter counts from the name
-                genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
-                string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
-                name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
-            }
-            if (type.IsNested)
+        private static string GetMethodName(MethodInfo methodInfo)
+        {
+            string memberName = $"{GetTypeName(methodInfo.DeclaringType)}.{methodInfo.Name}";
+            if (methodInfo.GetParameters().Length > 0)
             {
-                // Changing the nested type name from OuterType+InnerType to OuterType.InnerType to match the XML documentation syntax.
-                name = name.Replace("+", ".");
+                memberName += $"({string.Join(",", methodInfo.GetParameters().Select(p => GetParameterTypeName(p.ParameterType.GetTypeInfo())))})";
             }
 
+            return memberName;
+        }
+
+        // TODO counld not resolve all generic type parameter.
+        private static string GetParameterTypeName(TypeInfo typeInfo)
+        {
+            var name = typeInfo.FullName.Replace("+", ".");
+            if (typeInfo.IsGenericType)
+            {
+                name = name.Split('`')[0];
+                name += $"{{{string.Join(",", typeInfo.GetGenericArguments().Select(ga => GetParameterTypeName(ga.GetTypeInfo())))}}}";
+            }
             return name;
         }
     }

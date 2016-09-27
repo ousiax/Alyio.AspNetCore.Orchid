@@ -12,11 +12,6 @@
         public string BasePath { get; set; } = "api-docs";
 
         /// <summary>
-        /// Gets or sets the documentation path of your app.
-        /// </summary>
-        public string DocumentationPath { get; set; }
-
-        /// <summary>
         /// Gets or sets a general description of the api in you app.
         /// </summary>
         public string Description { get; set; }
