@@ -1,0 +1,43 @@
+{
+  "title": "DocX",
+  "version": "1.1.8",
+  "description": "The DocX automatically generates help page content for the web APIs on your site.",
+  "packOptions": {
+    "authors": [ "ROY" ],
+    "licenseUrl": "https://github.com/qqbuby/DocX/blob/develop/LICENSE",
+    "projectUrl": "https://github.com/qqbuby/DocX",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/qqbuby/DocX"
+    },
+    "tags": [ "ASP.NET", ".NET", "Core", "Web", "API", "Help", "Page" ]
+  },
+  "copyright": "Copyright (c) 2016 ROY",
+  "buildOptions": {
+    "embed": "www/**/*.*",
+    "xmlDoc": true
+  },
+  "dependencies": {
+    "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
+    "System.Data.Common": "4.1.0"
+  },
+  "frameworks": {
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0"
+      },
+      "dependencies": {
+        "System.Linq.Queryable": "4.0.0"
+      }
+    },
+    "netstandard1.6": {
+      "dependencies": {
+        "System.Xml.XPath": "4.0.1",
+        "System.Linq.Queryable": "4.0.1"
+      }
+    }
+  }
+}

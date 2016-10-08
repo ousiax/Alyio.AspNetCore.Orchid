@@ -1,4 +1,4 @@
-﻿using AspNetX;
+﻿using DocX;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +24,7 @@ namespace SinaWeibo
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ServerOptions>(o => o.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》");
-            services.AddAspNetX();
+            services.AddDocX();
             services.AddMvc();
         }
 
@@ -32,7 +32,7 @@ namespace SinaWeibo
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            app.UseAspNetX();
+            app.UseDocX();
             app.UseMvc();
         }
     }
