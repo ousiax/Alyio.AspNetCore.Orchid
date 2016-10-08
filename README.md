@@ -1,27 +1,27 @@
-# AspNetX
+# DocX
 
-The AspNetX automatically generates help page content for the web APIs on your site.
+The DocX automatically generates help page content for the web APIs on your site.
 
 ### Usage
 
-AspNetX can be added to your in app in just a few simple steps:
+DocX can be added to your in app in just a few simple steps:
 
-- Add a dependency on the "AspNetX" package in `project.json`
-- Call `services.AddAspNetX` in `ConfigureServices`
-- Call `app.UseAspNetX` in `Configure`
+- Add a dependency on the "DocX" package in `project.json`
+- Call `services.AddDocX` in `ConfigureServices`
+- Call `app.UseDocX` in `Configure`
 
 And when you browse to *http://&lt;yourApp&gt;/api-docs*, you should see Web APIs information in the web browser. 
 
 ### Customization
 
-You can also custom the AspNetX with `services.Configure<ServerOptions>` about you app and write a *about.md* in the `IHostingEnvironment.ContentRoot` to generate the about page.
+You can also custom the DocX with `services.Configure<ServerOptions>` about you app and write a *about.md* in the `IHostingEnvironment.ContentRoot` to generate the about page.
 
-By default, *AspNetX* just collects the API `Controller` annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
+By default, *DocX* just collects the API `Controller` annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
 
 An example *Startup.cs*.
 
 ```cs
-using AspNetX;
+using DocX;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,13 +30,13 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.Configure<ServerOptions>(o => o.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》");
-        services.AddAspNetX();
+        services.AddDocX();
         services.AddMvc();
     }
 
     public void Configure(IApplicationBuilder app)
     {
-        app.UseAspNetX();
+        app.UseDocX();
         app.UseMvc();
     }
 }
@@ -82,6 +82,6 @@ public class Startup
 
 ### Other
 
-You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/AspNetX/) feed or from its [github releases page](https://github.com/qqbuby/AspNetX/releases).
+You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/DocX/) feed or from its [github releases page](https://github.com/qqbuby/DocX/releases).
 
-For **ASP.NET DNX RC1** app, please get this version `1.0.2-rc1-final` from the offical [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/1.0.2-rc1-final) or from its github [releases](https://github.com/qqbuby/AspNetX/releases/tag/v1.0.2-rc1-final) page.
+For **ASP.NET DNX RC1** app, please get this version `1.0.2-rc1-final` from the offical [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/1.0.2-rc1-final) or from its github [releases](https://github.com/qqbuby/DocX/releases/tag/v1.0.2-rc1-final) page.
