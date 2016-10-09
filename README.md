@@ -1,3 +1,5 @@
+*`AspNetX` is deprecated, use `DoqX` instead.*
+
 # DoqX
 
 The DoqX automatically generates help page content for the web APIs on your site.
