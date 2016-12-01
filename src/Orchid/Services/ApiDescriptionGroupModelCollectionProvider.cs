@@ -73,6 +73,7 @@ namespace Orchid.Services
             var items = apiGroups
                 .Items
                 .Select(CreateApiDescriptionGroupModel)
+                .OrderBy(o => o.GroupName)
                 .ToList()
                 .AsReadOnly();
 
