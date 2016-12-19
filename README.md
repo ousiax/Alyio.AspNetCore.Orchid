@@ -77,6 +77,7 @@ public class Startup
 
 ### Support platforms
 
+- ASP.NET Core 1.1
 - ASP.NET Core 1.0
 - ASP.NET RC1
 
