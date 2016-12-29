@@ -1,4 +1,4 @@
-﻿using Orchid;
+﻿using Alyio.AspNetCore.Orchid;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

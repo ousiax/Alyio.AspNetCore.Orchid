@@ -1,7 +1,7 @@
 ﻿using System;
-using Orchid.Models;
+using Alyio.AspNetCore.Orchid.Models;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     /// <summary>
     /// Providers to add or get <see cref="ModelMetadataWrapper"/>.

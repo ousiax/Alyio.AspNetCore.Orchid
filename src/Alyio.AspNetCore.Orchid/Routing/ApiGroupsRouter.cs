@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Abstractions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace Orchid.Routing
+namespace Alyio.AspNetCore.Orchid.Routing
 {
     public class ApiGroupsRouter : ITemplateRouter
     {

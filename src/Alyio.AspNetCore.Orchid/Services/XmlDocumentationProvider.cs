@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
-using Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace Orchid.Services
+namespace Alyio.AspNetCore.Orchid.Services
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

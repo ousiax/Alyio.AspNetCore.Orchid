@@ -1,8 +1,8 @@
-﻿using Orchid.Abstractions;
-using Orchid.Services;
+﻿using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     public static class ServiceCollectionExtensions
     {

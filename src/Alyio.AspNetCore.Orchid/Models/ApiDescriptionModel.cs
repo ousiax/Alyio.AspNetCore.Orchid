@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace Orchid.Models
+namespace Alyio.AspNetCore.Orchid.Models
 {
     /// <summary>
     /// Represents an API exposed by this application.

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     public static class TypeExtensions
     {

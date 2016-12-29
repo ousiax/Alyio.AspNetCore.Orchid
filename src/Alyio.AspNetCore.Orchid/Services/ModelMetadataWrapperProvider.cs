@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using Orchid.Abstractions;
-using Orchid.Models;
+using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Orchid.Services
+namespace Alyio.AspNetCore.Orchid.Services
 {
     /// <inheritdoc />
     [DebuggerDisplay("ModelType = {_modelTypeCache.Count}")]

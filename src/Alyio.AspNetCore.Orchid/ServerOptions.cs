@@ -1,4 +1,4 @@
-﻿namespace Orchid
+﻿namespace Alyio.AspNetCore.Orchid
 {
     /// <summary>
     /// Provides programmatic configuration for the Orchid framework.

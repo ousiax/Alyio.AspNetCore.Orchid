@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Abstractions;
 
-namespace Orchid.Services
+namespace Alyio.AspNetCore.Orchid.Services
 {
     /// <inheritdoc />
     internal class ObjectGenerator : IObjectGenerator

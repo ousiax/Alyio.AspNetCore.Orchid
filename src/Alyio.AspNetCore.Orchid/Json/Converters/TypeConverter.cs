@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Orchid.Json.Converters
+namespace Alyio.AspNetCore.Orchid.Json.Converters
 {
     public class TypeConverter : JsonConverter
     {

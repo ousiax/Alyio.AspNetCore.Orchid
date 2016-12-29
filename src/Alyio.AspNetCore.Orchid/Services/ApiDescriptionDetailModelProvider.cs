@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Orchid.Abstractions;
-using Orchid.Models;
+using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Orchid.Services
+namespace Alyio.AspNetCore.Orchid.Services
 {
     /// <inheritdoc />
     public class ApiDescriptionDetailModelProvider : IApiDescriptionDetailModelProvider

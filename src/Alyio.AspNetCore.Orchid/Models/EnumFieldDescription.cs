@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Orchid.Models
+namespace Alyio.AspNetCore.Orchid.Models
 {
     /// <summary>
     /// Represents a description class for the enumeration type.

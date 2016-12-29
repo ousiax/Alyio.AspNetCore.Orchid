@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     /// <summary>
     /// This class will create an object of a given type and populate it with sample data.

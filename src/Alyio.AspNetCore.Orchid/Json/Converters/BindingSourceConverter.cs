@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
-namespace Orchid.Json.Converters
+namespace Alyio.AspNetCore.Orchid.Json.Converters
 {
     public class BindingSourceConverter : JsonConverter
     {

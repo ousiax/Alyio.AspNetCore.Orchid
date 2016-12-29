@@ -1,6 +1,6 @@
-﻿using Orchid.Models;
+﻿using Alyio.AspNetCore.Orchid.Models;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     /// <summary>
     /// Provides access to a collection of <see cref="ApiDescriptionGroupModel"/>.

@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     public static class ApiDescriptionExtensions
     {

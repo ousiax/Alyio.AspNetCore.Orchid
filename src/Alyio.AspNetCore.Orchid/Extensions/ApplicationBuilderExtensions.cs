@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Orchid.Abstractions;
-using Orchid.Conventions;
-using Orchid.Routing;
+using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Conventions;
+using Alyio.AspNetCore.Orchid.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     /// <summary>
     /// Extension methods for <see cref="IApplicationBuilder"/>.

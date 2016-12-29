@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     public static class HttpResponseExtensions
     {

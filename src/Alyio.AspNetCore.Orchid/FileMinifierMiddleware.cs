@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace Orchid
+namespace Alyio.AspNetCore.Orchid
 {
     public class FileMinifierMiddleware
     {

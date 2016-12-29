@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Orchid.Abstractions;
-using Orchid.Models;
+using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Orchid.Services
+namespace Alyio.AspNetCore.Orchid.Services
 {
     /// <inheritdoc />
     public class ApiDescriptionGroupModelCollectionProvider : IApiDescriptionGroupModelCollectionProvider

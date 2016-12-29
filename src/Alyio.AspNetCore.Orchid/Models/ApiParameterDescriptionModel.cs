@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Orchid.Json.Converters;
+using Alyio.AspNetCore.Orchid.Json.Converters;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
-namespace Orchid.Models
+namespace Alyio.AspNetCore.Orchid.Models
 {
     /// <summary>
     /// Represents a description model for an <see cref="Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.

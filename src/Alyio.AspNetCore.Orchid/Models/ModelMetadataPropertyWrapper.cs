@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Orchid.Abstractions;
-using Orchid.Json.Converters;
+using Alyio.AspNetCore.Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Json.Converters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Orchid.Models
+namespace Alyio.AspNetCore.Orchid.Models
 {
     /// <summary>
     /// Represents a wrapper class of <see cref="Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata.Properties"/>.

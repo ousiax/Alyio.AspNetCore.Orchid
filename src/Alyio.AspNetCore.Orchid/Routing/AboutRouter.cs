@@ -2,14 +2,14 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Orchid.Abstractions;
+using Alyio.AspNetCore.Orchid.Abstractions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Orchid.Routing
+namespace Alyio.AspNetCore.Orchid.Routing
 {
     public class AboutRouter : ITemplateRouter
     {

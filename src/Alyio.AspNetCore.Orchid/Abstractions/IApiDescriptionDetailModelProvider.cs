@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Orchid.Models;
+using Alyio.AspNetCore.Orchid.Models;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     /// <summary>
     /// Provides access to a cache dictionary of <see cref="ApiDescriptionDetailModel"/>.

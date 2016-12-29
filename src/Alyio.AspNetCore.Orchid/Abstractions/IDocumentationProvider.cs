@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     /// <summary>
     /// Defines the provider responsible for documenting the service.

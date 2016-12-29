@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace Orchid.Abstractions
+namespace Alyio.AspNetCore.Orchid.Abstractions
 {
     public interface ITemplateRouter : IRouter
     {

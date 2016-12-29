@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Orchid.Models
+namespace Alyio.AspNetCore.Orchid.Models
 {
     /// <summary>
     /// A cached collection of <see cref="ApiDescriptionGroupModel" />.
