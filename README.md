@@ -83,6 +83,6 @@ public class Startup
 
 ### Other
 
-You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/Orchid/) feed or from its [github releases page](https://github.com/qqbuby/Orchid/releases).
+You can get the latest release from the official [Nuget.org](https://www.nuget.org/packages/Alyio.AspNetCore.Orchid/) feed or from its [github releases page](https://github.com/qqbuby/Orchid/releases).
 
 For **ASP.NET DNX RC1** app, please get this version `1.0.2-rc1-final` from the offical [Nuget.org](https://www.nuget.org/packages/AspNetX.Server/1.0.2-rc1-final) or from its github [releases](https://github.com/qqbuby/Orchid/releases/tag/v1.0.2-rc1-final) page.
