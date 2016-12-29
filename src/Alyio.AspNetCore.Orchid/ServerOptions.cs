@@ -17,8 +17,9 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the about file path. (Styling with Markdown is supported)
+        /// Gets or sets the about file path. (Styling with Markdown is supported).
         /// </summary>
+        /// <remarks>Default is about.md</remarks>
         public string About { get; set; } = "about.md";
 
         /// <summary>

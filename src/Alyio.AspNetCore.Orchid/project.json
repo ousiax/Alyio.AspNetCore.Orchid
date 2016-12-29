@@ -1,14 +1,14 @@
 {
-  "title": "Orchid",
-  "version": "1.3.0",
+  "title": "Alyio.AspNetCore.Orchid",
+  "version": "1.7.2",
   "description": "The Orchid automatically generates help page content for the web APIs on your site.",
   "packOptions": {
     "authors": [ "ROY" ],
-    "licenseUrl": "https://github.com/qqbuby/Orchid/blob/develop/LICENSE",
-    "projectUrl": "https://github.com/qqbuby/Orchid",
+    "licenseUrl": "https://github.com/qqbuby/Alyio.AspNetCore.Orchid/blob/develop/LICENSE",
+    "projectUrl": "https://github.com/qqbuby/Alyio.AspNetCore.Orchid",
     "repository": {
       "type": "git",
-      "url": "https://github.com/qqbuby/Orchid"
+      "url": "https://github.com/qqbuby/Alyio.AspNetCore.Orchid"
     },
     "tags": [ "ASP.NET", ".NET", "Core", "Web", "API", "Docs", "Help", "Page" ]
   },

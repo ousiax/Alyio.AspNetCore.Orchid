@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Orchid", "src\Orchid\Orchid.xproj", "{EC03A1AC-9302-4B46-8B98-D42CC31BFCBB}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Alyio.AspNetCore.Orchid", "src\Alyio.AspNetCore.Orchid\Alyio.AspNetCore.Orchid.xproj", "{EC03A1AC-9302-4B46-8B98-D42CC31BFCBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0269FA76-746C-4BF4-BC6B-0C450A07612C}"
 EndProject

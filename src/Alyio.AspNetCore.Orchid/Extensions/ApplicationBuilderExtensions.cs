@@ -44,7 +44,8 @@ namespace Orchid
             {
                 RequestPath = "",
                 EnableDefaultFiles = true,
-                FileProvider = new EmbeddedFileProvider(typeof(ApplicationBuilderExtensions).GetTypeInfo().Assembly, "Orchid.www")
+                FileProvider = new EmbeddedFileProvider(
+                    typeof(ApplicationBuilderExtensions).GetTypeInfo().Assembly, "Alyio.AspNetCore.Orchid.www")
             });
             return app;
         }
