@@ -14,30 +14,27 @@ And when you browse to *http://&lt;yourApp&gt;/api-docs*, you should see Web API
 
 ### Customization
 
-You can also custom the Orchid with `services.Configure<ServerOptions>` about you app and write a *about.md* in the `IHostingEnvironment.ContentRoot` to generate the about page.
+You can also custom the Orchid with `services.AddOrchid(Action<OrchidOptions>)` or `services.Configure<ServerOptions>` about you app and write a *about.md* in the `IHostingEnvironment.ContentRoot` to generate the about page.
 
 By default, *Orchid* just collects the API `Controller` annotated with `RouteAttribute` or `[ApiExplorerSettings(IgnoreApi = false)]`, and ignores others.
 
 An example *Startup.cs*.
 
 ```cs
-using Orchid;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<ServerOptions>(o => o.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》");
-        services.AddOrchid();
-        services.AddMvc();
+        services.AddOrchid(options =>
+        {
+            options.ObsoleteRoutePathPattern = "comments";
+            options.Description = "无所谓好或不好，人生一场虚空大梦，韶华白首，不过转瞬。惟有天道恒在，往复循环，不曾更改…… —— 慕容紫英.仙剑奇侠传 4》";
+        });
     }
 
     public void Configure(IApplicationBuilder app)
     {
         app.UseOrchid();
-        app.UseMvc();
     }
 }
 ```
