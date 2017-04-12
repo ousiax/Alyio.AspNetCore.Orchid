@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Alyio.AspNetCore.Orchid
 {
-    public static class ApiDescriptionExtensions
+    internal static class ApiDescriptionExtensions
     {
         /// <summary>
         /// Generates an URI-friendly ID for the <see cref="ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Alyio.AspNetCore.Orchid
 {
-    public static class HttpResponseExtensions
+    internal static class HttpResponseExtensions
     {
         public static async Task WriteJsonAsync(this HttpResponse response, object value, Formatting formatting = Formatting.None, CancellationToken cancellationToken = default(CancellationToken))
         {

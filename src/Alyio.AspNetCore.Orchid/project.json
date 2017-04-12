@@ -1,6 +1,6 @@
 {
   "title": "Alyio.AspNetCore.Orchid",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "The Orchid automatically generates help page content for the web APIs on your site.",
   "packOptions": {
     "authors": [ "ROY" ],
@@ -18,9 +18,9 @@
     "xmlDoc": true
   },
   "dependencies": {
-    "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.1.0",
-    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
-    "Microsoft.Extensions.FileProviders.Embedded": "1.1.0",
+    "Microsoft.AspNetCore.Mvc.ApiExplorer": "1.0.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+    "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
     "System.Data.Common": "4.3.0"
   },
   "frameworks": {
@@ -33,7 +33,7 @@
         "System.Linq.Queryable": "4.0.0"
       }
     },
-    "netstandard1.6.0": {
+    "netstandard1.6": {
       "dependencies": {
         "System.Xml.XPath": "4.3.0",
         "System.Linq.Queryable": "4.3.0"

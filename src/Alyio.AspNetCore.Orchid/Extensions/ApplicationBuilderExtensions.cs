@@ -26,7 +26,7 @@ namespace Alyio.AspNetCore.Orchid
             MvcOptions mvcOptions = app.ApplicationServices.GetService<IOptions<MvcOptions>>().Value;
             mvcOptions.Conventions.Add(new ApiExplorerVisibilityEnabledConvention());
 
-            var options = app.ApplicationServices.GetService<IOptions<ServerOptions>>().Value;
+            var options = app.ApplicationServices.GetService<IOptions<OrchidOptions>>().Value;
 
             app.Map($"/{options.BasePath}", xApp =>
             {

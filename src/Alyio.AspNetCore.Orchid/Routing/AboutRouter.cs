@@ -14,7 +14,7 @@ namespace Alyio.AspNetCore.Orchid.Routing
     public class AboutRouter : ITemplateRouter
     {
         private IHostingEnvironment _hostingEnvironment;
-        private ServerOptions _serverOptions;
+        private OrchidOptions _serverOptions;
 
         public string Template => "about";
 
@@ -49,7 +49,7 @@ namespace Alyio.AspNetCore.Orchid.Routing
         {
             if (_serverOptions == null)
             {
-                _serverOptions = context.RequestServices.GetService<IOptions<ServerOptions>>().Value;
+                _serverOptions = context.RequestServices.GetService<IOptions<OrchidOptions>>().Value;
             }
             if (_hostingEnvironment == null)
             {

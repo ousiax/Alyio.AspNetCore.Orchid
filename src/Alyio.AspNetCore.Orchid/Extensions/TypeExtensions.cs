@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Alyio.AspNetCore.Orchid
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         /// <summary>
         /// E.g. List{Object}

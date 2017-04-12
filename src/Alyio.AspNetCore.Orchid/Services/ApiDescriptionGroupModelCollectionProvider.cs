@@ -15,7 +15,7 @@ namespace Alyio.AspNetCore.Orchid.Services
     public class ApiDescriptionGroupModelCollectionProvider : IApiDescriptionGroupModelCollectionProvider
     {
         private readonly ILogger _logger;
-        private readonly ServerOptions _serverOptions;
+        private readonly OrchidOptions _serverOptions;
         private readonly IApiDescriptionGroupCollectionProvider _apiDescriptionGroupCollectionProvider;
         private readonly IDocumentationProvider _documentationProvider;
         private readonly Regex _obsoleteRouteRegex;
@@ -29,7 +29,7 @@ namespace Alyio.AspNetCore.Orchid.Services
         /// The <see cref="IApiDescriptionGroupCollectionProvider"/>.
         /// </param>
         public ApiDescriptionGroupModelCollectionProvider(
-            IOptions<ServerOptions> serverOptions,
+            IOptions<OrchidOptions> serverOptions,
             IApiDescriptionGroupCollectionProvider apiDescriptionGroupCollectionProvider,
             IDocumentationProvider documentationProvider,
             ILoggerFactory loggerFactory)
