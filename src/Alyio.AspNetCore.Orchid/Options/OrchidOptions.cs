@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides programmatic configuration for the Orchid framework.
     /// </summary>
-    public class ServerOptions
+    public class OrchidOptions
     {
         /// <summary>
         /// Gets or sets the base path of Orchid server. Default is api-docs.
