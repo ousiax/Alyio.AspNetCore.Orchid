@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The Orchid automatically generates help page content for the web APIs on your site.</Description>
+    <Copyright>Copyright (c) 2016 ROY</Copyright>
+    <AssemblyTitle>Alyio.AspNetCore.Orchid</AssemblyTitle>
+    <VersionPrefix>1.7.3</VersionPrefix>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Alyio.AspNetCore.Orchid</AssemblyName>
+    <PackageId>Alyio.AspNetCore.Orchid</PackageId>
+    <PackageTags>ASP.NET;.NET;Core;Web;API;Docs;Help;Page</PackageTags>
+    <PackageProjectUrl>https://github.com/qqbuby/Alyio.AspNetCore.Orchid</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/qqbuby/Alyio.AspNetCore.Orchid/blob/develop/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/qqbuby/Alyio.AspNetCore.Orchid</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="www\**\*.*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.1.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
