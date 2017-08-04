@@ -4,8 +4,8 @@
     <Description>The Orchid automatically generates help page content for the web APIs on your site.</Description>
     <Copyright>Copyright (c) 2016 ROY</Copyright>
     <AssemblyTitle>Alyio.AspNetCore.Orchid</AssemblyTitle>
-    <VersionPrefix>1.7.3</VersionPrefix>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <VersionPrefix>1.7.4</VersionPrefix>
+    <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Alyio.AspNetCore.Orchid</AssemblyName>
     <PackageId>Alyio.AspNetCore.Orchid</PackageId>
