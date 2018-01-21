@@ -57,26 +57,8 @@ public class Startup
 
 3. Auto load xml documentation description.
 
-    Set the `xmlDoc` as `true` to generate XML documentation from triple-slash comments in the source code.
+    Add `<GenerateDocumentationFile>true</GenerateDocumentationFile>` into *\*.csproj* to generate documentation file.
 
-    ```
-    {
-        "buildOptions": {
-            "xmlDoc": true
-        }
-    }
-    ```
-
-### Support frameworks
-
-- .NET framework 4.5.1
-- .NET standard 1.6
-
-### Support platforms
-
-- ASP.NET Core 1.1
-- ASP.NET Core 1.0
-- ASP.NET RC1
 
 ### Other
 
