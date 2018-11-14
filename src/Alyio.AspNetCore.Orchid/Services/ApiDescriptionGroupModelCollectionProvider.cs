@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -64,14 +65,25 @@ namespace Alyio.AspNetCore.Orchid.Services
                 {
                     _apiDescriptionGroups = GetCollection(apiGroups);
                 }
+
                 return _apiDescriptionGroups;
             }
         }
 
         private ApiDescriptionGroupModelCollection GetCollection(ApiDescriptionGroupCollection apiGroups)
         {
-            var items = apiGroups
-                .Items
+            var apiDescriptions = new List<ApiDescription>();
+
+            foreach (var apiDescriptionGroup in apiGroups.Items)
+            {
+                foreach (var apiDescription in apiDescriptionGroup.Items)
+                {
+                    apiDescriptions.Add(apiDescription);
+                }
+            }
+
+            var items = apiDescriptions.GroupBy(a => a.GroupName ?? (a.ActionDescriptor as ControllerActionDescriptor)?.ControllerName)
+                .Select(g => new ApiDescriptionGroup(g.Key, new List<ApiDescription>(g).AsReadOnly()))
                 .Select(CreateApiDescriptionGroupModel)
                 .OrderBy(o => o.GroupName)
                 .ToList()
